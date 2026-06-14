@@ -265,15 +265,34 @@ def pollinations_url(title, cat, w=640, h=360):
     return f"https://image.pollinations.ai/prompt/{encoded}?width={w}&height={h}&seed={seed}&nologo=true"
 
 
+def verify_image_url(url, timeout=5):
+    """Vérifie qu'une URL d'image est accessible (retourne vrai si 200 et content-type image)."""
+    try:
+        r = requests.head(url, timeout=timeout, allow_redirects=True, headers={"User-Agent": "Mozilla/5.0"})
+        if r.status_code == 200:
+            ct = r.headers.get("Content-Type", "")
+            return "image" in ct or url.endswith((".jpg", ".jpeg", ".png", ".webp", ".gif"))
+    except Exception:
+        pass
+    return False
+
+
 def get_article_image(entry, title, article_url, cat):
-    """Stratégie en cascade : RSS → og:image → Pollinations thématique."""
+    """Stratégie en cascade : RSS → og:image → Pollinations thématique (vérifiée)."""
+    # 1. RSS media
     img = extract_rss_image(entry)
     if img:
         return img, "rss"
+    # 2. og:image de la page
     img = fetch_og_image(article_url)
     if img:
         return img, "og"
-    return pollinations_url(title, cat), "pollinations"
+    # 3. Pollinations — vérifier qu'elle est accessible
+    purl = pollinations_url(title, cat)
+    if verify_image_url(purl):
+        return purl, "pollinations"
+    # 4. Fallback : data-URL invalide qui force onerror → affiche le label de catégorie
+    return "data:image/gif;base64,invalid", "fallback"
 
 
 # ─────────────────────────────────────────
@@ -560,14 +579,13 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 24px;display
 .card-img{height:148px;overflow:hidden;flex-shrink:0;background:#f8faff}
 .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
 .card:hover .card-img img{transform:scale(1.03)}
-.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem}
 .card-body{padding:13px;flex:1;display:flex;flex-direction:column}
 .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .badge-cat{padding:2px 8px;border-radius:99px;font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
 .cat-ia{background:#eff6ff;color:#1d4ed8}.cat-crypto{background:#fffbeb;color:#b45309}
 .cat-gaming{background:#f0fdf4;color:#15803d}.cat-markets{background:#faf5ff;color:#7e22ce}.cat-general{background:#fff1f2;color:#be123c}
 .cat-science{background:#ecfeff;color:#0891b2}.cat-dev{background:#f5f3ff;color:#7c3aed}.cat-startups{background:#fefce8;color:#a16207}
-.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,#f0f2f5,#e5e7eb);color:#9ca3af}
+.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e5e7eb,#f0f2f5);color:#9ca3af;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;padding:8px;line-height:1.2}
 .date-group{font-size:.75rem;font-weight:700;color:#6b7280;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;text-transform:uppercase;letter-spacing:.5px}
 .search-wrap{display:flex;align-items:center;gap:6px;flex:1;max-width:320px;margin:0 12px}
 .search-wrap input{width:100%;border:1px solid #e5e7eb;border-radius:8px;padding:6px 10px;font-size:.78rem;outline:none}
@@ -751,17 +769,16 @@ function heroHTML(a){
         </div>
       </div>
     </div>
-    <div class="hero-img"><img src="${esc(a.image)}" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="hero-img"><img src="${esc(a.image)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="img-fb" style="display:none">${esc(a.catLabel)}</div></div>
   </div>`;
 }
 
 function cardHTML(a){
   const active=curId===a.id?' active-card':'';
   const bmc=isBm(a.id)?'bm-btn on':'bm-btn';
-  const icons={ia:'&#129302;',crypto:'&#8383;',gaming:'&#127918;',markets:'&#128200;',general:'&#127758;',science:'&#128300;',dev:'&#128187;',startups:'&#128640;'};
   return `<div class="card${active}" onclick="openPanel('${a.id}')">
     <div class="card-img"><img src="${esc(a.image)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="img-fb" style="display:none">${icons[a.cat]||'&#128240;'}</div></div>
+    <div class="img-fb" style="display:none">${esc(a.catLabel)}</div></div>
     <div class="card-body">
       <div class="card-top">
         <span class="badge-cat cat-${a.cat}">${a.catLabel}</span>
