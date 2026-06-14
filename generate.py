@@ -151,13 +151,14 @@ def is_french(text):
 
 
 def _translate_chunk(text, retries=2):
-    """Traduit un chunk de max 450 caractères via MyMemory (avec cache)."""
+    """Traduit un chunk de max 450 caractères via MyMemory. Retourne None si échec."""
     if not text or len(text.strip()) < 3:
-        return text
+        return None
     text = text[:450]
     cache_key = hashlib.md5(text.encode()).hexdigest()[:16]
     if cache_key in TRANSLATION_CACHE:
-        return TRANSLATION_CACHE[cache_key]
+        cached = TRANSLATION_CACHE[cache_key]
+        return cached if cached != text else None
     for attempt in range(retries):
         try:
             url = ("https://api.mymemory.translated.net/get?q="
@@ -167,22 +168,20 @@ def _translate_chunk(text, retries=2):
             data = resp.json()
             translated = data.get("responseData", {}).get("translatedText", "")
             if translated and "MYMEMORY WARNING" in translated:
-                print("    (!) Quota MyMemory atteint, texte original conserve.")
-                TRANSLATION_CACHE[cache_key] = text
-                return text
-            if translated and len(translated) > 5:
+                print("    (!) Quota MyMemory atteint.")
+                return None
+            if translated and len(translated) > 5 and translated.lower() != text.lower():
                 TRANSLATION_CACHE[cache_key] = translated
                 return translated
         except Exception as e:
             print(f"    (!) Traduction echouee (tentative {attempt+1}): {e}")
             time.sleep(1)
-    TRANSLATION_CACHE[cache_key] = text
-    return text
+    return None
 
 
 def translate_to_french(text, retries=2):
     if not text or len(text.strip()) < 5 or is_french(text):
-        return text
+        return text if is_french(text) else None
     if len(text) <= 450:
         return _translate_chunk(text, retries)
     sentences = re.split(r'(?<=[.!?])\s+', text)
@@ -198,7 +197,10 @@ def translate_to_french(text, retries=2):
         chunks.append(current)
     parts = []
     for chunk in chunks:
-        parts.append(_translate_chunk(chunk, retries))
+        t = _translate_chunk(chunk, retries)
+        if t is None:
+            return None
+        parts.append(t)
         time.sleep(0.2)
     return " ".join(parts)
 
@@ -312,6 +314,10 @@ def fetch_articles(cat, feeds, max_per_feed=4):
             elif hasattr(entry, "content") and entry.content:
                 desc_raw = entry.content[0].get("value", "")
             desc_raw = strip_html(desc_raw)[:8000]
+            # Supprimer l'article s'il n'a pas de description exploitable
+            if not desc_raw or len(desc_raw.strip()) < 30:
+                print(f"      -> SKIP: pas de description: {title_raw[:50]}...")
+                continue
 
             link = entry.get("link", "#")
 
@@ -321,11 +327,18 @@ def fetch_articles(cat, feeds, max_per_feed=4):
             if hasattr(entry, "published_parsed") and entry.published_parsed:
                 try:
                     pub_ts = calendar.timegm(entry.published_parsed)
-                    pub_label = datetime.fromtimestamp(pub_ts, tz=timezone.utc).strftime("%d %b %Y, %H:%M")
+                    dt = datetime.fromtimestamp(pub_ts, tz=timezone.utc)
+                    # Format français manuel
+                    mois_fr = {1:'janv',2:'févr',3:'mars',4:'avr',5:'mai',6:'juin',
+                               7:'juil',8:'août',9:'sept',10:'oct',11:'nov',12:'déc'}
+                    pub_label = f"{dt.day} {mois_fr.get(dt.month, dt.strftime('%b'))} {dt.year}, {dt.strftime('%H:%M')}"
                 except Exception:
                     pass
             if not pub_label:
-                pub_label = datetime.now().strftime("%d %b %Y")
+                now = datetime.now()
+                mois_fr = {1:'janv',2:'févr',3:'mars',4:'avr',5:'mai',6:'juin',
+                           7:'juil',8:'août',9:'sept',10:'oct',11:'nov',12:'déc'}
+                pub_label = f"{now.day} {mois_fr.get(now.month, now.strftime('%b'))} {now.year}, {now.strftime('%H:%M')}"
 
             # Image
             img_url, img_src = get_article_image(entry, title_raw, link, cat)
@@ -339,6 +352,10 @@ def fetch_articles(cat, feeds, max_per_feed=4):
                 print(f"      -> Traduction: {title_raw[:50]}...")
                 title_fr = translate_to_french(title_raw)
                 desc_fr = translate_to_french(desc_raw)
+                # Supprimer l'article si traduction impossible
+                if title_fr is None or desc_fr is None:
+                    print(f"      -> SKIP: traduction impossible: {title_raw[:50]}...")
+                    continue
                 time.sleep(0.3)
 
             all_articles.append({
@@ -550,6 +567,8 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 24px;display
 .cat-ia{background:#eff6ff;color:#1d4ed8}.cat-crypto{background:#fffbeb;color:#b45309}
 .cat-gaming{background:#f0fdf4;color:#15803d}.cat-markets{background:#faf5ff;color:#7e22ce}.cat-general{background:#fff1f2;color:#be123c}
 .cat-science{background:#ecfeff;color:#0891b2}.cat-dev{background:#f5f3ff;color:#7c3aed}.cat-startups{background:#fefce8;color:#a16207}
+.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,#f0f2f5,#e5e7eb);color:#9ca3af}
+.date-group{font-size:.75rem;font-weight:700;color:#6b7280;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;text-transform:uppercase;letter-spacing:.5px}
 .search-wrap{display:flex;align-items:center;gap:6px;flex:1;max-width:320px;margin:0 12px}
 .search-wrap input{width:100%;border:1px solid #e5e7eb;border-radius:8px;padding:6px 10px;font-size:.78rem;outline:none}
 .search-wrap input:focus{border-color:#2563eb}
@@ -655,6 +674,27 @@ function searchArticles(q){
   }
 }
 
+function dateLabel(ts){
+  if(!ts) return 'Plus ancien';
+  const now = new Date();
+  const d = new Date(ts * 1000);
+  const diffDays = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+  if(diffDays === 0) return 'Aujourd\'hui';
+  if(diffDays === 1) return 'Hier';
+  if(diffDays < 7) return 'Cette semaine';
+  return d.toLocaleDateString('fr-FR', {day:'numeric', month:'long'});
+}
+
+function groupByDate(list){
+  const groups = {};
+  for(const a of list){
+    const label = dateLabel(a.pubTs);
+    if(!groups[label]) groups[label] = [];
+    groups[label].push(a);
+  }
+  return groups;
+}
+
 function render(){
   const fc=document.getElementById('feed');if(!fc)return;
   if(cat==='bookmarks'){renderBm(fc);return;}
@@ -663,8 +703,14 @@ function render(){
   const feat=cat==='all'&&viewMode==='grid'?list[0]:null;
   const rest=feat?list.slice(1):list;
   let out=`<div class="sec-label">${CAT_LABELS[cat]} &mdash; ${list.length} article${list.length!==1?'s':''}</div>`;
-  if(feat)out+=heroHTML(feat);
-  out+=`<div class="grid">${rest.map(cardHTML).join('')}</div>`;
+  if(feat) out+=heroHTML(feat);
+  if(rest.length){
+    const groups = groupByDate(rest);
+    for(const [label, items] of Object.entries(groups)){
+      out += `<div class="date-group">${label} &mdash; ${items.length} article${items.length!==1?'s':''}</div>`;
+      out += `<div class="grid">${items.map(cardHTML).join('')}</div>`;
+    }
+  }
   fc.innerHTML=out;
 }
 
@@ -675,7 +721,11 @@ function renderSearch(fc){
   }).slice().sort((a,b)=>(b.pubTs||0)-(a.pubTs||0));
   let out=`<div class="sec-label">Recherche &mdash; ${found.length} resultat${found.length!==1?'s':''} pour "${esc(searchTerm)}"</div>`;
   if(found.length){
-    out+=`<div class="grid">${found.map(cardHTML).join('')}</div>`;
+    const groups = groupByDate(found);
+    for(const [label, items] of Object.entries(groups)){
+      out += `<div class="date-group">${label} &mdash; ${items.length} article${items.length!==1?'s':''}</div>`;
+      out += `<div class="grid">${items.map(cardHTML).join('')}</div>`;
+    }
   }else{
     out+=`<div class="bm-empty">Aucun article ne correspond a votre recherche.</div>`;
   }
