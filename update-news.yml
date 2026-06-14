@@ -1,0 +1,39 @@
+name: 🔄 Mise à jour TechFeed
+
+on:
+  schedule:
+    # Toutes les 6 heures (minuit, 6h, midi, 18h UTC)
+    - cron: '0 0,6,12,18 * * *'
+  # Permet de lancer manuellement depuis l'onglet Actions
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Checkout du repo
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Installation des dépendances
+        run: pip install feedparser requests
+
+      - name: 🗞 Génération du site
+        run: python generate.py
+
+      - name: 🚀 Commit et push
+        run: |
+          git config user.name "TechFeed Bot"
+          git config user.email "techfeed-bot@users.noreply.github.com"
+          git add index.html .nojekyll translation_cache.json
+          git diff --staged --quiet && echo "Pas de changement." || (
+            git commit -m "🔄 Mise à jour automatique — $(date +'%d/%m/%Y %H:%M UTC')"
+            git push
+          )
