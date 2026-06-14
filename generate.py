@@ -273,31 +273,139 @@ def verify_image_url(url, timeout=5):
 
 
 def fetch_full_text(article_url, timeout=10):
-    """Récupère le texte complet d'un article via r.jina.ai (service gratuit d'extraction)."""
+    """Récupère le texte complet d'un article via r.jina.ai et nettoie le bruit."""
     try:
         r = requests.get(f"https://r.jina.ai/http://{article_url}", timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
         if r.status_code == 200:
             text = r.text.strip()
-            # Supprimer les lignes de metadata (Title, URL Source, etc.)
-            lines = text.split('\n')
-            content_lines = []
-            skip = True
-            for line in lines:
-                if line.startswith('Markdown Content:'):
-                    skip = False
-                    continue
-                if skip:
-                    continue
-                # Supprimer les liens markdown et les images
-                line = re.sub(r'!\[.*?\]\(.*?\)', '', line)
-                line = re.sub(r'\[.*?\]\(.*?\)', '', line)
-                if line.strip():
-                    content_lines.append(line.strip())
-            full_text = ' '.join(content_lines).strip()
-            if len(full_text.split()) >= 100:  # Au moins 100 mots
-                return full_text
+            return clean_jina_content(text, article_url)
     except Exception as e:
         print(f"    (!) Extraction jina.ai échouée: {e}")
+    return ""
+
+
+# Patterns de navigation / footer à supprimer
+NOISE_PATTERNS = [
+    r'^\*+$',                                    # Lignes d'astérisques
+    r'^\*\s+\[',                                # Listes de liens
+    r'^\[.*?\]\(.*?\)\s*$',                    # Lignes qui sont juste un lien
+    r'^\[.*?\]\(.*?\)\s+\[',                  # Multiple liens
+    r'^\d+-\s+(Services|Guides|Suppléments)',   # Services Le Monde etc.
+    r'^(Services|Guides|Suppléments|Menu|Fermer)\b',
+    r'^Retour\b',
+    r'^Voir\s+plus',
+    r'^Tous\s+(nos|les)',
+    r'^Article\s+(réservé|réservés)',
+    r'^Publié\s+(aujourd|hier|le)',
+    r'^\d{2}:\d{2}\s+\[',                      # Horodatage + lien
+    r'^Copyright\s+©',
+    r'^Tous\s+droits\s+réservés',
+    r'^Politique\s+de\s+(confidentialité|cookies)',
+    r'^C\.G\.U\.|^C\.G\.V\.|^Mentions\s+légales',
+    r'^Gérer\s+Utiq|^Préférences\s+cookies',
+    r'^Newsletter|^RSS|^Jobs$|^Contact$',
+    r'^Nous\s+suivre|^Téléchargez|^INFORMATIONS',
+    r'^OK$|^Menu$|^Menu\s+Menu$',
+    r'^CONNEXION$|^Se\s+connecter|^S\'abonner',
+    r'^Votre\s+compte|^Sélections|^Notifications',
+    r'^Le\s+journal\s+numérique',
+    r'^En\s+ce\s+moment',
+    r'^Exprimez\s+vos\s+choix',
+    r'^En\s+savoir\s+plus|^Refuser|^Accepter',
+    r'^\d+\s+partenaires',
+    r'^Aide$|^FAQ$',
+    r'^Gestion\s+des\s+cookies',
+    r'^Mettre\s+à\s+jour\s+ma\s+CB',
+    r'^Régler\s+l\'impayé',
+    r'^Autres\s+offres',
+    r'^Partager\s+votre\s+abonnement',
+    r'^Lire\s+le\s+journal\s+numérique',
+    r'^Édition\s+du\s+jour',
+    r'^Daté\s+du',
+    r'^Cet\s+article\s+vous\s+est\s+offert',
+    r'^Pour\s+lire\s+gratuitement',
+    r'^Vous\s+n\'êtes\s+pas\s+inscrit',
+    r'^Inscrivez-vous',
+    r'^Découvrir$|^Tester$',
+    r'^Cours\s+du\s+soir',
+    r'^Testez\s+votre\s+culture',
+    r'^\d+\s+min\s+de\s+lecture',
+    r'^\[Image\s+\d+\]',
+    r'^blob:',
+    r'^[A-Z][A-Z\s]+/\s*(REUTERS|AFP|AP|GETTY|EPA|ANSA|DPA|AFP)\s*$',  # Signatures photo
+]
+
+
+def clean_jina_content(text, article_url):
+    """Nettoie le contenu jina.ai : supprime menus, footers, liens, signatures."""
+    lines = text.split('\n')
+    
+    # Étape 1 : trouver le début du contenu principal
+    # Chercher après "Markdown Content:"
+    content_started = False
+    content_lines = []
+    for line in lines:
+        if line.startswith('Markdown Content:'):
+            content_started = True
+            continue
+        if not content_started:
+            continue
+        content_lines.append(line)
+    
+    # Étape 2 : filtrer les lignes de bruit
+    filtered = []
+    for line in content_lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        # Supprimer les liens markdown
+        line_no_links = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', stripped)
+        # Supprimer les images markdown
+        line_no_links = re.sub(r'!\[([^\]]*)\]\([^)]+\)', '', line_no_links)
+        # Supprimer les headings markdown
+        line_no_links = re.sub(r'^#{1,4}\s+', '', line_no_links)
+        line_no_links = line_no_links.strip()
+        if not line_no_links:
+            continue
+        # Vérifier si la ligne est du bruit
+        is_noise = False
+        for pattern in NOISE_PATTERNS:
+            if re.search(pattern, line_no_links, re.IGNORECASE):
+                is_noise = True
+                break
+        # Supprimer aussi les lignes très courtes qui sont probablement des nav links
+        if len(line_no_links) < 25 and ('.' not in line_no_links and '!' not in line_no_links and '?' not in line_no_links):
+            # Si c'est une phrase courte sans ponctuation, c'est probablement un menu
+            if not line_no_links.startswith(('Le', 'La', 'Les', 'Un', 'Une', 'En', 'Dans', 'Sur', 'À', 'A ', 'C\'est', 'Il', 'Elle')):
+                is_noise = True
+        if not is_noise:
+            filtered.append(line_no_links)
+    
+    # Étape 3 : chercher le vrai contenu de l'article
+    # Le contenu principal commence généralement après une série de lignes courtes (menus)
+    # et se caractérise par des paragraphes plus longs
+    # On va chercher le premier "paragraphe substantiel" (au moins 80 mots)
+    # et garder tout ce qui suit
+    
+    result = []
+    found_content = False
+    for i, line in enumerate(filtered):
+        word_count = len(line.split())
+        if word_count >= 80:
+            found_content = True
+        if found_content:
+            # S'arrêter si on retrouve des patterns de footer
+            if re.search(r'^(Copyright|©|Tous droits|Politique de|C\.G\.U|Gérer|Contact|Newsletter|RSS|Jobs|Nous suivre|INFORMATIONS)', line, re.IGNORECASE):
+                break
+            # S'arrêter si on retrouve des liens de services
+            if re.search(r'^(\d+-\s|Services|Guides|Suppléments|Boutique|Ateliers|Newsletters|Jeux|Mots croisés|Sudoku)', line, re.IGNORECASE):
+                break
+            result.append(line)
+    
+    full_text = ' '.join(result).strip()
+    # Vérifier qu'on a assez de contenu
+    if len(full_text.split()) >= 100:
+        return full_text
     return ""
 
 
