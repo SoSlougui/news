@@ -52,41 +52,36 @@ def save_translation_cache():
 # ─────────────────────────────────────────
 FEEDS = {
     "ia": [
-        ("MIT Technology Review", "https://www.technologyreview.com/feed/"),
-        ("The Verge",             "https://www.theverge.com/rss/index.xml"),
-        ("Wired",                 "https://www.wired.com/feed/rss"),
+        ("ZDNet France",       "https://www.zdnet.fr/actualites/"),
+        ("01net",              "https://www.01net.com/actualites/"),
+        ("Numerama",           "https://www.numerama.com/feed/"),
     ],
     "crypto": [
-        ("CoinDesk",       "https://www.coindesk.com/arc/outboundfeeds/rss/"),
-        ("CoinTelegraph",  "https://cointelegraph.com/rss"),
+        ("Le Journal du Coin", "https://journalducoin.com/feed/"),
+        ("Cryptoast",          "https://cryptoast.fr/feed/"),
     ],
     "gaming": [
-        ("IGN",           "https://feeds.feedburner.com/ign/all"),
-        ("PC Gamer",      "https://www.pcgamer.com/rss/"),
-        ("JeuxVideo.com", "https://www.jeuxvideo.com/rss/rss.xml"),
+        ("JeuxVideo.com",      "https://www.jeuxvideo.com/rss/rss.xml"),
+        ("Gamekult",           "https://www.gamekult.com/feed.xml"),
     ],
     "markets": [
-        ("CNBC",        "https://www.cnbc.com/id/100003114/device/rss/rss.html"),
-        ("Bloomberg",   "https://feeds.bloomberg.com/business/news.rss"),
-        ("Les Echos",   "https://feeds.lesechos.fr/lesechos-finance"),
+        ("Boursorama",         "https://www.boursorama.com/rss/actualites/"),
+        ("Investing.com",      "https://fr.investing.com/rss/news.rss"),
     ],
     "general": [
-        ("BBC News",     "https://feeds.bbci.co.uk/news/rss.xml"),
-        ("Reuters",      "https://feeds.reuters.com/reuters/businessNews"),
-        ("Le Monde",     "https://www.lemonde.fr/rss/une.xml"),
-        ("France Info",  "https://www.francetvinfo.fr/titres.rss"),
+        ("Le Monde",           "https://www.lemonde.fr/rss/une.xml"),
+        ("France Info",        "https://www.francetvinfo.fr/titres.rss"),
+        ("Le Figaro",          "https://www.lefigaro.fr/rss/figaro_actualites.xml"),
     ],
     "science": [
-        ("ScienceDaily",    "https://www.sciencedaily.com/rss/all.xml"),
-        ("New Scientist",   "https://www.newscientist.com/feed/"),
-        ("Futura-Sciences", "https://www.futura-sciences.com/rss/actualites.xml"),
+        ("Futura-Sciences",    "https://www.futura-sciences.com/rss/actualites.xml"),
+        ("Sciences et Avenir", "https://www.sciencesetavenir.fr/rss.xml"),
     ],
     "dev": [
-        ("GitHub Blog", "https://github.blog/feed/"),
-        ("Dev.to",      "https://dev.to/feed"),
+        ("Developpez.com",     "https://www.developpez.com/rss/"),
     ],
     "startups": [
-        ("TechCrunch",  "https://techcrunch.com/feed/"),
+        ("FrenchWeb",          "https://www.frenchweb.fr/feed/"),
     ],
 }
 
@@ -140,7 +135,7 @@ FR_WORDS = {'le','la','les','un','une','des','est','sont','dans','pour','avec',
             'leur','leurs','elles','ils','nous','vous','être','avoir','faire'}
 
 # Sources déjà en français → pas de traduction
-FR_SOURCES = {"Le Monde", "France Info", "BFM TV", "Les Echos", "La Tribune"}
+FR_SOURCES = {"Le Monde", "France Info", "Le Figaro", "JeuxVideo.com", "Futura-Sciences", "Gamekult", "Boursorama", "Investing.com", "Sciences et Avenir", "Developpez.com", "FrenchWeb", "Le Journal du Coin", "Cryptoast", "ZDNet France", "01net", "Numerama"}
 
 # ─────────────────────────────────────────
 # TRADUCTION
@@ -277,6 +272,66 @@ def verify_image_url(url, timeout=5):
     return False
 
 
+def fetch_full_text(article_url, timeout=10):
+    """Récupère le texte complet d'un article via r.jina.ai (service gratuit d'extraction)."""
+    try:
+        r = requests.get(f"https://r.jina.ai/http://{article_url}", timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
+        if r.status_code == 200:
+            text = r.text.strip()
+            # Supprimer les lignes de metadata (Title, URL Source, etc.)
+            lines = text.split('\n')
+            content_lines = []
+            skip = True
+            for line in lines:
+                if line.startswith('Markdown Content:'):
+                    skip = False
+                    continue
+                if skip:
+                    continue
+                # Supprimer les liens markdown et les images
+                line = re.sub(r'!\[.*?\]\(.*?\)', '', line)
+                line = re.sub(r'\[.*?\]\(.*?\)', '', line)
+                if line.strip():
+                    content_lines.append(line.strip())
+            full_text = ' '.join(content_lines).strip()
+            if len(full_text.split()) >= 100:  # Au moins 100 mots
+                return full_text
+    except Exception as e:
+        print(f"    (!) Extraction jina.ai échouée: {e}")
+    return ""
+
+
+def translate_long_text(text, retries=1):
+    """Traduit un texte long (jusqu'à 5000 mots) en français, chunk par chunk."""
+    if not text or len(text.strip()) < 5:
+        return None
+    if is_french(text):
+        return text
+    
+    # Découper en chunks de ~400 caractères (par phrases)
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+    chunks, current = [], ""
+    for s in sentences:
+        if len(current) + len(s) + 1 <= 400:
+            current = (current + " " + s).strip()
+        else:
+            if current:
+                chunks.append(current)
+            current = s[:400]
+    if current:
+        chunks.append(current)
+    
+    translated_parts = []
+    for i, chunk in enumerate(chunks):
+        t = _translate_chunk(chunk, retries)
+        if t is None:
+            print(f"    (!) Traduction chunk {i+1}/{len(chunks)} échouée, skip article")
+            return None
+        translated_parts.append(t)
+        time.sleep(0.1)
+    return " ".join(translated_parts)
+
+
 def get_article_image(entry, title, article_url, cat):
     """Stratégie en cascade : RSS → og:image → Pollinations thématique (vérifiée)."""
     # 1. RSS media
@@ -327,18 +382,31 @@ def fetch_articles(cat, feeds, max_per_feed=4):
                 continue
             titles_seen.add(key)
 
-            desc_raw = ""
-            if hasattr(entry, "summary"):
-                desc_raw = entry.summary
-            elif hasattr(entry, "content") and entry.content:
-                desc_raw = entry.content[0].get("value", "")
-            desc_raw = strip_html(desc_raw)[:8000]
-            # Supprimer l'article s'il n'a pas de description exploitable
-            if not desc_raw or len(desc_raw.strip()) < 30:
-                print(f"      -> SKIP: pas de description: {title_raw[:50]}...")
+            link = entry.get("link", "#")
+            if not link or link == "#":
                 continue
 
-            link = entry.get("link", "#")
+            # Récupérer le contenu COMPLET de l'article (pas seulement le résumé RSS)
+            full_text = fetch_full_text(link)
+            if not full_text:
+                # Fallback sur le résumé RSS si jina.ai échoue
+                desc_raw = ""
+                if hasattr(entry, "summary"):
+                    desc_raw = entry.summary
+                elif hasattr(entry, "content") and entry.content:
+                    desc_raw = entry.content[0].get("value", "")
+                desc_raw = strip_html(desc_raw)[:8000]
+                if not desc_raw or len(desc_raw.strip()) < 30:
+                    print(f"      -> SKIP: pas de contenu: {title_raw[:50]}...")
+                    continue
+                full_text = desc_raw
+            else:
+                # Vérifier que le contenu complet fait au moins 300 mots
+                word_count = len(full_text.split())
+                if word_count < 300:
+                    print(f"      -> SKIP: contenu trop court ({word_count} mots): {title_raw[:50]}...")
+                    continue
+                print(f"      -> Contenu complet: {word_count} mots")
 
             # Date de publication (timestamp Unix pour tri)
             pub_ts = 0
@@ -365,15 +433,19 @@ def fetch_articles(cat, feeds, max_per_feed=4):
             # Traduction (skip si source francophone)
             if source_name in FR_SOURCES:
                 title_fr = title_raw
-                desc_fr = desc_raw
-                print(f"      -> Source FR, pas de traduction: {title_raw[:50]}...")
+                desc_fr = full_text
+                print(f"      -> Source FR: {title_raw[:50]}...")
             else:
-                print(f"      -> Traduction: {title_raw[:50]}...")
+                print(f"      -> Traduction titre: {title_raw[:50]}...")
                 title_fr = translate_to_french(title_raw)
-                desc_fr = translate_to_french(desc_raw)
-                # Supprimer l'article si traduction impossible
-                if title_fr is None or desc_fr is None:
-                    print(f"      -> SKIP: traduction impossible: {title_raw[:50]}...")
+                if title_fr is None:
+                    print(f"      -> SKIP: traduction titre impossible: {title_raw[:50]}...")
+                    continue
+                # Traduction du contenu complet (chunk par chunk)
+                print(f"      -> Traduction contenu ({len(full_text.split())} mots)...")
+                desc_fr = translate_long_text(full_text)
+                if desc_fr is None:
+                    print(f"      -> SKIP: traduction contenu impossible: {title_raw[:50]}...")
                     continue
                 time.sleep(0.3)
 
@@ -392,6 +464,11 @@ def fetch_articles(cat, feeds, max_per_feed=4):
             count += 1
 
     return all_articles
+
+
+def fetch_articles_light(cat, feeds, max_per_feed=2):
+    """Version allégée qui récupère le contenu complet pour chaque article."""
+    return fetch_articles(cat, feeds, max_per_feed=max_per_feed)
 
 
 def strip_html(text):
@@ -935,7 +1012,7 @@ def main():
     rss_articles = []
     for cat, feeds in FEEDS.items():
         print(f"  {CAT_LABELS[cat]}")
-        articles = fetch_articles(cat, feeds)
+        articles = fetch_articles(cat, feeds, max_per_feed=2)
         print(f"    -> {len(articles)} articles RSS")
         rss_articles.extend(articles)
 
