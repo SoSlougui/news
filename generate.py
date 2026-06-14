@@ -1,91 +1,20 @@
 #!/usr/bin/env python3
 """
-TechFeed — Générateur automatique de news (v2)
-- Récupère les flux RSS via requests + feedparser
-- Traduit les titres/résumés en français via MyMemory (avec retry)
-- Ne traduit PAS les sources francophones (Le Monde, France Info, BFM, Les Echos)
-- Extraction d'images : RSS → og:image → Pollinations.ai (fallback thématique)
-- Ingestion des articles premium depuis new_articles.json (body HTML complet)
-- Génère un site HTML avec design responsive, bookmarks, panneau latéral
+TechFeed — Générateur du site HTML (v3)
+Lit articles.js et génère un index.html responsive avec recherche,
+bookmarks, panneau latéral et catégories.
 """
 
-import feedparser
 import json
-import html
 import re
-import hashlib
-import urllib.parse
-import time
-import calendar
 import os
-import requests
-from datetime import datetime, timezone
-import sys
-sys.stdout.reconfigure(encoding='utf-8')
-from collections import defaultdict
+from datetime import datetime
 
 # ─────────────────────────────────────────
-# CACHE TRADUCTION
+# CATÉGORIES
 # ─────────────────────────────────────────
-TRANSLATION_CACHE = {}
-TRANSLATION_CACHE_PATH = "translation_cache.json"
-
-def load_translation_cache():
-    global TRANSLATION_CACHE
-    if os.path.exists(TRANSLATION_CACHE_PATH):
-        try:
-            with open(TRANSLATION_CACHE_PATH, "r", encoding="utf-8") as f:
-                TRANSLATION_CACHE = json.load(f)
-        except Exception:
-            TRANSLATION_CACHE = {}
-
-def save_translation_cache():
-    try:
-        with open(TRANSLATION_CACHE_PATH, "w", encoding="utf-8") as f:
-            json.dump(TRANSLATION_CACHE, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        print(f"  (!) Erreur sauvegarde cache traduction: {e}")
-
-
-# ─────────────────────────────────────────
-# SOURCES RSS PAR CATÉGORIE
-# ─────────────────────────────────────────
-FEEDS = {
-    "ia": [
-        ("ZDNet France",       "https://www.zdnet.fr/actualites/"),
-        ("01net",              "https://www.01net.com/actualites/"),
-        ("Numerama",           "https://www.numerama.com/feed/"),
-    ],
-    "crypto": [
-        ("Le Journal du Coin", "https://journalducoin.com/feed/"),
-        ("Cryptoast",          "https://cryptoast.fr/feed/"),
-    ],
-    "gaming": [
-        ("JeuxVideo.com",      "https://www.jeuxvideo.com/rss/rss.xml"),
-        ("Gamekult",           "https://www.gamekult.com/feed.xml"),
-    ],
-    "markets": [
-        ("Boursorama",         "https://www.boursorama.com/rss/actualites/"),
-        ("Investing.com",      "https://fr.investing.com/rss/news.rss"),
-    ],
-    "general": [
-        ("Le Monde",           "https://www.lemonde.fr/rss/une.xml"),
-        ("France Info",        "https://www.francetvinfo.fr/titres.rss"),
-        ("Le Figaro",          "https://www.lefigaro.fr/rss/figaro_actualites.xml"),
-    ],
-    "science": [
-        ("Futura-Sciences",    "https://www.futura-sciences.com/rss/actualites.xml"),
-        ("Sciences et Avenir", "https://www.sciencesetavenir.fr/rss.xml"),
-    ],
-    "dev": [
-        ("Developpez.com",     "https://www.developpez.com/rss/"),
-    ],
-    "startups": [
-        ("FrenchWeb",          "https://www.frenchweb.fr/feed/"),
-    ],
-}
-
 CAT_LABELS = {
+    "all":     "Toutes les actualités",
     "ia":      "IA & Tech",
     "crypto":  "Crypto",
     "gaming":  "Jeux Vidéo",
@@ -94,6 +23,8 @@ CAT_LABELS = {
     "science": "Science",
     "dev":     "Développement",
     "startups":"Startups",
+    "bookmarks":"Sauvegardes",
+    "search":  "Recherche",
 }
 
 CAT_COLORS = {
@@ -107,512 +38,12 @@ CAT_COLORS = {
     "startups":("#fefce8", "#a16207"),
 }
 
-CAT_KEYWORDS = {
-    "ia":      "artificial intelligence technology",
-    "crypto":  "cryptocurrency blockchain finance",
-    "gaming":  "video game gaming controller",
-    "markets": "stock market finance economy",
-    "general": "world news current events",
-    "science": "science space research discovery",
-    "dev":     "programming developer code software",
-    "startups":"startup entrepreneur business venture",
-}
-
-STOP_WORDS = {
-    'the','a','an','is','are','was','were','be','been','being','have','has','had',
-    'do','does','did','will','would','could','should','may','might','can',
-    'to','for','in','on','at','by','with','about','as','of','and','or','but',
-    'not','no','from','up','out','that','this','these','those','how','why',
-    'what','when','where','who','which','its','it','into','their','new','first',
-    'last','more','most','some','such','than','very','just','after','before',
-    'over','under','then','there','here','now','also','only','even',
-    'back','still','way','since','both','each','few','between',
-}
-
-FR_WORDS = {'le','la','les','un','une','des','est','sont','dans','pour','avec',
-            'sur','par','qui','que','plus','mais','aussi','tout','bien','cette',
-            'comme','même','très','après','avant','entre','selon','vers','lors',
-            'leur','leurs','elles','ils','nous','vous','être','avoir','faire'}
-
-# Sources déjà en français → pas de traduction
-FR_SOURCES = {"Le Monde", "France Info", "Le Figaro", "JeuxVideo.com", "Futura-Sciences", "Gamekult", "Boursorama", "Investing.com", "Sciences et Avenir", "Developpez.com", "FrenchWeb", "Le Journal du Coin", "Cryptoast", "ZDNet France", "01net", "Numerama"}
 
 # ─────────────────────────────────────────
-# TRADUCTION
-# ─────────────────────────────────────────
-def is_french(text):
-    words = set(re.findall(r'\b\w+\b', text.lower()))
-    return len(words & FR_WORDS) >= 2
-
-
-def _translate_chunk(text, retries=2):
-    """Traduit un chunk de max 450 caractères via MyMemory. Retourne None si échec."""
-    if not text or len(text.strip()) < 3:
-        return None
-    text = text[:450]
-    cache_key = hashlib.md5(text.encode()).hexdigest()[:16]
-    if cache_key in TRANSLATION_CACHE:
-        cached = TRANSLATION_CACHE[cache_key]
-        return cached if cached != text else None
-    for attempt in range(retries):
-        try:
-            url = ("https://api.mymemory.translated.net/get?q="
-                   + urllib.parse.quote(text)
-                   + "&langpair=en|fr&de=techfeed@news.fr")
-            resp = requests.get(url, headers={"User-Agent": "TechFeed/1.0"}, timeout=6)
-            data = resp.json()
-            translated = data.get("responseData", {}).get("translatedText", "")
-            if translated and "MYMEMORY WARNING" in translated:
-                print("    (!) Quota MyMemory atteint.")
-                return None
-            if translated and len(translated) > 5 and translated.lower() != text.lower():
-                TRANSLATION_CACHE[cache_key] = translated
-                return translated
-        except Exception as e:
-            print(f"    (!) Traduction echouee (tentative {attempt+1}): {e}")
-            time.sleep(1)
-    return None
-
-
-def translate_to_french(text, retries=2):
-    if not text or len(text.strip()) < 5 or is_french(text):
-        return text if is_french(text) else None
-    if len(text) <= 450:
-        return _translate_chunk(text, retries)
-    sentences = re.split(r'(?<=[.!?])\s+', text)
-    chunks, current = [], ""
-    for s in sentences:
-        if len(current) + len(s) + 1 <= 440:
-            current = (current + " " + s).strip()
-        else:
-            if current:
-                chunks.append(current)
-            current = s[:440]
-    if current:
-        chunks.append(current)
-    parts = []
-    for chunk in chunks:
-        t = _translate_chunk(chunk, retries)
-        if t is None:
-            return None
-        parts.append(t)
-        time.sleep(0.2)
-    return " ".join(parts)
-
-
-# ─────────────────────────────────────────
-# IMAGES
-# ─────────────────────────────────────────
-def extract_rss_image(entry):
-    """Tente d'extraire une image depuis les éléments media du flux RSS."""
-    for attr in ("media_thumbnail", "media_content"):
-        items = getattr(entry, attr, [])
-        if items:
-            url = items[0].get("url", "") if isinstance(items[0], dict) else ""
-            if url and url.startswith("http"):
-                return url
-    for enc in getattr(entry, "enclosures", []):
-        url = enc.get("href", enc.get("url", ""))
-        mime = enc.get("type", "")
-        if "image" in mime and url.startswith("http"):
-            return url
-    summary = getattr(entry, "summary", "") or ""
-    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', summary)
-    if m and m.group(1).startswith("http"):
-        return m.group(1)
-    return ""
-
-
-def fetch_og_image(article_url, timeout=4):
-    """Récupère l'og:image depuis la page de l'article via requests."""
-    try:
-        with requests.get(
-            article_url,
-            headers={"User-Agent": "Mozilla/5.0 TechFeed/1.0", "Accept": "text/html"},
-            timeout=timeout,
-            stream=True,
-        ) as resp:
-            chunk = resp.raw.read(8192).decode("utf-8", errors="ignore")
-        m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']', chunk)
-        if not m:
-            m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', chunk)
-        if m:
-            url = m.group(1)
-            if url.startswith("http"):
-                return url
-    except Exception:
-        pass
-    return ""
-
-
-def pollinations_url(title, cat, w=640, h=360):
-    """Génère une URL Pollinations.ai thématique basée sur le titre et la catégorie."""
-    seed = hashlib.md5(title.encode()).hexdigest()[:10]
-    cat_kw = {
-        "ia":      "artificial intelligence technology futuristic",
-        "crypto":  "cryptocurrency blockchain bitcoin digital",
-        "gaming":  "video game gaming controller screenshot",
-        "markets": "stock market finance economy charts",
-        "general": "world news journalism newspaper",
-    }
-    prompt = f"{title}, {cat_kw.get(cat, 'news')}, professional editorial photography"
-    encoded = urllib.parse.quote(prompt)
-    return f"https://image.pollinations.ai/prompt/{encoded}?width={w}&height={h}&seed={seed}&nologo=true"
-
-
-def verify_image_url(url, timeout=5):
-    """Vérifie qu'une URL d'image est accessible (retourne vrai si 200 et content-type image)."""
-    try:
-        r = requests.head(url, timeout=timeout, allow_redirects=True, headers={"User-Agent": "Mozilla/5.0"})
-        if r.status_code == 200:
-            ct = r.headers.get("Content-Type", "")
-            return "image" in ct or url.endswith((".jpg", ".jpeg", ".png", ".webp", ".gif"))
-    except Exception:
-        pass
-    return False
-
-
-def fetch_full_text(article_url, timeout=10):
-    """Récupère le texte complet d'un article via r.jina.ai et nettoie le bruit."""
-    try:
-        r = requests.get(f"https://r.jina.ai/http://{article_url}", timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
-        if r.status_code == 200:
-            text = r.text.strip()
-            return clean_jina_content(text, article_url)
-    except Exception as e:
-        print(f"    (!) Extraction jina.ai échouée: {e}")
-    return ""
-
-
-# Patterns de navigation / footer à supprimer
-NOISE_PATTERNS = [
-    r'^\*+$',                                    # Lignes d'astérisques
-    r'^\*\s+\[',                                # Listes de liens
-    r'^\[.*?\]\(.*?\)\s*$',                    # Lignes qui sont juste un lien
-    r'^\[.*?\]\(.*?\)\s+\[',                  # Multiple liens
-    r'^\d+-\s+(Services|Guides|Suppléments)',   # Services Le Monde etc.
-    r'^(Services|Guides|Suppléments|Menu|Fermer)\b',
-    r'^Retour\b',
-    r'^Voir\s+plus',
-    r'^Tous\s+(nos|les)',
-    r'^Article\s+(réservé|réservés)',
-    r'^Publié\s+(aujourd|hier|le)',
-    r'^\d{2}:\d{2}\s+\[',                      # Horodatage + lien
-    r'^Copyright\s+©',
-    r'^Tous\s+droits\s+réservés',
-    r'^Politique\s+de\s+(confidentialité|cookies)',
-    r'^C\.G\.U\.|^C\.G\.V\.|^Mentions\s+légales',
-    r'^Gérer\s+Utiq|^Préférences\s+cookies',
-    r'^Newsletter|^RSS|^Jobs$|^Contact$',
-    r'^Nous\s+suivre|^Téléchargez|^INFORMATIONS',
-    r'^OK$|^Menu$|^Menu\s+Menu$',
-    r'^CONNEXION$|^Se\s+connecter|^S\'abonner',
-    r'^Votre\s+compte|^Sélections|^Notifications',
-    r'^Le\s+journal\s+numérique',
-    r'^En\s+ce\s+moment',
-    r'^Exprimez\s+vos\s+choix',
-    r'^En\s+savoir\s+plus|^Refuser|^Accepter',
-    r'^\d+\s+partenaires',
-    r'^Aide$|^FAQ$',
-    r'^Gestion\s+des\s+cookies',
-    r'^Mettre\s+à\s+jour\s+ma\s+CB',
-    r'^Régler\s+l\'impayé',
-    r'^Autres\s+offres',
-    r'^Partager\s+votre\s+abonnement',
-    r'^Lire\s+le\s+journal\s+numérique',
-    r'^Édition\s+du\s+jour',
-    r'^Daté\s+du',
-    r'^Cet\s+article\s+vous\s+est\s+offert',
-    r'^Pour\s+lire\s+gratuitement',
-    r'^Vous\s+n\'êtes\s+pas\s+inscrit',
-    r'^Inscrivez-vous',
-    r'^Découvrir$|^Tester$',
-    r'^Cours\s+du\s+soir',
-    r'^Testez\s+votre\s+culture',
-    r'^\d+\s+min\s+de\s+lecture',
-    r'^\[Image\s+\d+\]',
-    r'^blob:',
-    r'^[A-Z][A-Z\s]+/\s*(REUTERS|AFP|AP|GETTY|EPA|ANSA|DPA|AFP)\s*$',  # Signatures photo
-]
-
-
-def clean_jina_content(text, article_url):
-    """Nettoie le contenu jina.ai : supprime menus, footers, liens, signatures."""
-    lines = text.split('\n')
-    
-    # Étape 1 : trouver le début du contenu principal
-    # Chercher après "Markdown Content:"
-    content_started = False
-    content_lines = []
-    for line in lines:
-        if line.startswith('Markdown Content:'):
-            content_started = True
-            continue
-        if not content_started:
-            continue
-        content_lines.append(line)
-    
-    # Étape 2 : filtrer les lignes de bruit
-    filtered = []
-    for line in content_lines:
-        stripped = line.strip()
-        if not stripped:
-            continue
-        # Supprimer les liens markdown
-        line_no_links = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', stripped)
-        # Supprimer les images markdown
-        line_no_links = re.sub(r'!\[([^\]]*)\]\([^)]+\)', '', line_no_links)
-        # Supprimer les headings markdown
-        line_no_links = re.sub(r'^#{1,4}\s+', '', line_no_links)
-        line_no_links = line_no_links.strip()
-        if not line_no_links:
-            continue
-        # Vérifier si la ligne est du bruit
-        is_noise = False
-        for pattern in NOISE_PATTERNS:
-            if re.search(pattern, line_no_links, re.IGNORECASE):
-                is_noise = True
-                break
-        # Supprimer aussi les lignes très courtes qui sont probablement des nav links
-        if len(line_no_links) < 25 and ('.' not in line_no_links and '!' not in line_no_links and '?' not in line_no_links):
-            # Si c'est une phrase courte sans ponctuation, c'est probablement un menu
-            if not line_no_links.startswith(('Le', 'La', 'Les', 'Un', 'Une', 'En', 'Dans', 'Sur', 'À', 'A ', 'C\'est', 'Il', 'Elle')):
-                is_noise = True
-        if not is_noise:
-            filtered.append(line_no_links)
-    
-    # Étape 3 : chercher le vrai contenu de l'article
-    # Le contenu principal commence généralement après une série de lignes courtes (menus)
-    # et se caractérise par des paragraphes plus longs
-    # On va chercher le premier "paragraphe substantiel" (au moins 80 mots)
-    # et garder tout ce qui suit
-    
-    result = []
-    found_content = False
-    for i, line in enumerate(filtered):
-        word_count = len(line.split())
-        if word_count >= 80:
-            found_content = True
-        if found_content:
-            # S'arrêter si on retrouve des patterns de footer
-            if re.search(r'^(Copyright|©|Tous droits|Politique de|C\.G\.U|Gérer|Contact|Newsletter|RSS|Jobs|Nous suivre|INFORMATIONS)', line, re.IGNORECASE):
-                break
-            # S'arrêter si on retrouve des liens de services
-            if re.search(r'^(\d+-\s|Services|Guides|Suppléments|Boutique|Ateliers|Newsletters|Jeux|Mots croisés|Sudoku)', line, re.IGNORECASE):
-                break
-            result.append(line)
-    
-    full_text = ' '.join(result).strip()
-    # Vérifier qu'on a assez de contenu
-    if len(full_text.split()) >= 100:
-        return full_text
-    return ""
-
-
-def translate_long_text(text, retries=1):
-    """Traduit un texte long (jusqu'à 5000 mots) en français, chunk par chunk."""
-    if not text or len(text.strip()) < 5:
-        return None
-    if is_french(text):
-        return text
-    
-    # Découper en chunks de ~400 caractères (par phrases)
-    sentences = re.split(r'(?<=[.!?])\s+', text)
-    chunks, current = [], ""
-    for s in sentences:
-        if len(current) + len(s) + 1 <= 400:
-            current = (current + " " + s).strip()
-        else:
-            if current:
-                chunks.append(current)
-            current = s[:400]
-    if current:
-        chunks.append(current)
-    
-    translated_parts = []
-    for i, chunk in enumerate(chunks):
-        t = _translate_chunk(chunk, retries)
-        if t is None:
-            print(f"    (!) Traduction chunk {i+1}/{len(chunks)} échouée, skip article")
-            return None
-        translated_parts.append(t)
-        time.sleep(0.1)
-    return " ".join(translated_parts)
-
-
-def get_article_image(entry, title, article_url, cat):
-    """Stratégie en cascade : RSS → og:image → Pollinations thématique (vérifiée)."""
-    # 1. RSS media
-    img = extract_rss_image(entry)
-    if img:
-        return img, "rss"
-    # 2. og:image de la page
-    img = fetch_og_image(article_url)
-    if img:
-        return img, "og"
-    # 3. Pollinations — vérifier qu'elle est accessible
-    purl = pollinations_url(title, cat)
-    if verify_image_url(purl):
-        return purl, "pollinations"
-    # 4. Fallback : data-URL invalide qui force onerror → affiche le label de catégorie
-    return "data:image/gif;base64,invalid", "fallback"
-
-
-# ─────────────────────────────────────────
-# FETCH & DÉDUPLICATION
-# ─────────────────────────────────────────
-def fetch_articles(cat, feeds, max_per_feed=4):
-    all_articles = []
-    titles_seen = set()
-
-    for source_name, url in feeds:
-        try:
-            resp = requests.get(
-                url,
-                headers={"User-Agent": "Mozilla/5.0 TechFeed/1.0"},
-                timeout=10,
-            )
-            resp.raise_for_status()
-            feed = feedparser.parse(resp.content)
-        except Exception as e:
-            print(f"  (!) Erreur flux {source_name}: {e}")
-            continue
-
-        count = 0
-        for entry in feed.entries:
-            if count >= max_per_feed:
-                break
-            title_raw = (entry.get("title") or "").strip()
-            if not title_raw:
-                continue
-            key = re.sub(r'\W+', '', title_raw.lower())[:60]
-            if key in titles_seen:
-                continue
-            titles_seen.add(key)
-
-            link = entry.get("link", "#")
-            if not link or link == "#":
-                continue
-
-            # Récupérer le contenu COMPLET de l'article (pas seulement le résumé RSS)
-            full_text = fetch_full_text(link)
-            if not full_text:
-                # Fallback sur le résumé RSS si jina.ai échoue
-                desc_raw = ""
-                if hasattr(entry, "summary"):
-                    desc_raw = entry.summary
-                elif hasattr(entry, "content") and entry.content:
-                    desc_raw = entry.content[0].get("value", "")
-                desc_raw = strip_html(desc_raw)[:8000]
-                if not desc_raw or len(desc_raw.strip()) < 30:
-                    print(f"      -> SKIP: pas de contenu: {title_raw[:50]}...")
-                    continue
-                full_text = desc_raw
-            else:
-                # Vérifier que le contenu complet fait au moins 300 mots
-                word_count = len(full_text.split())
-                if word_count < 300:
-                    print(f"      -> SKIP: contenu trop court ({word_count} mots): {title_raw[:50]}...")
-                    continue
-                print(f"      -> Contenu complet: {word_count} mots")
-
-            # Date de publication (timestamp Unix pour tri)
-            pub_ts = 0
-            pub_label = ""
-            if hasattr(entry, "published_parsed") and entry.published_parsed:
-                try:
-                    pub_ts = calendar.timegm(entry.published_parsed)
-                    dt = datetime.fromtimestamp(pub_ts, tz=timezone.utc)
-                    # Format français manuel
-                    mois_fr = {1:'janv',2:'févr',3:'mars',4:'avr',5:'mai',6:'juin',
-                               7:'juil',8:'août',9:'sept',10:'oct',11:'nov',12:'déc'}
-                    pub_label = f"{dt.day} {mois_fr.get(dt.month, dt.strftime('%b'))} {dt.year}, {dt.strftime('%H:%M')}"
-                except Exception:
-                    pass
-            if not pub_label:
-                now = datetime.now()
-                mois_fr = {1:'janv',2:'févr',3:'mars',4:'avr',5:'mai',6:'juin',
-                           7:'juil',8:'août',9:'sept',10:'oct',11:'nov',12:'déc'}
-                pub_label = f"{now.day} {mois_fr.get(now.month, now.strftime('%b'))} {now.year}, {now.strftime('%H:%M')}"
-
-            # Image
-            img_url, img_src = get_article_image(entry, title_raw, link, cat)
-
-            # Traduction (skip si source francophone)
-            if source_name in FR_SOURCES:
-                title_fr = title_raw
-                desc_fr = full_text
-                print(f"      -> Source FR: {title_raw[:50]}...")
-            else:
-                print(f"      -> Traduction titre: {title_raw[:50]}...")
-                title_fr = translate_to_french(title_raw)
-                if title_fr is None:
-                    print(f"      -> SKIP: traduction titre impossible: {title_raw[:50]}...")
-                    continue
-                # Traduction du contenu complet (chunk par chunk)
-                print(f"      -> Traduction contenu ({len(full_text.split())} mots)...")
-                desc_fr = translate_long_text(full_text)
-                if desc_fr is None:
-                    print(f"      -> SKIP: traduction contenu impossible: {title_raw[:50]}...")
-                    continue
-                time.sleep(0.3)
-
-            all_articles.append({
-                "title":    title_fr,
-                "desc":     desc_fr,
-                "url":      link,
-                "source":   source_name,
-                "cat":      cat,
-                "catLabel": CAT_LABELS[cat],
-                "image":    img_url,
-                "imgSrc":   img_src,
-                "pubTs":    pub_ts,
-                "pubLabel": pub_label,
-            })
-            count += 1
-
-    return all_articles
-
-
-def fetch_articles_light(cat, feeds, max_per_feed=2):
-    """Version allégée qui récupère le contenu complet pour chaque article."""
-    return fetch_articles(cat, feeds, max_per_feed=max_per_feed)
-
-
-def strip_html(text):
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = html.unescape(text)
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def cross_verify(articles):
-    by_cat = defaultdict(list)
-    for a in articles:
-        by_cat[a["cat"]].append(a)
-
-    verified = []
-    for cat, items in by_cat.items():
-        kw_index = defaultdict(list)
-        for a in items:
-            for w in set(re.findall(r"\b\w{5,}\b", a["title"].lower())):
-                kw_index[w].append(a)
-
-        for a in items:
-            words = set(re.findall(r"\b\w{5,}\b", a["title"].lower()))
-            overlap = {o["source"] for w in words for o in kw_index[w] if o["source"] != a["source"]}
-            a["verifiedSources"] = len(overlap) + 1
-            a["reliability"]      = "strong" if overlap else "moderate"
-            a["reliabilityLabel"] = "✓ Consensus fort" if overlap else "~ Source unique"
-            verified.append(a)
-
-    return verified
-
-
-# ─────────────────────────────────────────
-# ARTICLES PREMIUM (new_articles.json)
+# LECTURE DES ARTICLES
 # ─────────────────────────────────────────
 def load_articles_js(path="articles.js"):
-    """Lit articles.js (window.ARTICLES = [...]) et extrait les articles premium."""
+    """Lit articles.js (window.ARTICLES = [...]) et extrait les articles."""
     if not os.path.exists(path):
         return []
     try:
@@ -625,7 +56,7 @@ def load_articles_js(path="articles.js"):
         print(f"  (!) Impossible de lire {path}: {e}")
         return []
 
-    premium = []
+    articles = []
     for item in data:
         if not isinstance(item, dict):
             continue
@@ -635,19 +66,14 @@ def load_articles_js(path="articles.js"):
             continue
         body = item.get("body", "")
         excerpt = item.get("excerpt", "")
-        text = strip_html(body) if body else strip_html(excerpt)
+        text = body or excerpt
         read_time = str(max(2, len(text.split()) // 50 + 1)) + " min"
         vsrc = item.get("verifiedSources", 1)
         rel = "strong" if vsrc >= 2 else "moderate"
         rel_label = "✓ Consensus fort" if vsrc >= 2 else "~ Source unique"
         img = item.get("image", "")
-        if not img:
-            img = pollinations_url(title, cat)
-            img_src = "pollinations"
-        else:
-            img_src = "premium"
 
-        premium.append({
+        articles.append({
             "id":              item.get("id", slug(title)),
             "cat":             cat,
             "catLabel":        CAT_LABELS.get(cat, "Général"),
@@ -655,7 +81,6 @@ def load_articles_js(path="articles.js"):
             "desc":            excerpt,
             "body":            body,
             "image":           img,
-            "imgSrc":          img_src,
             "url":             item.get("url", "#"),
             "source":          item.get("source", "Inconnu"),
             "pubTs":           item.get("pubTs", int(datetime.now().timestamp())),
@@ -665,28 +90,7 @@ def load_articles_js(path="articles.js"):
             "reliabilityLabel": rel_label,
             "verifiedSources": vsrc,
         })
-    return premium
-
-
-def merge_articles(rss_articles, premium_articles):
-    """Fusionne les articles RSS et premium (dédoublonnage par URL, premium prime)."""
-    by_url = {}
-    for a in premium_articles:
-        by_url[a["url"]] = a
-    for a in rss_articles:
-        url = a.get("url", "#")
-        if url in by_url:
-            continue
-        # Génère un ID unique basé sur le titre, avec suffixe si collision
-        base_id = slug(a["title"])
-        existing_ids = {x.get("id", slug(x["title"])) for x in by_url.values()}
-        if base_id in existing_ids:
-            suffix = hashlib.md5(url.encode()).hexdigest()[:6]
-            a["id"] = f"{base_id}-{suffix}"
-        else:
-            a["id"] = base_id
-        by_url[url] = a
-    return list(by_url.values())
+    return articles
 
 
 # ─────────────────────────────────────────
@@ -764,13 +168,13 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 24px;display
 .card-img{height:148px;overflow:hidden;flex-shrink:0;background:#f8faff}
 .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
 .card:hover .card-img img{transform:scale(1.03)}
+.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e5e7eb,#f0f2f5);color:#9ca3af;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;padding:8px;line-height:1.2}
 .card-body{padding:13px;flex:1;display:flex;flex-direction:column}
 .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .badge-cat{padding:2px 8px;border-radius:99px;font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
 .cat-ia{background:#eff6ff;color:#1d4ed8}.cat-crypto{background:#fffbeb;color:#b45309}
 .cat-gaming{background:#f0fdf4;color:#15803d}.cat-markets{background:#faf5ff;color:#7e22ce}.cat-general{background:#fff1f2;color:#be123c}
 .cat-science{background:#ecfeff;color:#0891b2}.cat-dev{background:#f5f3ff;color:#7c3aed}.cat-startups{background:#fefce8;color:#a16207}
-.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e5e7eb,#f0f2f5);color:#9ca3af;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;padding:8px;line-height:1.2}
 .date-group{font-size:.75rem;font-weight:700;color:#6b7280;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid #e5e7eb;text-transform:uppercase;letter-spacing:.5px}
 .search-wrap{display:flex;align-items:center;gap:6px;flex:1;max-width:320px;margin:0 12px}
 .search-wrap input{width:100%;border:1px solid #e5e7eb;border-radius:8px;padding:6px 10px;font-size:.78rem;outline:none}
@@ -1114,36 +518,20 @@ def generate_html(articles, last_update):
 
 
 def main():
-    print("TechFeed v2 - Demarrage...")
-    load_translation_cache()
-    # 1. Articles RSS
-    rss_articles = []
-    for cat, feeds in FEEDS.items():
-        print(f"  {CAT_LABELS[cat]}")
-        articles = fetch_articles(cat, feeds, max_per_feed=2)
-        print(f"    -> {len(articles)} articles RSS")
-        rss_articles.extend(articles)
-
-    # 2. Verification croisee (uniquement RSS)
-    print(f"Verification croisee ({len(rss_articles)} articles RSS)...")
-    rss_articles = cross_verify(rss_articles)
-
-    # 3. Articles premium (articles.js)
-    premium = load_articles_js()
-    print(f"  -> {len(premium)} articles premium (articles.js)")
-
-    # 4. Fusion
-    all_articles = merge_articles(rss_articles, premium)
-    print(f"Total fusionne : {len(all_articles)} articles")
-
-    # 5. Generation HTML
+    print("TechFeed v3 - Generation du site...")
+    
+    # Lecture des articles (cron job Kimi)
+    articles = load_articles_js()
+    print(f"  -> {len(articles)} articles (articles.js)")
+    
+    # Generation HTML
     last_update = datetime.now().strftime("%d %B %Y - %H:%M")
-    content = generate_html(all_articles, last_update)
+    content = generate_html(articles, last_update)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(content)
     open(".nojekyll", "w").close()
-    save_translation_cache()
-    print(f"OK - {len(all_articles)} articles, {len(content)//1024}KB")
+    
+    print(f"OK - {len(articles)} articles, {len(content)//1024}KB")
 
 
 if __name__ == "__main__":
