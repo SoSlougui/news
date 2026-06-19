@@ -1,0 +1,59 @@
+[
+  {
+    "cat": "general",
+    "title": "VivaTech 2026 : Paris devient le centre mondial de la tech pour 4 jours",
+    "excerpt": "La 10e édition de VivaTech ouvre ses portes à Paris Expo Porte de Versailles avec 180 000 visiteurs attendus, 14 000 startups et 450 speakers pour célébrer l'innovation européenne.",
+    "body": "<p>La 10e édition anniversaire de VivaTech a ouvert ses portes le 17 juin 2026 à Paris Expo Porte de Versailles, transformant la capitale française en epicentre mondial de l'innovation technologique. Avec 180 000 visiteurs attendus, 14 000 startups, 4 000 partenaires et plus de 450 speakers, l'événement se positionne comme le plus grand rendez-vous tech européen.</p><p>Cette édition 2026 met particulièrement l'accent sur l'intelligence artificielle et son passage à l'échelle industrielle. Les AI agents — capables d'effectuer des tâches de manière autonome et d'interagir avec plusieurs systèmes logiciels — constituent le sujet le plus discuté du salon. Contrairement aux systèmes de génération de texte traditionnels, ces agents peuvent supporter les opérations commerciales avec une plus grande autonomie.</p><p>Jeff Bezos, fondateur d'Amazon, est présent en tant que speaker de premier plan, témoignant de l'attrait international de l'événement. Le salon accueille également des dirigeants de Microsoft, Google, AWS, Meta, Mistral AI et Hugging Face. Les deux secteurs phares de l'exposition sont l'IA & Data et la Sustainable Tech & Impact.</p><p>Le gouvernement français est fortement présent avec un stand interministériel (3G50) qui met en avant la souveraineté numérique, l'IA dans l'État et les solutions souveraines comme LaSuite, NUBO Cloud et Albert API. FranceConnect célèbre ses 10 ans avec un espace dédié. L'État propose également plus de 2 000 offres d'emploi tech.</p><p>Parmi les temps forts, on note le AWS & NVIDIA Startup Village qui présente 7 startups européennes à la pointe de l'IA, un pitch contest HEC/INPI/WIPO pour la deep tech, et des démonstrations de robots humanoides. La 4e journée (20 juin) est ouverte au grand public, après trois jours réservés aux professionnels.</p>",
+    "url": "https://vivatech.com",
+    "source": "VivaTech",
+    "verifiedSources": 3,
+    "image": "https://picsum.photos/seed/vivatech2026/640/360",
+    "sources": [
+      {"name": "CGTN", "url": "https://news.cgtn.com/news/2026-06-18/VivaTech-2026-highlights-AI-agents-and-deep-tech-innovation-1O4TnDaeHMA/index.html"},
+      {"name": "24Creative", "url": "https://www.24creative.co/news/vivatech-2026-paris-tech-world-week"},
+      {"name": "TechPression", "url": "https://techpression.com/vivatech-2026-paris-450-speakers-14000-startups-expected/"}
+    ]
+  },
+  {
+    "cat": "ia",
+    "title": "AWS et NVIDIA présentent 7 startups AI européennes au Startup Village de VivaTech",
+    "excerpt": "Amazon Web Services et NVIDIA ont sélectionné 7 startups européennes pour leur Startup Village, représentant 470 employés et plus de 150 millions de dollars de levées cumulées.",
+    "body": "<p>Amazon Web Services et NVIDIA ont dévoilé la sélection de 7 startups européennes qui présentent leurs innovations au Startup Village de VivaTech 2026. Ces entreprises, toutes déployées en production sur AWS et NVIDIA, représentent environ 470 employés et plus de 150 millions de dollars de financements cumulés récents.</p><p><strong>Neuralk AI</strong> (France) développe Seldon, un modèle de fondation tabulaire qui permet à n'importe quelle entreprise de prédire n'importe quoi sur n'importe quel dataset en quelques minutes. <strong>Gradium</strong> (France), issue du labo de recherche Kyutai, construit des modèles audio ultra-low latency pour des conversations avec l'IA naturelles et instantanées.</p><p><strong>pyannoteAI</strong> (France), construit sur 12 ans de recherche CNRS, identifie qui parle, quand et comment dans un flux audio en temps réel. <strong>Aily Labs</strong> (Suisse) aide les dirigeants de Fortune 500 à prendre des décisions opérationnelles via une plateforme de Decision Intelligence, avec une précision prédictive allant jusqu'à 99%.</p><p><strong>Physicl</strong> (France) génère des données d'entraînement 3D pour robots et IA physique via des environnements de simulation NVIDIA Omniverse. <strong>Seltz AI</strong> (Italie/USA) fournit aux agents IA un accès structuré et fiable aux informations web via sa Web Knowledge API. <strong>Ask for the Moon</strong> (France) aide les industriels à capturer et partager l'expertise critique via une plateforme IA cogénérative.</p><p>Sasha Rubel, AI Policy Lead EMEA chez AWS, souligne : « Seulement 22% des entreprises européennes utilisent l'IA de manière transformative. Ces 7 startups démontrent qu'il est possible de passer au-delà de l'expérimentation. »</p>",
+    "url": "https://www.aboutamazon.eu/news/empowering-small-business/aws-and-nvidia-showcase-seven-ai-startups-at-vivatech-2026-startup-village",
+    "source": "About Amazon",
+    "verifiedSources": 2,
+    "image": "https://picsum.photos/seed/awsnvidiavt/640/360",
+    "sources": [
+      {"name": "About Amazon", "url": "https://www.aboutamazon.eu/news/empowering-small-business/aws-and-nvidia-showcase-seven-ai-startups-at-vivatech-2026-startup-village"},
+      {"name": "VivaTech", "url": "https://vivatech.com/news/viva-tech-2026-tech-trail-guide"}
+    ]
+  },
+  {
+    "cat": "ia",
+    "title": "Les AI agents dominent VivaTech 2026 : l'IA passe de l'expérimentation au déploiement réel",
+    "excerpt": "Les agents d'intelligence artificielle sont le sujet phare de VivaTech 2026, avec une demande en freelance liée aux AI agents qui explose en Europe selon la plateforme Malt.",
+    "body": "<p>L'intelligence artificielle est omniprésente à VivaTech 2026, mais un sujet domine toutes les conversations : les AI agents. Contrairement aux systèmes de génération de texte traditionnels qui répondent aux prompts, les agents IA peuvent effectuer des tâches, interagir avec plusieurs systèmes logiciels et supporter les opérations commerciales avec une plus grande autonomie.</p><p>Selon les données de la plateforme de freelance Malt, la demande de compétences liées aux AI agents a explosé en Europe. Vincent Huguet, CEO de Malt, confirme que les agents IA entraînent un changement majeur dans le recrutement freelance. Ces technologies pourraient aider les entreprises à améliorer leur efficacité dans des secteurs aussi variés que la fabrication, la santé et le retail.</p><p>Plusieurs entreprises ont dévoilé de nouvelles solutions alimentées par l'IA au salon. Perfect Corp a présenté des outils IA pour des services de beauté personnalisés et des technologies permettant aux assistants IA de communiquer à travers différentes plateformes.</p><p>Le sujet traverse l'ensemble du salon : du stand interministériel de l'État français qui présente Albert API et MAESTRO, jusqu'aux startups du Startup Village AWS/NVIDIA qui déploient des agents en production. La thématique AI & Data est l'un des deux piliers de l'exposition, aux côtés de la Sustainable Tech & Impact.</p><p>Cette édition de VivaTech marque un tournant : l'IA ne se contente plus d'impressionner, elle démontre sa capacité à transformer concrètement les processus industriels et opérationnels.</p>",
+    "url": "https://news.cgtn.com/news/2026-06-18/VivaTech-2026-highlights-AI-agents-and-deep-tech-innovation-1O4TnDaeHMA/index.html",
+    "source": "CGTN",
+    "verifiedSources": 2,
+    "image": "https://picsum.photos/seed/aiagentsvt/640/360",
+    "sources": [
+      {"name": "CGTN", "url": "https://news.cgtn.com/news/2026-06-18/VivaTech-2026-highlights-AI-agents-and-deep-tech-innovation-1O4TnDaeHMA/index.html"},
+      {"name": "France 24", "url": "https://www.france24.com"}
+    ]
+  },
+  {
+    "cat": "startups",
+    "title": "VivaTech 2026 : 14 000 startups et le Women In Tech Trail mettent l'innovation à l'honneur",
+    "excerpt": "La 10e édition de VivaTech met en avant 14 000 startups et un Tech Trail dédié aux femmes dans la tech, avec des entrepreneurs de France, Italie, Thaïlande et Luxembourg.",
+    "body": "<p>VivaTech 2026 ne se contente pas d'être le plus grand salon tech européen : il est aussi une plateforme de visibilité massive pour les startups. Cette année, 14 000 startups sont présentes, avec un accent particulier sur la diversité et l'inclusion via le Women In Tech Trail.</p><p>Ce trail met en avant 10 entrepreneures tech de France, d'Italie, de Thaïlande et du Luxembourg. Parmi elles, <strong>OHAIO</strong> (France) offre une traduction instantanée en 110+ langues pour événements, <strong>AI Guardian Pro</strong> (France) développe une IA domiciliaire pour seniors combinant logiciel et robotique, et <strong>Beauty Plant Laboratory</strong> (Thaïlande) travaille sur une plateforme de soins dermatologiques.</p><p><strong>MyLime</strong> (Italie) propose une solution blockchain pour les Digital Product Passports obligatoires d'ici 2027, déjà utilisée par 50+ marques premium. <strong>TINENTAL</strong> (Italie) rétrofit n'importe quelle pompe industrielle avec une modulation IA en temps réel sans capteurs. <strong>TrustalAI</strong> (France) ajoute une couche de fiabilité temps réel aux modèles IA existants.</p><p>Le salon propose aussi un pitch contest HEC/INPI/WIPO dédié à la deep tech pour l'impact, avec des startups comme FoxBio (biotech), HENDDU (IA & environnement), Beams (MedTech/oncologie) et WheelMove (assistive tech). Le jury inclut des représentants de l'INPI, de l'OMPI et de l'OEB.</p><p>Avec 180 000 participants, 4 000 partenaires et des centaines d'investisseurs, VivaTech 2026 reste le lieu où les startups peuvent passer de l'anonymat à la visibilité internationale en quelques jours.</p>",
+    "url": "https://vivatech.com/news/viva-tech-2026-tech-trail-guide",
+    "source": "VivaTech",
+    "verifiedSources": 2,
+    "image": "https://picsum.photos/seed/vtstartups/640/360",
+    "sources": [
+      {"name": "VivaTech Tech Trail", "url": "https://vivatech.com/news/viva-tech-2026-tech-trail-guide"},
+      {"name": "HEC Paris", "url": "https://www.hec.edu/en/innovation-entrepreneurship-institute/events/hec-paris-vivatech-2026"}
+    ]
+  }
+]
