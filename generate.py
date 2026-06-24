@@ -589,15 +589,15 @@ function renderWorldCup(fc){
 
   // Groupes
   h+='<section class="light"><div class="container"><div class="sec-head"><h3>Phases de Groupes</h3><div class="count">12 groupes · 3e journée</div></div></div>';
-  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px">';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px">';
   for(var gk in WC_GROUPS){var g=WC_GROUPS[gk];
-    h+='<div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:rgba(0,0,0,.06)0 1px 3px">';
+    h+='<div style="background:#fff;border-radius:16px;padding:24px 26px;box-shadow:rgba(0,0,0,.05)0 1px 4px">';
     h+='<div class="cat">'+g.name+'</div>';
-    h+='<table style="width:100%;border-collapse:collapse;font-size:.74rem;margin-top:10px">';
-    h+='<tr style="color:rgba(0,0,0,.35);font-size:.58rem;text-transform:uppercase;letter-spacing:.8px"><th style="text-align:left;padding:4px 4px;font-weight:600">Équipe</th><th style="text-align:center;padding:4px 2px;font-weight:600">J</th><th style="text-align:center;padding:4px 2px;font-weight:600">V</th><th style="text-align:center;padding:4px 2px;font-weight:600">N</th><th style="text-align:center;padding:4px 2px;font-weight:600">D</th><th style="text-align:center;padding:4px 2px;font-weight:600">+/-</th><th style="text-align:center;padding:4px 2px;font-weight:600;color:#0071e3">Pts</th></tr>';
+    h+='<table style="width:100%;border-collapse:collapse;font-size:.76rem;margin-top:12px">';
+    h+='<tr style="color:rgba(0,0,0,.3);font-size:.6rem;text-transform:uppercase;letter-spacing:1px"><th style="text-align:left;padding:6px 6px;font-weight:500">Équipe</th><th style="text-align:center;padding:6px 3px;font-weight:500">J</th><th style="text-align:center;padding:6px 3px;font-weight:500">V</th><th style="text-align:center;padding:6px 3px;font-weight:500">N</th><th style="text-align:center;padding:6px 3px;font-weight:500">D</th><th style="text-align:center;padding:6px 3px;font-weight:500">+/-</th><th style="text-align:center;padding:6px 3px;font-weight:500;color:#0071e3">Pts</th></tr>';
     var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});
     for(var i=0;i<s.length;i++){var t=s[i],gp=t.pl||2,gd=t.gf-t.ga,st=t.q?'<span style="font-size:.55rem;color:#059669;margin-left:3px">Q</span>':t.e?'<span style="font-size:.55rem;color:#dc2626;margin-left:3px">E</span>':'';
-      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:5px 4px;font-weight:600;font-size:.72rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:5px 2px">'+gp+'</td><td style="text-align:center;padding:5px 2px">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:5px 2px">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:5px 2px">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:5px 2px">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:5px 2px;font-weight:700;color:#0071e3">'+t.p+'</td></tr>';
+      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 6px;font-weight:600;font-size:.74rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+gp+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:7px 3px;font-weight:700;color:#0071e3;font-size:.76rem">'+t.p+'</td></tr>';
     }
     h+='</table></div>';
   }
