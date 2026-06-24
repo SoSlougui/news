@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechFeed — Redesign Prototype</title>
+<style>
+:root {
+  --variant: 'editorial';
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0f1117;color:#e4e4e7;overflow:hidden;height:100vh}
+
+/* Controls */
+#controls{
+  position:fixed;top:12px;right:12px;z-index:100;
+  display:flex;gap:6px;background:rgba(30,30,40,.95);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:6px;border-radius:12px;border:1px solid rgba(255,255,255,.08);
+}
+#controls button{
+  background:none;border:none;color:#a1a1aa;font-size:.72rem;font-weight:600;
+  padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s;
+  letter-spacing:.3px;text-transform:uppercase;
+}
+#controls button.active{background:rgba(255,255,255,.1);color:#fff}
+#controls button:hover{color:#fff}
+
+/* Layout */
+#app{display:flex;height:100vh;padding-top:60px}
+#sidebar{width:48px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:16px;gap:4px;border-right:1px solid rgba(255,255,255,.06)}
+#sidebar .cat{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:1rem;cursor:pointer;transition:all .2s;opacity:.45;background:transparent}
+#sidebar .cat:hover{opacity:.8;background:rgba(255,255,255,.06)}
+#sidebar .cat.active{opacity:1;background:rgba(255,255,255,.1)}
+#main{flex:1;overflow-y:auto;padding:0}
+
+/* Variant 1: Editorial */
+.v-editorial #main{padding:32px 48px;display:grid;grid-template-columns:1fr 360px;gap:40px}
+.v-editorial .col-feed{display:flex;flex-direction:column;gap:32px}
+.v-editorial .hero-card{border-radius:16px;overflow:hidden;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+.v-editorial .hero-card:hover{border-color:rgba(255,255,255,.12)}
+.v-editorial .hero-card img{width:100%;height:280px;object-fit:cover}
+.v-editorial .hero-body{padding:28px}
+.v-editorial .hero-label{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:#a78bfa;font-weight:700;margin-bottom:10px}
+.v-editorial .hero-title{font-size:1.5rem;font-weight:800;line-height:1.25;color:#fafafa;margin-bottom:10px;font-family:Georgia,'Times New Roman',serif}
+.v-editorial .hero-desc{font-size:.82rem;color:#a1a1aa;line-height:1.65}
+.v-editorial .card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.v-editorial .card:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.v-editorial .card img{width:100%;height:160px;object-fit:cover}
+.v-editorial .card-body{padding:18px}
+.v-editorial .card-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px}
+.v-editorial .card-title{font-size:.88rem;font-weight:700;line-height:1.35;color:#e4e4e7;margin-bottom:6px;font-family:Georgia,'Times New Roman',serif}
+.v-editorial .card-desc{font-size:.74rem;color:#71717a;line-height:1.5}
+.v-editorial .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.v-editorial .sidebar-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.v-editorial .sidebar-card:hover{border-color:rgba(255,255,255,.08)}
+.v-editorial .sidebar-title{font-size:.82rem;font-weight:700;line-height:1.35;color:#d4d4d8}
+.v-editorial .sidebar-src{font-size:.68rem;color:#52525b;margin-top:6px}
+.v-editorial .section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:#71717a;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.06)}
+
+/* Variant 2: Swiss/Modern */
+.v-modern #main{padding:24px 40px;display:flex;flex-direction:column;gap:40px}
+.v-modern .section-title{font-size:.68rem;text-transform:uppercase;letter-spacing:2.5px;color:#71717a;font-weight:600;margin-bottom:16px}
+.v-modern .hero-card{display:flex;gap:24px;background:#1a1a24;border-radius:18px;overflow:hidden;cursor:pointer;transition:all .25s;border:1px solid rgba(255,255,255,.04)}
+.v-modern .hero-card:hover{background:#1e1e2a;transform:translateY(-2px)}
+.v-modern .hero-card img{width:420px;height:260px;object-fit:cover;flex-shrink:0}
+.v-modern .hero-body{padding:28px 32px 28px 8px;display:flex;flex-direction:column;justify-content:center}
+.v-modern .hero-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:#fafafa;background:#7c3aed;padding:3px 10px;border-radius:6px;display:inline-block;width:fit-content;font-weight:700;margin-bottom:16px}
+.v-modern .hero-title{font-size:1.35rem;font-weight:700;line-height:1.3;color:#fafafa;margin-bottom:10px}
+.v-modern .hero-desc{font-size:.82rem;color:#a1a1aa;line-height:1.6}
+.v-modern .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.v-modern .card{background:#1a1a24;border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;border:1px solid rgba(255,255,255,.04);display:flex;flex-direction:column}
+.v-modern .card:hover{background:#1e1e2a;transform:translateY(-2px)}
+.v-modern .card img{width:100%;height:170px;object-fit:cover}
+.v-modern .card-body{padding:20px;display:flex;flex-direction:column;flex:1}
+.v-modern .card-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px}
+.v-modern .card-title{font-size:.88rem;font-weight:700;line-height:1.35;color:#e4e4e7;margin-bottom:6px;flex:1}
+.v-modern .card-desc{font-size:.74rem;color:#71717a;line-height:1.5;margin-bottom:10px}
+.v-modern .card-meta{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;color:#52525b}
+.v-modern .date-divider{font-size:.75rem;color:#52525b;font-weight:600;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:4px}
+
+/* Variant 3: Magazine */
+.v-magazine #main{padding:40px 64px;display:flex;flex-direction:column;gap:48px}
+.v-magazine .section-title{font-size:.68rem;text-transform:uppercase;letter-spacing:3px;color:#71717a;font-weight:600;margin-bottom:20px}
+.v-magazine .hero-card{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border-radius:20px;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#18181b,#1c1c24);transition:all .3s}
+.v-magazine .hero-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.v-magazine .hero-card img{width:100%;height:100%;min-height:340px;object-fit:cover}
+.v-magazine .hero-body{padding:40px;display:flex;flex-direction:column;justify-content:center}
+.v-magazine .hero-label{font-size:.6rem;letter-spacing:2.5px;text-transform:uppercase;color:#a78bfa;font-weight:700;margin-bottom:14px}
+.v-magazine .hero-title{font-size:1.6rem;font-weight:800;line-height:1.2;color:#fafafa;margin-bottom:14px}
+.v-magazine .hero-desc{font-size:.84rem;color:#a1a1aa;line-height:1.7;margin-bottom:20px}
+.v-magazine .hero-read{font-size:.72rem;color:#7c3aed;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.v-magazine .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.v-magazine .card{background:#18181b;border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s}
+.v-magazine .card:hover{background:#1f1f26;transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.2)}
+.v-magazine .card img{width:100%;height:180px;object-fit:cover}
+.v-magazine .card-body{padding:22px}
+.v-magazine .card-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px}
+.v-magazine .card-title{font-size:.9rem;font-weight:700;line-height:1.3;color:#e4e4e7;margin-bottom:6px}
+.v-magazine .card-desc{font-size:.74rem;color:#71717a;line-height:1.55}
+.v-magazine .date-group{margin-bottom:28px}
+.v-magazine .date-label{font-size:.8rem;font-weight:700;color:#e4e4e7;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.v-magazine .date-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+
+/* Category colors - consistent across variants */
+.cat-ia{color:#60a5fa}.cat-crypto{color:#f59e0b}.cat-gaming{color:#34d399}
+.cat-markets{color:#a78bfa}.cat-general{color:#fb7185}.cat-science{color:#22d3ee}
+.cat-dev{color:#818cf8}.cat-startups{color:#fbbf24}
+
+/* Responsive */
+@media(max-width:1024px){.v-editorial #main{grid-template-columns:1fr}.v-editorial .sidebar{display:none}.v-magazine #main{padding:24px}.v-magazine .grid{grid-template-columns:repeat(2,1fr)}.v-modern #main{padding:20px}.v-modern .hero-card{flex-direction:column}.v-modern .hero-card img{width:100%;height:200px}}
+@media(max-width:640px){#controls{top:8px;right:8px}#controls button{font-size:.65rem;padding:6px 10px}.v-editorial #main{padding:16px;gap:20px}.v-editorial .hero-title{font-size:1.2rem}.v-editorial .grid{grid-template-columns:1fr}.v-modern #main{padding:12px}.v-modern .grid{grid-template-columns:1fr}.v-magazine #main{padding:16px}.v-magazine .grid{grid-template-columns:1fr}.v-magazine .hero-card{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="v-editorial">
+<div id="controls">
+  <button class="active" onclick="setVariant('editorial')">Éditorial</button>
+  <button onclick="setVariant('modern')">Moderne</button>
+  <button onclick="setVariant('magazine')">Magazine</button>
+</div>
+<div id="sidebar"></div>
+<div id="app">
+  <div id="sidebar"></div>
+  <div id="main"></div>
+</div>
+
+<script>
+// Category emojis for sidebar
+const cats = [
+  {id:'all',icon:'🏠',label:'Accueil'},
+  {id:'ia',icon:'🤖',label:'IA'},
+  {id:'crypto',icon:'₿',label:'Crypto'},
+  {id:'gaming',icon:'🎮',label:'Jeux'},
+  {id:'markets',icon:'📈',label:'Marchés'},
+  {id:'general',icon:'🌍',label:'Général'},
+];
+const catLabels = {ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Vidéo',markets:'Marchés',general:'Général'};
+
+// Sample articles (same titles as real site)
+const articles = [
+  {cat:'ia',title:'OpenAI dévoile Jalapeño, sa première puce IA sur mesure avec Broadcom',excerpt:'OpenAI et Broadcom ont présenté Jalapeño, un accélérateur dédié à l\'inférence des modèles de langage, conçu en neuf mois.',img:'https://picsum.photos/seed/jalapeno/800/400',date:'24 juin'},
+  {cat:'crypto',title:'Les ETF Bitcoin enregistrent 5,9 milliards de dollars de retraits en un mois',excerpt:'La fuite des capitaux institutionnels des ETF spot Bitcoin atteint des records.',img:'https://picsum.photos/seed/bitcoinetf/800/400',date:'24 juin'},
+  {cat:'gaming',title:'Grand Theft Auto VI sera vendu 79,99 dollars et reste fixé au 19 novembre',excerpt:'Take-Two officialise le prix de GTA VI à 79,99$, une première dans l\'industrie.',img:'https://picsum.photos/seed/gtavi/800/400',date:'24 juin'},
+  {cat:'markets',title:'Micron publie ses résultats T3 dans un climat de vente massive des semi-conducteurs',excerpt:'Les investisseurs guettent le moindre signal sur la demande en puces mémoire IA.',img:'https://picsum.photos/seed/micron/800/400',date:'24 juin'},
+  {cat:'general',title:'L\'Allemagne propose d\'interdire les réseaux sociaux aux moins de 13 ans',excerpt:'Un panel d\'experts recommande un devoir parental de prévention de la négligence numérique.',img:'https://picsum.photos/seed/germany/800/400',date:'24 juin'},
+  {cat:'ia',title:'Qualcomm en passe d\'acquérir Modular pour 4 milliards de dollars',excerpt:'Le géant des semi-conducteurs se lance dans les puces IA pour data centers.',img:'https://picsum.photos/seed/qualcomm/800/400',date:'24 juin'},
+  {cat:'crypto',title:'THORChain reprend son activité après un exploit de 10,7 millions de dollars',excerpt:'Le protocole redémarre après cinq semaines d\'arrêt suite à un exploit.',img:'https://picsum.photos/seed/thorchain/800/400',date:'24 juin'},
+  {cat:'gaming',title:'Kingdom Hearts 4 officialisé : Nintendo et Square Enix s\'associent',excerpt:'Attendu depuis des années, le jeu arrive day one sur Nintendo Switch 2.',img:'https://picsum.photos/seed/kh4/800/400',date:'24 juin'},
+];
+
+function setVariant(v){
+  document.body.className = 'v-' + v;
+  document.querySelectorAll('#controls button').forEach(b=>b.classList.toggle('active', b.textContent.toLowerCase().includes(v)));
+  render(v);
+}
+
+function render(v){
+  const main = document.getElementById('main');
+  const hero = articles[0];
+  const rest = articles.slice(1);
+  
+  if(v === 'editorial'){
+    main.innerHTML = `
+      <div class="col-feed">
+        <div class="hero-card">
+          <img src="${hero.img}" alt="">
+          <div class="hero-body">
+            <div class="hero-label cat-${hero.cat}">${catLabels[hero.cat]}</div>
+            <div class="hero-title">${hero.title}</div>
+            <div class="hero-desc">${hero.excerpt} — ${hero.date}</div>
+          </div>
+        </div>
+        <div class="section-title">AUJOURD'HUI — 8 articles</div>
+        <div class="grid">${rest.map(a=>`
+          <div class="card">
+            <img src="${a.img}" alt="">
+            <div class="card-body">
+              <div class="card-label cat-${a.cat}">${catLabels[a.cat]}</div>
+              <div class="card-title">${a.title}</div>
+              <div class="card-desc">${a.excerpt}</div>
+            </div>
+          </div>
+        `).join('')}</div>
+      </div>
+      <div class="sidebar">
+        <div class="section-title">À LA UNE</div>
+        ${rest.slice(0,5).map(a=>`
+          <div class="sidebar-card">
+            <div class="sidebar-title">${a.title}</div>
+            <div class="sidebar-src cat-${a.cat}">${catLabels[a.cat]} · ${a.date}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }else if(v === 'modern'){
+    main.innerHTML = `
+      <div class="hero-card">
+        <img src="${hero.img}" alt="">
+        <div class="hero-body">
+          <div class="hero-label cat-${hero.cat}">${catLabels[hero.cat]}</div>
+          <div class="hero-title">${hero.title}</div>
+          <div class="hero-desc">${hero.excerpt} · ${hero.date}</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">AUJOURD'HUI — 8 ARTICLES</div>
+        <div class="date-divider">DERNIÈRES PUBLICATIONS</div>
+        <div class="grid">${rest.map(a=>`
+          <div class="card">
+            <img src="${a.img}" alt="">
+            <div class="card-body">
+              <div class="card-label cat-${a.cat}">${catLabels[a.cat]}</div>
+              <div class="card-title">${a.title}</div>
+              <div class="card-desc">${a.excerpt}</div>
+              <div class="card-meta"><span>${a.date}</span><span>Lire →</span></div>
+            </div>
+          </div>
+        `).join('')}</div>
+      </div>`;
+  }else{
+    const groups = {};
+    rest.forEach(a=>{const k=a.date;if(!groups[k])groups[k]=[];groups[k].push(a)});
+    const groupHTML = Object.entries(groups).map(([date,items])=>`
+      <div class="date-group">
+        <div class="date-label">${date.toUpperCase()}</div>
+        <div class="grid">${items.map(a=>`
+          <div class="card">
+            <img src="${a.img}" alt="">
+            <div class="card-body">
+              <div class="card-label cat-${a.cat}">${catLabels[a.cat]}</div>
+              <div class="card-title">${a.title}</div>
+              <div class="card-desc">${a.excerpt}</div>
+            </div>
+          </div>
+        `).join('')}</div>
+      </div>
+    `).join('');
+    main.innerHTML = `
+      <div class="hero-card">
+        <img src="${hero.img}" alt="">
+        <div class="hero-body">
+          <div class="hero-label cat-${hero.cat}">${catLabels[hero.cat]}</div>
+          <div class="hero-title">${hero.title}</div>
+          <div class="hero-desc">${hero.excerpt}</div>
+          <div class="hero-read">Lire l'article →</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">DERNIÈRES PUBLICATIONS</div>
+        ${groupHTML}
+      </div>`;
+  }
+}
+
+// Init
+render('editorial');
+</script>
+</body>
+</html>

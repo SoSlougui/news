@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechFeed — Magazine</title>
+<style>
+:root{
+  --bg:#ffffff;
+  --bg2:#f5f5f7;
+  --card:#ffffff;
+  --cardh:#fafafa;
+  --border:rgba(0,0,0,.06);
+  --text:#18181b;
+  --text2:#52525b;
+  --text3:#a1a1aa;
+  --accent:#7c3aed;
+  --shadow:0 2px 8px rgba(0,0,0,.04);
+  --shadowh:0 16px 40px rgba(0,0,0,.08);
+  --radius:14px;
+  --font-head:Georgia,'Times New Roman',serif;
+}
+.dark{
+  --bg:#0c0c0f;
+  --bg2:#121216;
+  --card:#16161b;
+  --cardh:#1c1c22;
+  --border:rgba(255,255,255,.06);
+  --text:#e4e4e7;
+  --text2:#a1a1aa;
+  --text3:#52525b;
+  --shadow:none;
+  --shadowh:0 20px 60px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* Header */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.logo{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:8px}
+.logo span{background:var(--accent);color:#fff;font-size:.58rem;padding:3px 8px;border-radius:99px;font-weight:700}
+.header-r{display:flex;align-items:center;gap:12px}
+.search{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:.78rem;color:var(--text);outline:none;width:220px}
+.search:focus{border-color:var(--accent)}
+.search::placeholder{color:var(--text3)}
+.btn{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn:hover{background:var(--bg2);color:var(--text)}
+.btn.theme{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;padding:0;font-size:1rem}
+.dark .btn.theme{background:var(--bg2)}
+
+/* Tabs */
+.tabs{
+  position:fixed;top:56px;left:0;right:0;z-index:49;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;gap:2px;overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 16px;font-size:.76rem;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+
+/* Main */
+main{padding:120px 48px 64px;max-width:1400px;margin:0 auto}
+.section-title{font-size:.68rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text3);font-weight:600;margin-bottom:24px}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--border);transition:all .3s;margin-bottom:48px}
+.hero:hover{box-shadow:var(--shadowh)}
+.hero img{width:100%;height:100%;min-height:320px;object-fit:cover}
+.hero-body{padding:36px 40px;display:flex;flex-direction:column;justify-content:center}
+.hero-cat{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:12px}
+.hero-title{font-size:1.5rem;font-weight:800;line-height:1.2;color:var(--text);margin-bottom:12px;font-family:var(--font-head)}
+.hero-desc{font-size:.82rem;color:var(--text2);line-height:1.7;margin-bottom:16px}
+.hero-read{font-size:.7rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:1px;display:inline-flex;align-items:center;gap:6px}
+.hero-read::after{content:'→';transition:transform .2s}
+.hero:hover .hero-read::after{transform:translateX(4px)}
+
+/* Date groups */
+.date-group{margin-bottom:48px}
+.date-label{font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:18px;display:flex;align-items:center;gap:14px}
+.date-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.date-label em{font-style:normal;color:var(--text2);font-weight:400;font-size:.72rem}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+/* Card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadowh);background:var(--cardh)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.card-cat{font-size:.58rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px}
+.card-title{font-size:.88rem;font-weight:700;line-height:1.35;color:var(--text);margin-bottom:6px;flex:1;font-family:var(--font-head)}
+.card-desc{font-size:.74rem;color:var(--text2);line-height:1.55;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;color:var(--text3)}
+.card-src{color:var(--accent);font-weight:600}
+
+/* Category colors */
+.c-ia{color:#3b82f6}.c-crypto{color:#f59e0b}.c-gaming{color:#10b981}
+.c-markets{color:#8b5cf6}.c-general{color:#ef4444}.c-science{color:#06b6d4}
+
+/* Responsive */
+@media(max-width:1024px){
+  main{padding:120px 24px 48px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .hero{grid-template-columns:1fr}
+  .hero img{min-height:240px;max-height:280px}
+  .hero-body{padding:28px}
+}
+@media(max-width:640px){
+  header{padding:0 16px}.search{display:none}
+  .tabs{padding:0 8px}.tab{padding:9px 11px;font-size:.72rem}
+  main{padding:108px 14px 40px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .hero{border-radius:12px;margin-bottom:32px}
+  .hero img{min-height:200px}
+  .hero-body{padding:20px}
+  .hero-title{font-size:1.2rem}
+  .date-group{margin-bottom:32px}
+  .card{flex-direction:row;height:120px}
+  .card img{width:120px;height:120px;flex-shrink:0}
+  .card-body{padding:12px 14px}
+  .card-title{font-size:.82rem}
+  .card-desc{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">📰 TechFeed <span>MAGAZINE</span></div>
+  <div class="header-r">
+    <input class="search" placeholder="Rechercher un article...">
+    <button class="btn theme" onclick="document.body.classList.toggle('dark');localStorage.theme=document.body.classList.contains('dark')?'dark':'light'" title="Mode clair/sombre">☀</button>
+  </div>
+</header>
+<div class="tabs">
+  <div class="tab active">📰 Tout</div>
+  <div class="tab">🤖 IA</div>
+  <div class="tab">₿ Crypto</div>
+  <div class="tab">🎮 Jeux</div>
+  <div class="tab">📈 Marchés</div>
+  <div class="tab">🌍 Général</div>
+  <div class="tab">⚽ Coupe du Monde</div>
+</div>
+<main>
+  <div class="hero" onclick="this.style.outline='2px solid var(--accent)'">
+    <img src="https://picsum.photos/seed/hero1/800/500" alt="">
+    <div class="hero-body">
+      <div class="hero-cat c-ia">IA & Tech</div>
+      <div class="hero-title">OpenAI dévoile Jalapeño, sa première puce IA sur mesure avec Broadcom</div>
+      <div class="hero-desc">OpenAI et Broadcom ont présenté un accélérateur dédié à l'inférence des LLM, conçu en neuf mois et promettant une efficacité énergétique supérieure.</div>
+      <div class="hero-read">Lire l'article</div>
+    </div>
+  </div>
+
+  <div class="date-group">
+    <div class="date-label">AUJOURD'HUI <em>— 24 juin 2026 · 8 articles</em></div>
+    <div class="grid">
+      <div class="card">
+        <img src="https://picsum.photos/seed/card1/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-crypto">Crypto</div>
+          <div class="card-title">Les ETF Bitcoin enregistrent 5,9 milliards de dollars de retraits en un mois</div>
+          <div class="card-desc">La fuite des capitaux institutionnels des ETF spot Bitcoin atteint des records, avec six semaines consécutives de sorties.</div>
+          <div class="card-foot"><span>24 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/card2/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-gaming">Jeux Vidéo</div>
+          <div class="card-title">Grand Theft Auto VI sera vendu 79,99$ et reste fixé au 19 novembre</div>
+          <div class="card-desc">Take-Two officialise le prix, une première historique dans l'industrie du jeu vidéo.</div>
+          <div class="card-foot"><span>24 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/card3/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-markets">Marchés</div>
+          <div class="card-title">Micron publie ses résultats T3 dans un climat de vente massive</div>
+          <div class="card-desc">Les analystes anticipent une croissance des bénéfices de plus de 1000% sur un an.</div>
+          <div class="card-foot"><span>24 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="date-group">
+    <div class="date-label">CETTE SEMAINE <em>— 4 articles</em></div>
+    <div class="grid">
+      <div class="card">
+        <img src="https://picsum.photos/seed/card4/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-general">Général</div>
+          <div class="card-title">L'Allemagne propose d'interdire les réseaux sociaux aux moins de 13 ans</div>
+          <div class="card-desc">Un panel d'experts recommande un devoir parental de prévention de la négligence numérique.</div>
+          <div class="card-foot"><span>23 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/card5/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-ia">IA & Tech</div>
+          <div class="card-title">Qualcomm en passe d'acquérir Modular pour 4 milliards de dollars</div>
+          <div class="card-desc">Le géant des semi-conducteurs se diversifie dans les puces IA pour data centers.</div>
+          <div class="card-foot"><span>23 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/card6/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-crypto">Crypto</div>
+          <div class="card-title">THORChain reprend après un exploit de 10,7 millions de dollars</div>
+          <div class="card-desc">Le protocole redémarre après cinq semaines d'arrêt, Chainlink rejoint 47 banques.</div>
+          <div class="card-foot"><span>23 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/card7/600/360" alt="">
+        <div class="card-body">
+          <div class="card-cat c-gaming">Jeux Vidéo</div>
+          <div class="card-title">Kingdom Hearts 4 officialisé : Nintendo et Square Enix s'associent</div>
+          <div class="card-desc">Le jeu arrive day one sur Switch 2, une première pour la franchise.</div>
+          <div class="card-foot"><span>22 juin</span><span class="card-src">Lire →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+// Theme persistence
+if(localStorage.theme==='dark') document.body.classList.add('dark');
+// Tab switching
+document.querySelectorAll('.tab').forEach(t=>t.onclick=function(){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  this.classList.add('active');
+});
+// Theme toggle icon
+const tb=document.querySelector('.btn.theme');
+function updateIcon(){tb.textContent=document.body.classList.contains('dark')?'☾':'☀'}
+updateIcon();
+tb.addEventListener('click',()=>setTimeout(updateIcon,50));
+</script>
+</body>
+</html>
