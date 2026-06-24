@@ -149,19 +149,19 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rg
 
 /* Hero — dark immersive */
 .hero{background:#000;color:#fff;position:relative;overflow:hidden}
-.hero img{width:100%;height:460px;object-fit:cover;opacity:.72}
+.hero img{width:100%;height:380px;object-fit:cover;opacity:.72}
 .hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:0 0 56px 0;max-width:800px;margin:0 auto;text-align:center}
 .hero-cat{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;opacity:.55;margin-bottom:10px}
-.hero-title{font-size:2.6rem;font-weight:700;line-height:1.07;letter-spacing:-.28px;margin-bottom:10px}
-.hero-desc{font-size:1rem;line-height:1.47;opacity:.75;max-width:560px;margin:0 auto}
+.hero-title{font-size:2.2rem;font-weight:700;line-height:1.07;letter-spacing:-.28px;margin-bottom:10px}
+.hero-desc{font-size:.9rem;line-height:1.47;opacity:.75;max-width:560px;margin:0 auto}
 
 /* Sections */
-section{padding:72px 0}
+section{padding:56px 0}
 section.light{background:#f5f5f7}
 section.white{background:#fff}
 .container{max-width:960px;margin:0 auto;padding:0 28px}
 .sec-head{text-align:center;margin-bottom:40px}
-.sec-head h3{font-size:2.2rem;font-weight:600;line-height:1.1;margin-bottom:6px;color:#1d1d1f}
+.sec-head h3{font-size:1.8rem;font-weight:600;line-height:1.1;margin-bottom:6px;color:#1d1d1f}
 .sec-head .count{font-size:.94rem;color:rgba(0,0,0,.5)}
 
 /* Articles rows */
@@ -173,8 +173,8 @@ section.white{background:#fff}
 .art-img img{width:100%;height:100%;object-fit:cover}
 .art-body{flex:1;min-width:0}
 .art-body .cat{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#0071e3;font-weight:600;margin-bottom:4px}
-.art-body h4{font-size:1.35rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:4px}
-.art-body .excerpt{font-size:.9rem;line-height:1.47;color:rgba(0,0,0,.55);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-body h4{font-size:1.15rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:4px}
+.art-body .excerpt{font-size:.82rem;line-height:1.47;color:rgba(0,0,0,.55);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .art-body .meta{font-size:.72rem;color:rgba(0,0,0,.36);margin-top:5px}
 .art-body .bm-star{background:none;border:none;cursor:pointer;font-size:1rem;padding:0 2px;color:rgba(0,0,0,.2);vertical-align:middle}
 .art-body .bm-star.on{color:#0071e3}
@@ -182,10 +182,10 @@ section.white{background:#fff}
 /* Featured card */
 .feat{background:#fff;border-radius:18px;overflow:hidden;box-shadow:rgba(0,0,0,.18)3px 5px 28px 0;margin-bottom:44px;cursor:pointer;transition:transform .3s}
 .feat:hover{transform:scale(1.01)}
-.feat img{width:100%;height:320px;object-fit:cover;display:block}
-.feat-body{padding:30px 34px}
+.feat img{width:100%;height:260px;object-fit:cover;display:block}
+.feat-body{padding:24px 28px}
 .feat-body .cat{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#0071e3;font-weight:600;margin-bottom:6px}
-.feat-body h4{font-size:1.6rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:6px}
+.feat-body h4{font-size:1.35rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:6px}
 .feat-body .excerpt{font-size:.9rem;line-height:1.47;color:rgba(0,0,0,.55)}
 .feat-body .meta{font-size:.74rem;color:rgba(0,0,0,.36);margin-top:8px}
 
@@ -210,6 +210,37 @@ section.white{background:#fff}
 .bm-empty{text-align:center;padding:100px 24px;color:rgba(0,0,0,.36)}
 .bm-empty h3{font-size:1.3rem;font-weight:600;color:rgba(0,0,0,.5);margin-bottom:6px}
 
+.dark body{background:#1c1c1e;color:#e8e8ec}
+.dark header{background:rgba(28,28,30,.72);border-bottom-color:rgba(255,255,255,.08)}
+.dark .logo{color:#e8e8ec}
+.dark .hright a,.dark .hright button{color:#e8e8ec}
+.dark .hright a:hover{background:rgba(255,255,255,.06)}
+.dark .search-wrap input{background:rgba(255,255,255,.06);color:#e8e8ec}
+.dark .search-wrap input::placeholder{color:rgba(255,255,255,.3)}
+.dark .upd{color:rgba(255,255,255,.4)}
+.dark .hero{background:#000}
+.dark section.light{background:#232326}
+.dark section.white{background:#1c1c1e}
+.dark .sec-head h3{color:#e8e8ec}
+.dark .sec-head .count{color:rgba(255,255,255,.4)}
+.dark .art-row{border-bottom-color:rgba(255,255,255,.06)}
+.dark .art-img{background:#2a2a2e}
+.dark .art-body h4{color:#e8e8ec}
+.dark .art-body .excerpt{color:rgba(255,255,255,.5)}
+.dark .art-body .meta{color:rgba(255,255,255,.3)}
+.dark .feat{background:#232326;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.dark .feat-body h4{color:#e8e8ec}
+.dark .feat-body .excerpt{color:rgba(255,255,255,.5)}
+.dark .feat-body .meta{color:rgba(255,255,255,.3)}
+.dark .panel-col{background:#1c1c1e}
+.dark .panel-head{background:rgba(28,28,30,.72);border-bottom-color:rgba(255,255,255,.06)}
+.dark .panel-body h2{color:#e8e8ec}
+.dark .panel-body .meta{color:rgba(255,255,255,.4)}
+.dark .panel-body .body{color:rgba(255,255,255,.7)}
+.dark .panel-close{background:rgba(255,255,255,.06);color:#e8e8ec}
+.dark .panel-close:hover{background:rgba(255,255,255,.1)}
+.dark .src-section{border-top-color:rgba(255,255,255,.06)}
+.dark .src-name{color:rgba(255,255,255,.5)}
 @media(max-width:900px){
 .hero img{height:320px}.hero-title{font-size:1.8rem}.hero-desc{font-size:.9rem}
 .art-row{flex-direction:column;align-items:stretch;gap:14px}.art-img{flex:0 0 auto;height:190px}
@@ -228,6 +259,14 @@ header{padding:0 12px}.upd{display:none}.search-wrap input{width:120px}
 
 JS = r"""const ARTICLES = __ARTICLES__;
 const CAT_LABELS = {all:'Toutes les actualites',ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Video',markets:'Marches',general:'General',science:'Science',dev:'Developpement',startups:'Startups',bookmarks:'Sauvegardes',search:'Recherche',worldcup:'Coupe du Monde 2026'};
+// Theme
+(function(){if(localStorage.theme==='dark'){document.body.classList.add('dark');setTimeout(function(){var t=document.getElementById('themeBtn');if(t)t.textContent='☾'},50)}})();
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  localStorage.theme=document.body.classList.contains('dark')?'dark':'light';
+  var t=document.getElementById('themeBtn');
+  if(t)t.textContent=document.body.classList.contains('dark')?'☾':'☀';
+}
 let cat='all', curId=null, searchTerm='';
 let bm=[];
 try{bm=JSON.parse(localStorage.getItem('tf_bm')||'[]')}catch(e){}
@@ -669,6 +708,7 @@ def generate_html(articles, last_update):
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
     <span class="upd">{last_update}</span>
+    <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
     <a href="#" onclick="showTab('ia');return false" title="IA">&#129302;</a>
