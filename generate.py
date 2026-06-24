@@ -611,9 +611,9 @@ const status = t.q ? '<span class="wc-qualified">Qualifie</span>' : t.e ? '<span
 
   // ── Phase finale (équipes qualifiées) ──
   out += '<div class="sec-label">Coupe du Monde 2026 &mdash; Phase Finale</div><div class="wc-section">';
-  out += '<h3>&#127942; 32es de finale</h3>';
+  out += '<h3>&#127942; 16es de finale</h3>';
   out += '<div class="wc-knockout">';
-  out += `<i>Les 32es de finale debutent le 29 juin. Les 12 premiers de groupe, les 12 deuxiemes et les 8 meilleurs troisiemes composeront le tableau. Les derniers matchs de groupes se jouent du 24 au 27 juin.</i>`;
+  out += `<i>Les 16es de finale debutent le 29 juin. Les 12 premiers de groupe, les 12 deuxiemes et les 8 meilleurs troisiemes composeront le tableau. Les derniers matchs de groupes se jouent du 24 au 27 juin.</i>`;
   out += '</div></div>';
 
   // ── Résultats des matchs ──
