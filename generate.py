@@ -125,133 +125,104 @@ def build_articles_json(articles):
     return raw
 
 
-CSS = """/* v5 — Warm editorial */
-:root{
---bg:#fff;--bgw:#faf9f7;--card:#fff;--cardh:#fafafa;
---border:rgba(0,0,0,.06);--text:#1a1a1a;--text2:#555;--text3:#999;
---accent:#e04b4b;--accent2:#ff6b6b;--accent-text:#fff;
---radius:12px;--radius-lg:16px;
---shadow:0 1px 3px rgba(0,0,0,.04);--shadowh:0 6px 24px rgba(0,0,0,.08);
-}
-.dark{
---bg:#161618;--bgw:#1c1c1f;--card:#1e1e22;--cardh:#24242a;
---border:rgba(255,255,255,.06);--text:#e8e8ec;--text2:#999;--text3:#666;
---shadow:none;--shadowh:0 8px 32px rgba(0,0,0,.3);
-}
+CSS = """/* Apple-inspired */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;transition:background .3s,color .3s}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f5f7;color:#1d1d1f;-webkit-font-smoothing:antialiased;overflow:hidden}
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rgba(245,245,247,.72);backdrop-filter:saturate(180%)blur(20px);-webkit-backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(0,0,0,.08)}
+.logo{font-size:.85rem;font-weight:700;color:#1d1d1f;display:flex;align-items:center;gap:6px}
+.logo em{font-style:normal;font-size:.48rem;background:#0071e3;color:#fff;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.5px}
+.hright{display:flex;align-items:center;gap:4px}
+.hright a,.hright button{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;text-decoration:none;color:#1d1d1f;font-size:.9rem;opacity:.6;transition:all .2s;border:none;background:none;cursor:pointer}
+.hright a:hover,.hright button:hover{opacity:1;background:rgba(0,0,0,.04)}
+.hright a.active,.hright button.active{opacity:1;color:#0071e3}
+.search-wrap{display:flex;align-items:center;margin:0 8px}
+.search-wrap input{border:none;background:rgba(0,0,0,.04);border-radius:8px;padding:5px 10px;font-size:.75rem;color:#1d1d1f;outline:none;width:180px;font-family:inherit}
+.search-wrap input:focus{background:rgba(0,0,0,.06)}
+.search-wrap input::placeholder{color:rgba(0,0,0,.4)}
+.upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px}
 
-header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.logo{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:800;color:var(--text)}
-.logo em{font-style:normal;background:var(--accent);color:var(--accent-text);font-size:.5rem;padding:3px 7px;border-radius:99px;font-weight:700;letter-spacing:.5px}
-.hright{display:flex;align-items:center;gap:10px}
-.upd{font-size:.68rem;color:var(--text3)}
-.search-wrap{display:flex;align-items:center;flex:1;max-width:260px;margin:0 14px}
-.search-wrap input{width:100%;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.74rem;outline:none;background:var(--bgw);color:var(--text);font-family:inherit}
-.search-wrap input:focus{border-color:var(--accent)}
-.search-wrap input::placeholder{color:var(--text3)}
-.search-clear{background:none;border:none;color:var(--text3);font-size:.8rem;cursor:pointer;padding:2px 5px;border-radius:4px;display:none}
-.search-clear.on{display:inline-block}
-.btn-theme{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:50%;cursor:pointer;font-size:.9rem;color:var(--text2);transition:all .2s}
-.btn-theme:hover{background:var(--bgw);color:var(--text)}
-.btn-bookmarks{background:none;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.72rem;font-weight:600;cursor:pointer;color:var(--text2);transition:all .2s}
-.btn-bookmarks:hover{background:var(--bgw);color:var(--text)}
+.tabs{display:none}
+.layout{display:flex;position:fixed;top:48px;left:0;right:0;bottom:0}
+.feed-col{flex:1;overflow-y:auto;min-width:0}
+.panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;order:-1;box-shadow:-20px 0 60px rgba(0,0,0,.15);z-index:200}
+.layout.panel-open .panel-col{width:540px}
 
-.tabs{position:fixed;top:56px;left:0;right:0;z-index:49;background:var(--bg);border-bottom:1px solid var(--border);padding:0 22px;display:flex;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{padding:10px 14px;font-size:.73rem;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* Hero — dark immersive */
+.hero{background:#000;color:#fff;position:relative;overflow:hidden}
+.hero img{width:100%;height:460px;object-fit:cover;opacity:.72}
+.hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:0 0 56px 0;max-width:800px;margin:0 auto;text-align:center}
+.hero-cat{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;opacity:.55;margin-bottom:10px}
+.hero-title{font-size:2.6rem;font-weight:700;line-height:1.07;letter-spacing:-.28px;margin-bottom:10px}
+.hero-desc{font-size:1rem;line-height:1.47;opacity:.75;max-width:560px;margin:0 auto}
 
-.layout{display:flex;position:fixed;top:104px;left:0;right:0;bottom:0}
-.feed-col{flex:1;overflow-y:auto;padding:28px 36px;min-width:0}
-.panel-col{width:0;overflow:hidden;background:var(--bg);border-right:1px solid var(--border);transition:width .3s;display:flex;flex-direction:column;flex-shrink:0;order:-1}
-.layout.panel-open .panel-col{width:500px}
+/* Sections */
+section{padding:72px 0}
+section.light{background:#f5f5f7}
+section.white{background:#fff}
+.container{max-width:960px;margin:0 auto;padding:0 28px}
+.sec-head{text-align:center;margin-bottom:40px}
+.sec-head h3{font-size:2.2rem;font-weight:600;line-height:1.1;margin-bottom:6px;color:#1d1d1f}
+.sec-head .count{font-size:.94rem;color:rgba(0,0,0,.5)}
 
-.section-label{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--text3);font-weight:600;margin-bottom:16px}
+/* Articles rows */
+.articles{max-width:960px;margin:0 auto;padding:0 28px}
+.art-row{display:flex;gap:24px;align-items:center;padding:26px 0;border-bottom:1px solid rgba(0,0,0,.06);cursor:pointer;transition:opacity .2s}
+.art-row:hover{opacity:.65}
+.art-row:last-child{border-bottom:none}
+.art-img{flex:0 0 260px;height:170px;border-radius:12px;overflow:hidden;background:#e8e8ed}
+.art-img img{width:100%;height:100%;object-fit:cover}
+.art-body{flex:1;min-width:0}
+.art-body .cat{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#0071e3;font-weight:600;margin-bottom:4px}
+.art-body h4{font-size:1.35rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:4px}
+.art-body .excerpt{font-size:.9rem;line-height:1.47;color:rgba(0,0,0,.55);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.art-body .meta{font-size:.72rem;color:rgba(0,0,0,.36);margin-top:5px}
+.art-body .bm-star{background:none;border:none;cursor:pointer;font-size:1rem;padding:0 2px;color:rgba(0,0,0,.2);vertical-align:middle}
+.art-body .bm-star.on{color:#0071e3}
 
-.hero{display:flex;border-radius:var(--radius-lg);overflow:hidden;background:var(--card);border:1px solid var(--border);margin-bottom:36px;cursor:pointer;min-height:280px;transition:all .3s}
-.hero:hover{box-shadow:var(--shadowh)}
-.hero-img{flex:0 0 54%;overflow:hidden;position:relative}
-.hero-img img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
-.hero-body{flex:1;padding:30px 34px;display:flex;flex-direction:column;justify-content:center}
-.hero-cat{font-size:.58rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);font-weight:700;margin-bottom:8px}
-.hero-title{font-size:1.35rem;font-weight:700;line-height:1.22;color:var(--text);margin-bottom:8px;font-family:Georgia,'Times New Roman',serif}
-.hero-excerpt{font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:12px}
-.hero-meta{display:flex;align-items:center;gap:8px;font-size:.68rem;color:var(--text3);margin-top:auto;margin-bottom:4px}
-.hero-cta{color:var(--accent);font-weight:600;font-size:.72rem;display:flex;align-items:center;gap:4px}
+/* Featured card */
+.feat{background:#fff;border-radius:18px;overflow:hidden;box-shadow:rgba(0,0,0,.18)3px 5px 28px 0;margin-bottom:44px;cursor:pointer;transition:transform .3s}
+.feat:hover{transform:scale(1.01)}
+.feat img{width:100%;height:320px;object-fit:cover;display:block}
+.feat-body{padding:30px 34px}
+.feat-body .cat{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:#0071e3;font-weight:600;margin-bottom:6px}
+.feat-body h4{font-size:1.6rem;font-weight:700;line-height:1.14;color:#1d1d1f;margin-bottom:6px}
+.feat-body .excerpt{font-size:.9rem;line-height:1.47;color:rgba(0,0,0,.55)}
+.feat-body .meta{font-size:.74rem;color:rgba(0,0,0,.36);margin-top:8px}
 
-.date-group{margin-bottom:32px}
-.date-title{font-size:.76rem;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.date-title::after{content:'';flex:1;height:1px;background:var(--border)}
-.date-count{font-weight:400;color:var(--text2);font-size:.68rem}
+/* Panel */
+.panel-head{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%)blur(20px);-webkit-backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;border-bottom:1px solid rgba(0,0,0,.06)}
+.panel-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.04);border:none;cursor:pointer;font-size:1rem;color:#1d1d1f}
+.panel-close:hover{background:rgba(0,0,0,.08)}
+.panel-body{flex:1;overflow-y:auto;padding:26px 30px 64px}
+.panel-body img{width:100%;border-radius:12px;margin-bottom:22px}
+.panel-body h2{font-size:1.7rem;font-weight:700;line-height:1.1;color:#1d1d1f;margin-bottom:8px}
+.panel-body .meta{font-size:.78rem;color:rgba(0,0,0,.44);margin-bottom:22px}
+.panel-body .body{font-size:1rem;line-height:1.65;color:rgba(0,0,0,.78)}
+.panel-body .body p{margin-bottom:15px}
+.panel-body .read{display:inline-flex;align-items:center;gap:6px;background:#0071e3;color:#fff;padding:10px 20px;border-radius:980px;font-size:.85rem;font-weight:500;text-decoration:none;margin-top:18px}
+.panel-body .read:hover{background:#0066cc}
+.src-section{margin-top:22px;padding-top:16px;border-top:1px solid rgba(0,0,0,.06)}
+.src-section h3{font-size:.68rem;font-weight:600;color:rgba(0,0,0,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.src-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:.8rem}
+.src-num{font-weight:700;color:#0071e3;background:rgba(0,113,227,.08);padding:1px 6px;border-radius:4px;flex-shrink:0;font-size:.68rem}
+.src-name{font-weight:600;color:rgba(0,0,0,.6)}.src-url{color:#0071e3;text-decoration:none;font-size:.72rem;word-break:break-all}
 
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.bm-empty{text-align:center;padding:100px 24px;color:rgba(0,0,0,.36)}
+.bm-empty h3{font-size:1.3rem;font-weight:600;color:rgba(0,0,0,.5);margin-bottom:6px}
 
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column}
-.card:hover{box-shadow:var(--shadowh);transform:translateY(-2px)}
-.card-img{height:155px;overflow:hidden;flex-shrink:0;background:var(--bgw)}
-.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
-.card:hover .card-img img{transform:scale(1.03)}
-.img-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bgw);color:var(--text3);font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;padding:8px}
-.card-body{padding:16px;flex:1;display:flex;flex-direction:column}
-.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.badge-cat{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-.cat-ia{background:rgba(59,130,246,.1);color:#2563eb}.cat-crypto{background:rgba(245,158,11,.1);color:#d97706}
-.cat-gaming{background:rgba(16,185,129,.1);color:#059669}.cat-markets{background:rgba(139,92,246,.1);color:#7c3aed}
-.cat-general{background:rgba(239,68,68,.1);color:#dc2626}
-.cat-science{background:rgba(6,182,212,.1);color:#0891b2}.cat-dev{background:rgba(129,140,248,.1);color:#6366f1}
-.cat-startups{background:rgba(251,191,36,.1);color:#d97706}
-.card-title{font-size:.84rem;font-weight:700;line-height:1.3;color:var(--text);margin-bottom:4px;flex:1;font-family:Georgia,'Times New Roman',serif;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.card-excerpt{font-size:.71rem;color:var(--text2);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;font-size:.64rem;color:var(--text3)}
-.card-cta{color:var(--accent);font-weight:600}
-.bm-btn{background:none;border:none;cursor:pointer;font-size:.9rem;padding:2px 4px;border-radius:4px;color:var(--text3);line-height:1;transition:color .2s}
-.bm-btn.on{color:var(--accent)}
-.rel-tag{padding:2px 6px;border-radius:4px;font-size:.6rem;font-weight:600}
-.rel-tag.strong{background:rgba(16,185,129,.08);color:#059669}.rel-tag.moderate{background:rgba(245,158,11,.08);color:#d97706}
-
-.panel-topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg);position:sticky;top:0;z-index:2}
-.panel-topbar-l{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;flex:1}
-.panel-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
-.panel-close{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--text3);padding:4px 7px;border-radius:6px;line-height:1}
-.panel-close:hover{background:var(--bgw);color:var(--text)}
-.panel-bm{background:none;border:1px solid var(--border);border-radius:7px;padding:4px 11px;font-size:.72rem;cursor:pointer;color:var(--text2);white-space:nowrap}
-.panel-bm.on{background:rgba(224,75,75,.08);border-color:rgba(224,75,75,.2);color:var(--accent)}
-.panel-body{flex:1;overflow-y:auto;padding:20px 24px 40px}
-.art-hero-img{border-radius:10px;overflow:hidden;margin-bottom:18px;background:var(--bgw)}
-.art-hero-img img{width:100%;max-height:260px;object-fit:cover;display:block}
-.art-title{font-size:1.15rem;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:8px;font-family:Georgia,'Times New Roman',serif}
-.art-meta{font-size:.68rem;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.art-content{font-size:.82rem;line-height:1.8;color:var(--text2)}
-.art-content p{margin-bottom:13px}
-.read-more{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-text);border:none;padding:8px 16px;border-radius:8px;font-size:.76rem;font-weight:600;cursor:pointer;text-decoration:none;margin-top:8px}
-.read-more:hover{opacity:.9}
-.annexes{margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
-.annexes h3{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:8px}
-.src-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
-.src-num{font-size:.6rem;font-weight:700;color:var(--accent);background:rgba(224,75,75,.08);padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:1px}
-.src-name{font-size:.72rem;font-weight:600;color:var(--text2);display:block}
-.src-url{font-size:.66rem;color:var(--accent);text-decoration:none;word-break:break-all}
-.src-url:hover{text-decoration:underline}
-.vfoot{display:flex;align-items:center;gap:5px;margin-top:10px;font-size:.64rem;color:var(--accent);background:rgba(224,75,75,.06);padding:6px 10px;border-radius:6px}
-.bm-empty{text-align:center;padding:48px;color:var(--text3)}
-
-@media(max-width:1024px){.layout.panel-open .panel-col{width:380px}.feed-col{padding:22px 28px}.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){
-.upd{display:none}.search-wrap{max-width:160px}
-.layout.panel-open .panel-col{width:100%;position:absolute;inset:0;z-index:10}
-.layout.panel-open .feed-col{display:none}
-.hero{flex-direction:column;min-height:auto}.hero-img{flex:0 0 200px}.hero-img img{position:absolute;top:0;left:0;width:100%;height:100%}.hero-body{padding:20px 22px}.hero-title{font-size:1.15rem}
-.grid{grid-template-columns:repeat(2,1fr);gap:12px}.feed-col{padding:16px}
+@media(max-width:900px){
+.hero img{height:320px}.hero-title{font-size:1.8rem}.hero-desc{font-size:.9rem}
+.art-row{flex-direction:column;align-items:stretch;gap:14px}.art-img{flex:0 0 auto;height:190px}
+.panel-col{width:100%!important}.layout.panel-open .panel-col{width:100%!important}
+section{padding:48px 0}.sec-head h3{font-size:1.6rem}
+.feat img{height:240px}.feat-body{padding:20px 24px}.feat-body h4{font-size:1.25rem}
 }
-@media(max-width:640px){
-header{padding:0 12px;height:52px}.search-wrap{display:none}
-.tabs{top:52px;padding:0 8px}.tab{padding:8px 10px;font-size:.68rem}
-.layout{top:96px}.feed-col{padding:10px}.grid{grid-template-columns:1fr;gap:10px}
-.hero{border-radius:12px;margin-bottom:22px}.hero-img{flex:0 0 170px}.hero-body{padding:14px 16px}
-.card{flex-direction:row;height:120px}.card-img{width:120px;height:120px;flex-shrink:0}.card-body{padding:10px 12px}.card-excerpt{display:none}.card-title{font-size:.78rem}
-.panel-body{padding:14px 16px 32px}.art-title{font-size:1rem}.art-hero-img img{max-height:200px}
+@media(max-width:600px){
+header{padding:0 12px}.upd{display:none}.search-wrap input{width:120px}
+.hero img{height:240px}.hero-overlay{padding:0 0 32px 0}.hero-title{font-size:1.3rem}
+.art-img{height:150px}.art-body h4{font-size:1.1rem}
+.container,.articles{padding:0 16px}
+.panel-body{padding:20px 18px 48px}
 }
 """
 
@@ -290,15 +261,13 @@ function toggleBm(id,e){
 }
 
 function showTab(c,el){
-  cat=c; searchTerm='';
-  const si=document.getElementById('searchInput'); if(si) si.value='';
-  const sc=document.getElementById('searchClear'); if(sc) sc.classList.remove('on');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  if(el)el.classList.add('active');
-  else{const bt=document.getElementById('bmTab');if(bt)bt.classList.add('active');}
+  cat=c;searchTerm='';
+  const si=document.getElementById('searchInput');if(si)si.value='';
+  document.querySelectorAll('.hright a').forEach(a=>a.classList.remove('active'));
+  if(c==='bookmarks'){const bl=document.getElementById('bmLink');if(bl)bl.classList.add('active')}
+  else if(c==='all'){document.querySelector('.hright a')?.classList.add('active')}
   closePanel();render();
 }
-
 function searchArticles(q){
   searchTerm=q.trim().toLowerCase();
   const sc=document.getElementById('searchClear'); if(sc) sc.classList.toggle('on',searchTerm.length>0);
@@ -341,86 +310,81 @@ function render(){
   if(cat==='search'){renderSearch(fc);return;}
   if(cat==='worldcup'){renderWorldCup(fc);return;}
   const list=(cat==='all'?ARTICLES:ARTICLES.filter(a=>a.cat===cat)).slice().sort((a,b)=>(b.pubTs||0)-(a.pubTs||0));
-  const feat=cat==='all'?list[0]:null;
-  const rest=feat?list.slice(1):list;
-  let out='<div class="section-label">'+CAT_LABELS[cat]+' &mdash; '+list.length+' article'+(list.length!==1?'s':'')+'</div>';
-  if(feat) out+=heroHTML(feat);
-  if(rest.length){
-    const groups = groupByDate(rest);
-    for(const [label, items] of Object.entries(groups)){
-      out += '<div class="date-group"><div class="date-title">'+label+' <span class="date-count">&mdash; '+items.length+' article'+(items.length!==1?'s':'')+'</span></div>';
-      out += '<div class="grid">'+items.map(cardHTML).join('')+'</div></div>';
-    }
+  if(!list.length){fc.innerHTML='<div class="bm-empty"><h3>Aucun article</h3></div>';return}
+  const hero=list[0],rest=list.slice(1);
+  const groups={};rest.forEach(a=>{const l=dateLabel(a.pubTs);if(!groups[l])groups[l]=[];groups[l].push(a)});
+  let h='',isDark=false;
+  // Hero
+  h+='<div class="hero">'
+    +'<img src="'+esc(hero.image)+'" alt="" onerror="this.style.display=\'none\'">'
+    +'<div class="hero-overlay">'
+      +'<div class="hero-cat">'+esc(hero.catLabel)+'</div>'
+      +'<div class="hero-title">'+esc(hero.title)+'</div>'
+      +'<div class="hero-desc">'+esc(hero.excerpt)+'</div>'
+    +'</div></div>';
+  // Sections
+  for(const[l,items]of Object.entries(groups)){
+    const bg=isDark?'white':'light';isDark=!isDark;
+    h+='<section class="'+bg+'"><div class="container"><div class="sec-head"><h3>'+l+'</h3><div class="count">'+items.length+' article'+(items.length>1?'s':'')+'</div></div></div><div class="articles">';
+    items.forEach((a,i)=>{
+      const bc=isBm(a.id)?'bm-star on':'bm-star';
+      if(i===0&&l==='Aujourd\'hui'){
+        h+='<div class="feat" onclick="openPanel(\''+a.id+'\')">'
+          +'<img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'">'
+          +'<div class="feat-body">'
+            +'<div class="cat">'+esc(a.catLabel)+'</div>'
+            +'<h4>'+esc(a.title)+'</h4>'
+            +'<div class="excerpt">'+esc(a.excerpt)+'</div>'
+            +'<div class="meta">'+esc(a.source)+' \u00b7 '+a.date+' <button class="'+bc+'" data-bmid="'+a.id+'" onclick="toggleBm(\''+a.id+'\',event)">\u2606</button></div>'
+          +'</div></div>';
+      }else{
+        h+='<div class="art-row" onclick="openPanel(\''+a.id+'\')">'
+          +'<div class="art-img"><img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'"></div>'
+          +'<div class="art-body">'
+            +'<div class="cat">'+esc(a.catLabel)+'</div>'
+            +'<h4>'+esc(a.title)+'</h4>'
+            +'<div class="excerpt">'+esc(a.excerpt)+'</div>'
+            +'<div class="meta">'+esc(a.source)+' \u00b7 '+a.date+' <button class="'+bc+'" data-bmid="'+a.id+'" onclick="toggleBm(\''+a.id+'\',event)">\u2606</button></div>'
+          +'</div></div>';
+      }
+    });
+    h+='</div></section>';
   }
-  fc.innerHTML=out;
+  fc.innerHTML=h;
 }
 
+function onSearch(q){
+  searchTerm=q.trim().toLowerCase();cat=searchTerm?'search':'all';closePanel();render();
+}
 function renderSearch(fc){
-  const found=ARTICLES.filter(a=>{
-    const t=(a.title+' '+a.excerpt+' '+a.source+' '+a.catLabel).toLowerCase();
-    return t.includes(searchTerm);
-  }).slice().sort((a,b)=>(b.pubTs||0)-(a.pubTs||0));
-  let out='<div class="section-label">Recherche &mdash; '+found.length+' resultat'+(found.length!==1?'s':'')+' pour "'+esc(searchTerm)+'"</div>';
-  if(found.length){
-    const groups = groupByDate(found);
-    for(const [label, items] of Object.entries(groups)){
-      out += '<div class="date-group"><div class="date-title">'+label+'</div>';
-      out += '<div class="grid">'+items.map(cardHTML).join('')+'</div></div>';
-    }
-  }else{
-    out+='<div class="bm-empty">Aucun article ne correspond a votre recherche.</div>';
+  const found=ARTICLES.filter(a=>((a.title||'')+' '+(a.excerpt||'')+' '+a.catLabel).toLowerCase().includes(searchTerm)).sort((a,b)=>(b.pubTs||0)-(a.pubTs||0));
+  if(!found.length){fc.innerHTML='<div class="bm-empty"><h3>Aucun resultat</h3><p>pour "'+esc(searchTerm)+'"</p></div>';return}
+  let h='',isDark=false;const g={};found.forEach(a=>{const l=dateLabel(a.pubTs);if(!g[l])g[l]=[];g[l].push(a)});
+  for(const[l,items]of Object.entries(g)){
+    const bg=isDark?'white':'light';isDark=!isDark;
+    h+='<section class="'+bg+'"><div class="container"><div class="sec-head"><h3>'+l+'</h3><div class="count">'+items.length+' resultat'+(items.length>1?'s':'')+'</div></div></div><div class="articles">';
+    items.forEach(a=>{
+      h+='<div class="art-row" onclick="openPanel(\''+a.id+'\')">'
+        +'<div class="art-img"><img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'"></div>'
+        +'<div class="art-body"><div class="cat">'+esc(a.catLabel)+'</div><h4>'+esc(a.title)+'</h4><div class="excerpt">'+esc(a.excerpt)+'</div><div class="meta">'+esc(a.source)+' \u00b7 '+a.date+'</div></div></div>';
+    });
+    h+='</div></section>';
   }
-  fc.innerHTML=out;
-}
-
-function heroHTML(a){
-  const bmc=isBm(a.id)?'bm-btn on':'bm-btn';
-  return '<div class="hero" onclick="openPanel(\''+a.id+'\')">'
-    +'<div class="hero-img"><img src="'+esc(a.image)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="img-fb" style="display:none">'+esc(a.catLabel)+'</div></div>'
-    +'<div class="hero-body">'
-      +'<div class="hero-cat">'+esc(a.catLabel)+'</div>'
-      +'<div class="hero-title">'+esc(a.title)+'</div>'
-      +'<div class="hero-excerpt">'+esc(a.excerpt)+'</div>'
-      +'<div class="hero-foot">'
-        +'<div style="display:flex;align-items:center;gap:8px">'
-          +'<span class="badge-cat cat-'+a.cat+'">'+a.catLabel+'</span>'
-          +'<span class="rel-tag '+a.reliability+'">'+a.reliabilityLabel+' &middot; '+a.verifiedSources+' source'+(a.verifiedSources>1?'s':'')+'</span>'
-        +'</div>'
-        +'<div style="display:flex;align-items:center;gap:8px">'
-          +'<button class="'+bmc+'" data-bmid="'+a.id+'" onclick="toggleBm(\''+a.id+'\',event)">&#128204;</button>'
-          +'<span class="hero-read">Lire &rarr;</span>'
-        +'</div>'
-      +'</div>'
-    +'</div>'
-  +'</div>';
-}
-
-function cardHTML(a){
-  const bmc=isBm(a.id)?'bm-btn on':'bm-btn';
-  return '<div class="card" onclick="openPanel(\''+a.id+'\')">'
-    +'<div class="card-img"><img src="'+esc(a.image)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
-    +'<div class="img-fb" style="display:none">'+esc(a.catLabel)+'</div></div>'
-    +'<div class="card-body">'
-      +'<div class="card-top">'
-        +'<span class="badge-cat cat-'+a.cat+'">'+a.catLabel+'</span>'
-        +'<button class="'+bmc+'" data-bmid="'+a.id+'" onclick="toggleBm(\''+a.id+'\',event)">&#128204;</button>'
-      +'</div>'
-      +'<div class="card-title">'+esc(a.title)+'</div>'
-      +'<div class="card-excerpt">'+esc(a.excerpt)+'</div>'
-      +'<div class="card-foot"><span>'+a.date+'</span><span class="card-cta">Lire &rarr;</span></div>'
-    +'</div>'
-  +'</div>';
+  fc.innerHTML=h;
 }
 
 function renderBm(fc){
   const saved=ARTICLES.filter(a=>isBm(a.id));
-  if(saved.length){
-    fc.innerHTML='<div class="section-label">Sauvegardes &mdash; '+saved.length+'</div><div class="grid">'+saved.map(cardHTML).join('')+'</div>';
-  }else{
-    fc.innerHTML='<div class="section-label">Sauvegardes &mdash; 0</div><div class="bm-empty">&#128204;<br><br>Aucun article sauvegarde.</div>';
-  }
+  if(!saved.length){fc.innerHTML='<div class="bm-empty"><h3>\u2606</h3><p>Aucun article sauvegarde.</p></div>';return}
+  let h='<section class="light"><div class="container"><div class="sec-head"><h3>Sauvegardes</h3><div class="count">'+saved.length+' article'+(saved.length>1?'s':'')+'</div></div></div><div class="articles">';
+  saved.forEach(a=>{
+    const bc=isBm(a.id)?'bm-star on':'bm-star';
+    h+='<div class="art-row" onclick="openPanel(\''+a.id+'\')">'
+      +'<div class="art-img"><img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'"></div>'
+      +'<div class="art-body"><div class="cat">'+esc(a.catLabel)+'</div><h4>'+esc(a.title)+'</h4><div class="excerpt">'+esc(a.excerpt)+'</div><div class="meta">'+esc(a.source)+' \u00b7 '+a.date+'</div></div></div>';
+  });
+  fc.innerHTML=h+'</div></section>';
 }
-
 // ───── Coupe du Monde 2026 ─────
 const WC_GROUPS = {
   A:{name:'Groupe A',teams:[
@@ -642,49 +606,24 @@ function renderWorldCup(fc){
 }
 
 function openPanel(id){
-  const a=ARTICLES.find(x=>x.id===id);if(!a)return;
-  curId=id;
-  document.querySelectorAll('.active-card').forEach(el=>el.classList.remove('active-card'));
-  const panel=document.getElementById('panel');
-  const layout=document.getElementById('layout');
+  const a=ARTICLES.find(x=>x.id===id);if(!a)return;curId=id;
+  const panel=document.getElementById('panel'),layout=document.getElementById('layout');
   if(!panel||!layout)return;
-  const content = a.body ? a.body : formatContent(a.excerpt);
-  panel.innerHTML=''
-    +'<div class="panel-topbar">'
-      +'<div class="panel-topbar-l">'
-        +'<span class="badge-cat cat-'+a.cat+'">'+a.catLabel+'</span>'
-        +'<span class="rel-tag '+a.reliability+'">'+a.reliabilityLabel+' &mdash; '+a.verifiedSources+' source'+(a.verifiedSources>1?'s':'')+'</span>'
-      +'</div>'
-      +'<div class="panel-actions">'
-        +'<button class="panel-bm'+(isBm(id)?' on':'')+'" id="panelBm" onclick="toggleBm(\''+id+'\',null)">'+(isBm(id)?'Sauvegarde':'Sauvegarder')+'</button>'
-        +'<button class="panel-close" onclick="closePanel()">&#x2715;</button>'
-      +'</div>'
-    +'</div>'
+  panel.innerHTML='<div class="panel-head">'
+    +'<div class="cat" style="margin:0;font-size:.62rem">'+esc(a.catLabel)+'</div>'
+    +'<button class="panel-close" onclick="closePanel()">\u2715</button></div>'
     +'<div class="panel-body">'
-      +'<div class="art-hero-img"><img src="'+esc(a.image)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'"></div>'
-      +'<h1 class="art-title">'+esc(a.title)+'</h1>'
-      +'<div class="art-meta">'
-        +'<span>'+a.date+'</span><span>&middot;</span>'
-        +'<span>'+a.readTime+' de lecture</span><span>&middot;</span>'
-        +'<span>'+esc(a.source)+'</span>'
-      +'</div>'
-      +'<div class="art-content">'+content+'</div>'
-      +'<a class="read-more" href="'+esc(a.url)+'" target="_blank" rel="noopener">Lire l\'article complet &rarr;</a>'
-      +'<div class="annexes">'
-        +'<h3>Source originale</h3>'
-        +'<div class="src-item">'
-          +'<span class="src-num">[1]</span>'
-          +'<div>'
-            +'<span class="src-name">'+esc(a.source)+'</span>'
-            +'<a class="src-url" href="'+esc(a.url)+'" target="_blank" rel="noopener">'+esc(a.url)+'</a>'
-          +'</div>'
-        +'</div>'
-        +'<div class="vfoot">&#10003; Croise sur '+a.verifiedSources+' source'+(a.verifiedSources>1?'s':'')+' avant publication</div>'
+      +'<img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'">'
+      +'<h2>'+esc(a.title)+'</h2>'
+      +'<div class="meta">'+esc(a.source)+' \u00b7 '+a.date+' \u00b7 '+a.readTime+' de lecture</div>'
+      +'<div class="body">'+(a.body||'<p>'+esc(a.excerpt)+'</p>')+'</div>'
+      +'<a class="read" href="'+esc(a.url)+'" target="_blank">Lire l\'article complet \u2192</a>'
+      +'<div class="src-section"><h3>Source originale</h3>'
+        +'<div class="src-item"><span class="src-num">1</span><div><span class="src-name">'+esc(a.source)+'</span><a class="src-url" href="'+esc(a.url)+'">'+esc(a.url)+'</a></div></div>'
       +'</div>'
     +'</div>';
   layout.classList.add('panel-open');
 }
-
 function formatContent(text){
   if(!text)return '';
   const sentences=text.split(/(?<=[.!?])\s+/);
@@ -721,36 +660,26 @@ def generate_html(articles, last_update):
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TechFeed</title>
 <style>{CSS}</style>
 </head>
 <body>
 <header>
-  <div class="logo">&#128240; TechFeed <span>MAGAZINE</span></div>
-  <div class="search-wrap">
-    <input id="searchInput" type="text" placeholder="Rechercher un article..." oninput="searchArticles(this.value)">
-    <button id="searchClear" class="search-clear" onclick="document.getElementById('searchInput').value='';searchArticles('')">&#x2715;</button>
-  </div>
+  <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">Mis a jour le {last_update}</span>
-    <button class="btn-theme" id="themeBtn" onclick="toggleTheme()" title="Theme clair/sombre">&#9728;</button>
-    <button class="btn-bookmarks" onclick="showTab('bookmarks',null)">&#128204; Sauvegardes</button>
+    <span class="upd">{last_update}</span>
+    <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
+    <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
+    <a href="#" onclick="showTab('ia');return false" title="IA">&#129302;</a>
+    <a href="#" onclick="showTab('crypto');return false" title="Crypto">&#8383;</a>
+    <a href="#" onclick="showTab('gaming');return false" title="Jeux">&#127918;</a>
+    <a href="#" onclick="showTab('markets');return false" title="Marchés">&#128200;</a>
+    <a href="#" onclick="showTab('general');return false" title="Général">&#127758;</a>
+    <a href="#" onclick="showTab('worldcup');return false" title="Coupe du Monde">&#9917;</a>
+    <a href="#" id="bmLink" onclick="showTab('bookmarks');return false" title="Sauvegardes">&#11088;</a>
   </div>
 </header>
-<div class="tabs">
-  <div class="tab active" onclick="showTab('all',this)">&#128240; Tout</div>
-  <div class="tab" onclick="showTab('ia',this)">&#129302; IA &amp; Tech</div>
-  <div class="tab" onclick="showTab('crypto',this)">&#8383; Crypto</div>
-  <div class="tab" onclick="showTab('gaming',this)">&#127918; Jeux</div>
-  <div class="tab" onclick="showTab('markets',this)">&#128200; Marches</div>
-  <div class="tab" onclick="showTab('general',this)">&#127758; General</div>
-  <div class="tab" onclick="showTab('science',this)">&#128300; Science</div>
-  <div class="tab" onclick="showTab('dev',this)">&#128187; Dev</div>
-  <div class="tab" onclick="showTab('startups',this)">&#128640; Startups</div>
-  <div class="tab" onclick="showTab('worldcup',this)">&#9917; Coupe du Monde</div>
-  <div class="tab" id="bmTab" onclick="showTab('bookmarks',this)">&#128204; Sauvegardes</div>
-</div>
 <div class="layout" id="layout">
   <div class="feed-col" id="feed"></div>
   <div class="panel-col" id="panel"></div>
