@@ -221,6 +221,28 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 24px;display
 .src-url:hover{text-decoration:underline}
 .vfoot{display:flex;align-items:center;gap:5px;margin-top:10px;font-size:.68rem;color:#15803d;background:#f0fdf4;padding:7px 11px;border-radius:7px}
 .bm-empty{text-align:center;padding:48px;color:#9ca3af}
+.wc-section{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:16px 20px;margin-bottom:14px}
+.wc-section h3{font-size:.82rem;font-weight:700;margin-bottom:10px;color:#111827;display:flex;align-items:center;gap:6px}
+.wc-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.wc-table th{text-align:left;padding:6px 8px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9ca3af;border-bottom:1px solid #e5e7eb}
+.wc-table td{padding:5px 8px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.wc-table tr:last-child td{border-bottom:none}
+.wc-flag{width:22px;height:16px;display:inline-block;border-radius:2px;vertical-align:middle;margin-right:6px}
+.wc-team{font-weight:600;display:flex;align-items:center;gap:5px}
+.wc-pts{font-weight:700;color:#2563eb}
+.wc-qualified{font-size:.62rem;color:#15803d;background:#f0fdf4;padding:1px 6px;border-radius:99px;font-weight:600}
+.wc-eliminated{font-size:.62rem;color:#be123c;background:#fff1f2;padding:1px 6px;border-radius:99px;font-weight:600}
+.wc-score{font-weight:700;font-size:.82rem;min-width:32px;text-align:center}
+.wc-winner{color:#15803d}.wc-draw{color:#9ca3af}
+.wc-time{font-size:.68rem;color:#9ca3af;white-space:nowrap}
+.wc-matchup{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0}
+.wc-matchup .teams{display:flex;align-items:center;gap:8px;flex:1}
+.wc-matchup .teams .vs{color:#9ca3af;font-size:.7rem;font-weight:600;margin:0 4px}
+.wc-poule-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid #e5e7eb}
+.wc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.wc-knockout{font-size:.78rem;line-height:1.6;color:#374151}
+.wc-knockout b{color:#111827}
+@media(max-width:640px){.wc-grid{grid-template-columns:1fr}}
 @media(max-width:1024px){.layout.panel-open .panel-col{width:360px}.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}}
 @media(max-width:768px){.upd{display:none}.layout.panel-open .panel-col{width:100%;position:absolute;inset:0;z-index:10}.layout.panel-open .feed-col{display:none}.hero{grid-template-columns:1fr}.hero-img{height:200px;order:-1}.hero-body{padding:16px}.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}}
 @media(max-width:640px){header{padding:10px 14px;height:52px}.logo h1{font-size:1rem}.view-toggle{display:none}.btn-ghost{padding:5px 9px;font-size:.72rem}.tabs{top:52px;padding:0 8px}.tab{padding:9px 11px;font-size:.76rem}.layout{top:96px}.feed-col{padding:10px}.grid{grid-template-columns:1fr;gap:8px}.card{flex-direction:row;height:110px}.card-img{width:120px;height:110px;flex-shrink:0;border-radius:0}.card-body{padding:9px 11px}.card-title{font-size:.82rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}.card-excerpt{display:none}.hero{grid-template-columns:1fr;min-height:auto}.hero-img{height:170px;order:-1}.hero-body{padding:13px 14px}.hero-title{font-size:1rem}.hero-excerpt{-webkit-line-clamp:2}.bm-btn{font-size:1.1rem;padding:4px 6px}.panel-body{padding:14px 16px 32px}.art-title{font-size:1rem}.art-hero-img img{max-height:200px}.list .card{flex-direction:column;height:auto}.list .card-img{width:100%;height:130px}}
@@ -228,7 +250,7 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 24px;display
 
 JS = r"""
 const ARTICLES = __ARTICLES__;
-const CAT_LABELS = {all:'Toutes les actualites',ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Video',markets:'Marches',general:'General',science:'Science',dev:'Developpement',startups:'Startups',bookmarks:'Sauvegardes',search:'Recherche'};
+const CAT_LABELS = {all:'Toutes les actualites',ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Video',markets:'Marches',general:'General',science:'Science',dev:'Developpement',startups:'Startups',bookmarks:'Sauvegardes',search:'Recherche',worldcup:'Coupe du Monde 2026'};
 let cat='all', curId=null, viewMode='grid', searchTerm='';
 let bm=[];
 try{bm=JSON.parse(localStorage.getItem('tf_bm')||'[]')}catch(e){}
@@ -306,6 +328,7 @@ function render(){
   const fc=document.getElementById('feed');if(!fc)return;
   if(cat==='bookmarks'){renderBm(fc);return;}
   if(cat==='search'){renderSearch(fc);return;}
+  if(cat==='worldcup'){renderWorldCup(fc);return;}
   const list=(cat==='all'?ARTICLES:ARTICLES.filter(a=>a.cat===cat)).slice().sort((a,b)=>(b.pubTs||0)-(a.pubTs||0));
   const feat=cat==='all'&&viewMode==='grid'?list[0]:null;
   const rest=feat?list.slice(1):list;
@@ -388,6 +411,255 @@ function renderBm(fc){
   }else{
     fc.innerHTML='<div class="sec-label">Sauvegardes &mdash; 0</div><div class="bm-empty">&#128204;<br><br>Aucun article sauvegarde.</div>';
   }
+}
+
+// ───── Coupe du Monde 2026 ─────
+const WC_GROUPS = {
+  A:{name:'Groupe A',teams:[
+    {team:'Mexique',flag:'🇲🇽',p:7,gf:4,ga:1},
+    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:3,ga:3},
+    {team:'Republique Tcheque',flag:'🇨🇿',p:2,gf:4,ga:5},
+    {team:'Afrique du Sud',flag:'🇿🇦',p:2,gf:2,ga:4}
+  ]},
+  B:{name:'Groupe B',teams:[
+    {team:'Canada',flag:'🇨🇦',p:7,gf:7,ga:1},
+    {team:'Suisse',flag:'🇨🇭',p:4,gf:5,ga:3},
+    {team:'Bosnie-Herzegovine',flag:'🇧🇦',p:2,gf:3,ga:7},
+    {team:'Qatar',flag:'🇶🇦',p:1,gf:1,ga:8}
+  ]},
+  C:{name:'Groupe C',teams:[
+    {team:'Bresil',flag:'🇧🇷',p:7,gf:6,ga:2},
+    {team:'Maroc',flag:'🇲🇦',p:7,gf:3,ga:1},
+    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:2},
+    {team:'Haiti',flag:'🇭🇹',p:0,gf:0,ga:5}
+  ]},
+  D:{name:'Groupe D',teams:[
+    {team:'Etats-Unis',flag:'🇺🇸',p:9,gf:7,ga:1},
+    {team:'Australie',flag:'🇦🇺',p:3,gf:2,ga:3},
+    {team:'Paraguay',flag:'🇵🇾',p:3,gf:2,ga:5},
+    {team:'Turkiye',flag:'🇹🇷',p:0,gf:0,ga:3}
+  ]},
+  E:{name:'Groupe E',teams:[
+    {team:'Allemagne',flag:'🇩🇪',p:6,gf:9,ga:2},
+    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:3,gf:2,ga:2},
+    {team:'Equateur',flag:'🇪🇨',p:2,gf:0,ga:1},
+    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:7}
+  ]},
+  F:{name:'Groupe F',teams:[
+    {team:'Pays-Bas',flag:'🇳🇱',p:7,gf:9,ga:3},
+    {team:'Japon',flag:'🇯🇵',p:7,gf:6,ga:2},
+    {team:'Suede',flag:'🇸🇪',p:3,gf:6,ga:6},
+    {team:'Tunisie',flag:'🇹🇳',p:0,gf:1,ga:11}
+  ]},
+  G:{name:'Groupe G',teams:[
+    {team:'Egypte',flag:'🇪🇬',p:7,gf:6,ga:3},
+    {team:'Iran',flag:'🇮🇷',p:3,gf:3,ga:4},
+    {team:'Belgique',flag:'🇧🇪',p:3,gf:3,ga:3},
+    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:3,ga:5}
+  ]},
+  H:{name:'Groupe H',teams:[
+    {team:'Espagne',flag:'🇪🇸',p:7,gf:6,ga:0},
+    {team:'Uruguay',flag:'🇺🇾',p:3,gf:4,ga:4},
+    {team:'Cap-Vert',flag:'🇨🇻',p:3,gf:2,ga:4},
+    {team:'Arabie Saoudite',flag:'🇸🇦',p:1,gf:1,ga:5}
+  ]},
+  I:{name:'Groupe I',teams:[
+    {team:'France',flag:'🇫🇷',p:9,gf:8,ga:1,q:'32e'},
+    {team:'Norvege',flag:'🇳🇴',p:6,gf:7,ga:4,q:'32e'},
+    {team:'Senegal',flag:'🇸🇳',p:0,gf:3,ga:6,e:true},
+    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:8,e:true}
+  ]},
+  J:{name:'Groupe J',teams:[
+    {team:'Argentine',flag:'🇦🇷',p:9,gf:7,ga:1,q:'32e'},
+    {team:'Autriche',flag:'🇦🇹',p:3,gf:4,ga:5},
+    {team:'Algerie',flag:'🇩🇿',p:3,gf:2,ga:5},
+    {team:'Jordanie',flag:'🇯🇴',p:0,gf:2,ga:6,e:true}
+  ]},
+  K:{name:'Groupe K',teams:[
+    {team:'Colombie',flag:'🇨🇴',p:9,gf:7,ga:2,q:'32e'},
+    {team:'Portugal',flag:'🇵🇹',p:4,gf:6,ga:2},
+    {team:'RD Congo',flag:'🇨🇩',p:1,gf:4,ga:6},
+    {team:'Ouzbekistan',flag:'🇺🇿',p:0,gf:1,ga:8}
+  ]},
+  L:{name:'Groupe L',teams:[
+    {team:'Angleterre',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',p:4,gf:4,ga:2},
+    {team:'Ghana',flag:'🇬🇭',p:4,gf:1,ga:0},
+    {team:'Croatie',flag:'🇭🇷',p:3,gf:3,ga:4},
+    {team:'Panama',flag:'🇵🇦',p:0,gf:0,ga:2,e:true}
+  ]}
+};
+
+// Résultats des matchs déjà joués (24 juin inclus)
+const WC_MATCHES_DONE = [
+  // Groupe A
+  {g:'A',d:'11 juin',t1:'Mexique',t2:'Afrique du Sud',s1:2,s2:0},
+  {g:'A',d:'11 juin',t1:'Coree du Sud',t2:'Republique Tcheque',s1:2,s2:1},
+  {g:'A',d:'18 juin',t1:'Republique Tcheque',t2:'Afrique du Sud',s1:1,s2:1},
+  {g:'A',d:'18 juin',t1:'Mexique',t2:'Coree du Sud',s1:1,s2:0},
+  {g:'A',d:'24 juin',t1:'Republique Tcheque',t2:'Mexique',s1:2,s2:2},
+  {g:'A',d:'24 juin',t1:'Afrique du Sud',t2:'Coree du Sud',s1:0,s2:1},
+  // Groupe B
+  {g:'B',d:'12 juin',t1:'Canada',t2:'Bosnie-Herzegovine',s1:1,s2:1},
+  {g:'B',d:'13 juin',t1:'Qatar',t2:'Suisse',s1:1,s2:1},
+  {g:'B',d:'18 juin',t1:'Suisse',t2:'Bosnie-Herzegovine',s1:4,s2:1},
+  {g:'B',d:'18 juin',t1:'Canada',t2:'Qatar',s1:6,s2:0},
+  {g:'B',d:'24 juin',t1:'Suisse',t2:'Canada',s1:0,s2:0},
+  {g:'B',d:'24 juin',t1:'Bosnie-Herzegovine',t2:'Qatar',s1:1,s2:0},
+  // Groupe C
+  {g:'C',d:'13 juin',t1:'Bresil',t2:'Maroc',s1:1,s2:1},
+  {g:'C',d:'13 juin',t1:'Haiti',t2:'Ecosse',s1:0,s2:1},
+  {g:'C',d:'19 juin',t1:'Ecosse',t2:'Maroc',s1:0,s2:1},
+  {g:'C',d:'19 juin',t1:'Bresil',t2:'Haiti',s1:3,s2:0},
+  {g:'C',d:'24 juin',t1:'Ecosse',t2:'Bresil',s1:1,s2:1},
+  {g:'C',d:'24 juin',t1:'Maroc',t2:'Haiti',s1:1,s2:0},
+  // Groupe D
+  {g:'D',d:'12 juin',t1:'Etats-Unis',t2:'Paraguay',s1:4,s2:1},
+  {g:'D',d:'13 juin',t1:'Australie',t2:'Turkiye',s1:2,s2:0},
+  {g:'D',d:'19 juin',t1:'Etats-Unis',t2:'Australie',s1:2,s2:0},
+  {g:'D',d:'19 juin',t1:'Turkiye',t2:'Paraguay',s1:0,s2:1},
+  // Groupe E
+  {g:'E',d:'14 juin',t1:'Allemagne',t2:'Curacao',s1:7,s2:1},
+  {g:'E',d:'14 juin',t1:'Cote d\'Ivoire',t2:'Equateur',s1:1,s2:0},
+  {g:'E',d:'20 juin',t1:'Allemagne',t2:'Cote d\'Ivoire',s1:2,s2:1},
+  {g:'E',d:'20 juin',t1:'Equateur',t2:'Curacao',s1:0,s2:0},
+  // Groupe F
+  {g:'F',d:'14 juin',t1:'Pays-Bas',t2:'Japon',s1:2,s2:2},
+  {g:'F',d:'14 juin',t1:'Suede',t2:'Tunisie',s1:5,s2:1},
+  {g:'F',d:'20 juin',t1:'Pays-Bas',t2:'Suede',s1:5,s2:1},
+  {g:'F',d:'20 juin',t1:'Tunisie',t2:'Japon',s1:0,s2:4},
+  // Groupe G
+  {g:'G',d:'15 juin',t1:'Belgique',t2:'Egypte',s1:1,s2:1},
+  {g:'G',d:'15 juin',t1:'Iran',t2:'Nouvelle-Zelande',s1:2,s2:2},
+  {g:'G',d:'21 juin',t1:'Belgique',t2:'Iran',s1:0,s2:0},
+  {g:'G',d:'21 juin',t1:'Nouvelle-Zelande',t2:'Egypte',s1:1,s2:3},
+  // Groupe H
+  {g:'H',d:'15 juin',t1:'Espagne',t2:'Cap-Vert',s1:0,s2:0},
+  {g:'H',d:'15 juin',t1:'Arabie Saoudite',t2:'Uruguay',s1:1,s2:1},
+  {g:'H',d:'21 juin',t1:'Espagne',t2:'Arabie Saoudite',s1:4,s2:0},
+  {g:'H',d:'21 juin',t1:'Uruguay',t2:'Cap-Vert',s1:2,s2:2},
+  // Groupe I
+  {g:'I',d:'16 juin',t1:'France',t2:'Senegal',s1:3,s2:1},
+  {g:'I',d:'16 juin',t1:'Irak',t2:'Norvege',s1:1,s2:4},
+  {g:'I',d:'22 juin',t1:'France',t2:'Irak',s1:3,s2:0},
+  {g:'I',d:'22 juin',t1:'Norvege',t2:'Senegal',s1:3,s2:2},
+  // Groupe J
+  {g:'J',d:'16 juin',t1:'Argentine',t2:'Algerie',s1:3,s2:0},
+  {g:'J',d:'16 juin',t1:'Autriche',t2:'Jordanie',s1:3,s2:1},
+  {g:'J',d:'22 juin',t1:'Argentine',t2:'Autriche',s1:2,s2:0},
+  {g:'J',d:'22 juin',t1:'Jordanie',t2:'Algerie',s1:1,s2:2},
+  // Groupe K
+  {g:'K',d:'17 juin',t1:'Portugal',t2:'RD Congo',s1:1,s2:1},
+  {g:'K',d:'17 juin',t1:'Ouzbekistan',t2:'Colombie',s1:1,s2:3},
+  {g:'K',d:'23 juin',t1:'Portugal',t2:'Ouzbekistan',s1:5,s2:0},
+  {g:'K',d:'23 juin',t1:'Colombie',t2:'RD Congo',s1:1,s2:0},
+  // Groupe L
+  {g:'L',d:'17 juin',t1:'Angleterre',t2:'Croatie',s1:4,s2:2},
+  {g:'L',d:'17 juin',t1:'Ghana',t2:'Panama',s1:1,s2:0},
+  {g:'L',d:'23 juin',t1:'Angleterre',t2:'Ghana',s1:0,s2:0},
+  {g:'L',d:'23 juin',t1:'Panama',t2:'Croatie',s1:0,s2:1}
+];
+
+// Matchs à venir (25 juin - 27 juin)
+const WC_MATCHES_UPCOMING = [
+  {g:'E',d:'25 juin',t1:'Equateur',t2:'Allemagne',h:'16:00'},
+  {g:'E',d:'25 juin',t1:'Curacao',t2:'Cote d\'Ivoire',h:'16:00'},
+  {g:'F',d:'25 juin',t1:'Japon',t2:'Suede',h:'19:00'},
+  {g:'F',d:'25 juin',t1:'Tunisie',t2:'Pays-Bas',h:'19:00'},
+  {g:'D',d:'25 juin',t1:'Turkiye',t2:'Etats-Unis',h:'22:00'},
+  {g:'D',d:'25 juin',t1:'Paraguay',t2:'Australie',h:'22:00'},
+  {g:'I',d:'26 juin',t1:'Norvege',t2:'France',h:'15:00'},
+  {g:'I',d:'26 juin',t1:'Senegal',t2:'Irak',h:'15:00'},
+  {g:'H',d:'26 juin',t1:'Cap-Vert',t2:'Arabie Saoudite',h:'20:00'},
+  {g:'H',d:'26 juin',t1:'Uruguay',t2:'Espagne',h:'20:00'},
+  {g:'G',d:'26 juin',t1:'Egypte',t2:'Iran',h:'23:00'},
+  {g:'G',d:'26 juin',t1:'Nouvelle-Zelande',t2:'Belgique',h:'23:00'},
+  {g:'L',d:'27 juin',t1:'Panama',t2:'Angleterre',h:'17:00'},
+  {g:'L',d:'27 juin',t1:'Croatie',t2:'Ghana',h:'17:00'},
+  {g:'K',d:'27 juin',t1:'Colombie',t2:'Portugal',h:'19:30'},
+  {g:'K',d:'27 juin',t1:'RD Congo',t2:'Ouzbekistan',h:'19:30'},
+  {g:'J',d:'27 juin',t1:'Algerie',t2:'Autriche',h:'22:00'},
+  {g:'J',d:'27 juin',t1:'Jordanie',t2:'Argentine',h:'22:00'}
+];
+
+function renderWorldCup(fc){
+  // Auto-suppression après le 22 juillet 2026
+  const now = new Date();
+  const deadline = new Date('2026-07-23T00:00:00');
+  if(now >= deadline){
+    fc.innerHTML='<div class="bm-empty">&#9917;<br><br>La section Coupe du Monde 2026 a ete archivee.</div>';
+    return;
+  }
+
+  // ── Groupes ──
+  let out = '<div class="sec-label">Coupe du Monde 2026 &mdash; Phases de Groupes</div><div class="wc-grid">';
+  for(const [gk, g] of Object.entries(WC_GROUPS)){
+    out += `<div class="wc-section"><div class="wc-poule-title">${g.name}</div><table class="wc-table"><thead><tr><th>Equipe</th><th style="text-align:center;width:30px">J</th><th style="text-align:center;width:30px">V</th><th style="text-align:center;width:30px">N</th><th style="text-align:center;width:30px">D</th><th style="text-align:center;width:40px">BP</th><th style="text-align:center;width:40px">BC</th><th style="text-align:center;width:30px">+/-</th><th style="text-align:center;width:30px">Pts</th></tr></thead><tbody>`;
+    const sorted = [...g.teams].sort((a,b)=>b.p-a.p || (b.gf-b.ga)-(a.gf-a.ga));
+    for(const t of sorted){
+      const gd = t.gf - t.ga;
+      const gp = Math.round((t.p + gd) / 3 * 2); // approx games played
+      const status = t.q ? '<span class="wc-qualified">Qualifie</span>' : t.e ? '<span class="wc-eliminated">Elimine</span>' : '';
+      out += `<tr><td><span class="wc-team">${t.flag} ${t.team} ${status}</span></td><td style="text-align:center">3</td><td style="text-align:center">${Math.floor(t.p/3)}</td><td style="text-align:center">${t.p%3!==0?1:0}</td><td style="text-align:center">${3-Math.floor(t.p/3)-(t.p%3!==0?1:0)}</td><td style="text-align:center">${t.gf}</td><td style="text-align:center">${t.ga}</td><td style="text-align:center">${gd>0?'+':''}${gd}</td><td style="text-align:center" class="wc-pts">${t.p}</td></tr>`;
+    }
+    out += '</tbody></table></div>';
+  }
+  out += '</div>';
+
+  // ── Phase finale (matchs déjà qualifiés) ──
+  out += '<div class="sec-label">Coupe du Monde 2026 &mdash; Phase Finale</div><div class="wc-section">';
+  out += '<h3>&#127942; Equipes deja qualifiees pour les 32es de finale</h3>';
+  out += '<div class="wc-knockout">';
+  const qualified = [];
+  for(const [gk, g] of Object.entries(WC_GROUPS)){
+    for(const t of g.teams){
+      if(t.q) qualified.push(t.flag+' '+t.team);
+    }
+  }
+  out += '<b>Groupe I :</b> '+qualified.filter(q=>q.includes('France')||q.includes('Norvege')).join(' &middot; ')+'<br>';
+  out += '<b>Groupe J :</b> '+qualified.filter(q=>q.includes('Argentine')||q.includes('Autriche')).join(' &middot; ')+'<br>';
+  out += '<b>Groupe K :</b> '+qualified.filter(q=>q.includes('Colombie')||q.includes('Portugal')).join(' &middot; ')+'<br>';
+  out += `<br><i>Les 32es de finale debutent le 29 juin. Les 16 meilleurs deuxiemes et les 8 meilleurs troisiemes completeront le tableau.</i>`;
+  out += '</div></div>';
+
+  // ── Résultats des matchs ──
+  out += '<div class="sec-label">Matchs Joues</div><div class="wc-grid">';
+  const byGroupD = {};
+  for(const m of WC_MATCHES_DONE){
+    if(!byGroupD[m.g]) byGroupD[m.g] = [];
+    byGroupD[m.g].push(m);
+  }
+  for(const [gk, matches] of Object.entries(byGroupD)){
+    const gname = WC_GROUPS[gk] ? WC_GROUPS[gk].name : 'Groupe '+gk;
+    out += `<div class="wc-section"><div class="wc-poule-title">${gname}</div>`;
+    for(const m of matches){
+      const cls1 = m.s1 > m.s2 ? 'wc-winner' : m.s1 === m.s2 ? 'wc-draw' : '';
+      const cls2 = m.s2 > m.s1 ? 'wc-winner' : m.s2 === m.s1 ? 'wc-draw' : '';
+      out += `<div class="wc-matchup"><div class="teams"><span class="${cls1}">${m.flag1||''} ${m.t1}</span><span class="vs">vs</span><span class="${cls2}">${m.flag2||''} ${m.t2}</span></div><div style="display:flex;align-items:center;gap:6px"><span class="wc-score ${cls1}">${m.s1}</span><span style="color:#9ca3af;font-size:.7rem">-</span><span class="wc-score ${cls2}">${m.s2}</span><span class="wc-time">${m.d}</span></div></div>`;
+    }
+    out += '</div>';
+  }
+  out += '</div>';
+
+  // ── Programme des matchs à venir ──
+  out += '<div class="sec-label">Matchs a Venir</div><div class="wc-grid">';
+  const byGroupU = {};
+  for(const m of WC_MATCHES_UPCOMING){
+    if(!byGroupU[m.g]) byGroupU[m.g] = [];
+    byGroupU[m.g].push(m);
+  }
+  for(const [gk, matches] of Object.entries(byGroupU)){
+    const gname = WC_GROUPS[gk] ? WC_GROUPS[gk].name : 'Groupe '+gk;
+    out += `<div class="wc-section"><div class="wc-poule-title">${gname}</div>`;
+    for(const m of matches){
+      out += `<div class="wc-matchup"><div class="teams"><span>${m.t1}</span><span class="vs">vs</span><span>${m.t2}</span></div><span class="wc-time" style="font-weight:600">${m.d} &middot; ${m.h}</span></div>`;
+    }
+    out += '</div>';
+  }
+  out += '</div>';
+
+  out += '<div class="wc-section" style="text-align:center;color:#9ca3af;font-size:.72rem">Derniere mise a jour : 24 juin 2026 &middot; Les qualifications sont mises a jour au fil des matchs</div>';
+
+  fc.innerHTML = out;
 }
 
 function openPanel(id){
@@ -506,6 +778,7 @@ def generate_html(articles, last_update):
   <div class="tab" onclick="showTab('science',this)">&#128300; Science</div>
   <div class="tab" onclick="showTab('dev',this)">&#128187; Dev</div>
   <div class="tab" onclick="showTab('startups',this)">&#128640; Startups</div>
+  <div class="tab" onclick="showTab('worldcup',this)">&#9917; Coupe du Monde</div>
   <div class="tab" id="bmTab" onclick="showTab('bookmarks',this)">&#128204; Sauvegardes</div>
 </div>
 <div class="layout" id="layout">
