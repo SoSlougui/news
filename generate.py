@@ -441,7 +441,7 @@ const WC_GROUPS = {
   ]},
   E:{name:'Groupe E',teams:[
     {team:'Allemagne',flag:'🇩🇪',p:6,gf:9,ga:2,pl:2},
-    {team:'Cote d\\'Ivoire',flag:'🇨🇮',p:3,gf:2,ga:2,pl:2},
+    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:3,gf:2,ga:2,pl:2},
     {team:'Equateur',flag:'🇪🇨',p:1,gf:0,ga:1,pl:2},
     {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:7,pl:2}
   ]},
@@ -601,8 +601,7 @@ function renderWorldCup(fc){
     const sorted = [...g.teams].sort((a,b)=>b.p-a.p || (b.gf-b.ga)-(a.gf-a.ga));
     for(const t of sorted){
       const gd = t.gf - t.ga;
-      const gp = Math.round((t.p + gd) / 3 * 2); // approx games played
-      const status = t.q ? '<span class="wc-qualified">Qualifie</span>' : t.e ? '<span class="wc-eliminated">Elimine</span>' : '';
+const status = t.q ? '<span class="wc-qualified">Qualifie</span>' : t.e ? '<span class="wc-eliminated">Elimine</span>' : '';
       const gp = t.pl || 3;
       out += `<tr><td><span class="wc-team">${t.flag} ${t.team} ${status}</span></td><td style="text-align:center">${gp}</td><td style="text-align:center">${Math.floor(t.p/3)}</td><td style="text-align:center">${t.p%3!==0?1:0}</td><td style="text-align:center">${gp-Math.floor(t.p/3)-(t.p%3!==0?1:0)}</td><td style="text-align:center">${t.gf}</td><td style="text-align:center">${t.ga}</td><td style="text-align:center">${gd>0?'+':''}${gd}</td><td style="text-align:center" class="wc-pts">${t.p}</td></tr>`;
     }
