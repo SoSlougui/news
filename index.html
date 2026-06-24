@@ -119,7 +119,12 @@ section.white{background:#fff}
 .dark .panel-close{background:rgba(255,255,255,.06);color:#e8e8ec}
 .dark .panel-close:hover{background:rgba(255,255,255,.1)}
 .dark .src-section{border-top-color:rgba(255,255,255,.06)}
+.dark .wc-section{background:#232326;border-color:rgba(255,255,255,.06)}
 .dark .src-name{color:rgba(255,255,255,.5)}
+.dark .wc-card{background:#232326!important;box-shadow:0 0 0 1px rgba(255,255,255,.04)!important}
+.dark .wc-row{border-bottom-color:rgba(255,255,255,.04)!important}
+.dark .wc-text{color:rgba(255,255,255,.45)!important}
+.dark .wc-link{color:#2997ff!important}
 @media(max-width:900px){
 .hero img{height:320px}.hero-title{font-size:1.8rem}.hero-desc{font-size:.9rem}
 .art-row{flex-direction:column;align-items:stretch;gap:14px}.art-img{flex:0 0 auto;height:190px}
@@ -140,7 +145,7 @@ header{padding:0 12px}.upd{display:none}.search-wrap input{width:120px}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">24 June 2026 - 22:27</span>
+    <span class="upd">24 June 2026 - 22:51</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -479,71 +484,62 @@ const WC_MATCHES_UPCOMING = [
 ];
 
 function renderWorldCup(fc){
-  const now = new Date();
-  const deadline = new Date('2026-07-23T00:00:00');
-  if(now >= deadline){
-    fc.innerHTML='<div class="bm-empty">&#9917;<br><br>La section Coupe du Monde 2026 a ete archivee.</div>';
-    return;
-  }
-  let out = '<div class="section-label">Coupe du Monde 2026 &mdash; Phases de Groupes</div><div class="wc-grid">';
-  for(const [gk, g] of Object.entries(WC_GROUPS)){
-    out += '<div class="wc-section"><div class="wc-poule-title">'+g.name+'</div><table class="wc-table"><thead><tr><th>Equipe</th><th style="text-align:center;width:28px">J</th><th style="text-align:center;width:28px">V</th><th style="text-align:center;width:28px">N</th><th style="text-align:center;width:28px">D</th><th style="text-align:center;width:36px">BP</th><th style="text-align:center;width:36px">BC</th><th style="text-align:center;width:28px">+/-</th><th style="text-align:center;width:28px">Pts</th></tr></thead><tbody>';
-    const sorted = [...g.teams].sort((a,b)=>b.p-a.p || (b.gf-b.ga)-(a.gf-a.ga));
-    for(const t of sorted){
-      const gd = t.gf - t.ga;
-      const gp = t.pl || 3;
-      const status = t.q ? '<span class="wc-qualified">Qualifie</span>' : t.e ? '<span class="wc-eliminated">Elimine</span>' : '';
-      out += '<tr><td><span class="wc-team">'+t.flag+' '+t.team+' '+status+'</span></td><td style="text-align:center">'+gp+'</td><td style="text-align:center">'+Math.floor(t.p/3)+'</td><td style="text-align:center">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center">'+t.gf+'</td><td style="text-align:center">'+t.ga+'</td><td style="text-align:center">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center" class="wc-pts">'+t.p+'</td></tr>';
+  var n=new Date();if(n>=new Date('2026-07-23T00:00:00')){fc.innerHTML='<div class="bm-empty"><h3>⚽</h3><p>Section archivée.</p></div>';return}
+  var h='',dk=false;
+
+  // Groupes
+  h+='<section class="light"><div class="container"><div class="sec-head"><h3>Phases de Groupes</h3><div class="count">12 groupes · 3e journée</div></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px">';
+  for(var gk in WC_GROUPS){var g=WC_GROUPS[gk];
+    h+='<div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:rgba(0,0,0,.06)0 1px 3px">';
+    h+='<div class="cat">'+g.name+'</div>';
+    h+='<table style="width:100%;border-collapse:collapse;font-size:.74rem;margin-top:10px">';
+    h+='<tr style="color:rgba(0,0,0,.35);font-size:.58rem;text-transform:uppercase;letter-spacing:.8px"><th style="text-align:left;padding:4px 4px;font-weight:600">Équipe</th><th style="text-align:center;padding:4px 2px;font-weight:600">J</th><th style="text-align:center;padding:4px 2px;font-weight:600">V</th><th style="text-align:center;padding:4px 2px;font-weight:600">N</th><th style="text-align:center;padding:4px 2px;font-weight:600">D</th><th style="text-align:center;padding:4px 2px;font-weight:600">+/-</th><th style="text-align:center;padding:4px 2px;font-weight:600;color:#0071e3">Pts</th></tr>';
+    var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});
+    for(var i=0;i<s.length;i++){var t=s[i],gp=t.pl||2,gd=t.gf-t.ga,st=t.q?'<span style="font-size:.55rem;color:#059669;margin-left:3px">Q</span>':t.e?'<span style="font-size:.55rem;color:#dc2626;margin-left:3px">E</span>':'';
+      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:5px 4px;font-weight:600;font-size:.72rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:5px 2px">'+gp+'</td><td style="text-align:center;padding:5px 2px">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:5px 2px">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:5px 2px">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:5px 2px">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:5px 2px;font-weight:700;color:#0071e3">'+t.p+'</td></tr>';
     }
-    out += '</tbody></table></div>';
+    h+='</table></div>';
   }
-  out += '</div>';
+  h+='</div></section>';
 
-  out += '<div class="section-label">Coupe du Monde 2026 &mdash; Phase Finale</div><div class="wc-section">';
-  out += '<h3>&#127942; 16es de finale</h3>';
-  out += '<div class="wc-knockout">';
-  out += '<i>Les 16es de finale debutent le 29 juin. Les 12 premiers de groupe, les 12 deuxiemes et les 8 meilleurs troisiemes composeront le tableau. Les derniers matchs de groupes se jouent du 24 au 27 juin.</i>';
-  out += '</div></div>';
+  // Phase Finale
+  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin</div></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px"><p style="color:rgba(0,0,0,.45);line-height:1.7;font-size:.88rem;text-align:center;max-width:600px;margin:0 auto">Les 12 premiers de groupe, les 12 deuxièmes et les 8 meilleurs troisièmes composeront le tableau des 16es de finale.</p></div></section>';
 
-  out += '<div class="section-label">Matchs Joues</div><div class="wc-grid">';
-  const byGroupD = {};
-  for(const m of WC_MATCHES_DONE){
-    if(!byGroupD[m.g]) byGroupD[m.g] = [];
-    byGroupD[m.g].push(m);
-  }
-  for(const [gk, matches] of Object.entries(byGroupD)){
-    const gname = WC_GROUPS[gk] ? WC_GROUPS[gk].name : 'Groupe '+gk;
-    out += '<div class="wc-section"><div class="wc-poule-title">'+gname+'</div>';
-    for(const m of matches){
-      const cls1 = m.s1 > m.s2 ? 'wc-winner' : m.s1 === m.s2 ? 'wc-draw' : '';
-      const cls2 = m.s2 > m.s1 ? 'wc-winner' : m.s2 === m.s1 ? 'wc-draw' : '';
-      out += '<div class="wc-matchup"><div class="teams"><span class="'+cls1+'">'+(m.flag1||'')+' '+m.t1+'</span><span class="vs">vs</span><span class="'+cls2+'">'+(m.flag2||'')+' '+m.t2+'</span></div><div style="display:flex;align-items:center;gap:5px"><span class="wc-score '+cls1+'">'+m.s1+'</span><span style="color:var(--text3);font-size:.68rem">-</span><span class="wc-score '+cls2+'">'+m.s2+'</span><span class="wc-time">'+m.d+'</span></div></div>';
+  // Matchs Joués
+  h+='<section class="light"><div class="container"><div class="sec-head"><h3>Matchs Joués</h3></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:6px">';
+  var bd={};for(var i=0;i<WC_MATCHES_DONE.length;i++){var m=WC_MATCHES_DONE[i];if(!bd[m.g])bd[m.g]=[];bd[m.g].push(m)}
+  for(var gk in bd){var matches=bd[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:'Groupe '+gk;
+    h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
+    for(var j=0;j<matches.length;j++){var m=matches[j],c1=m.s1>m.s2?'#059669':m.s1===m.s2?'rgba(0,0,0,.4)':'',c2=m.s2>m.s1?'#059669':m.s2===m.s1?'rgba(0,0,0,.4)':'';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
+      +'<span><span style="font-weight:'+(m.s1>m.s2?'700':'400')+';color:'+c1+'">'+m.t1+'</span> <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> <span style="font-weight:'+(m.s2>m.s1?'700':'400')+';color:'+c2+'">'+m.t2+'</span></span>'
+      +'<span style="font-size:.78rem;display:flex;align-items:center;gap:4px"><b style="color:'+c1+'">'+m.s1+'</b><span style="color:rgba(0,0,0,.2)">-</span><b style="color:'+c2+'">'+m.s2+'</b><span style="color:rgba(0,0,0,.25);font-size:.66rem;margin-left:6px">'+m.d+'</span></span></div>';
     }
-    out += '</div>';
+    h+='</div>';
   }
-  out += '</div>';
+  h+='</div></section>';
 
-  out += '<div class="section-label">Matchs a Venir</div><div class="wc-grid">';
-  const byGroupU = {};
-  for(const m of WC_MATCHES_UPCOMING){
-    if(!byGroupU[m.g]) byGroupU[m.g] = [];
-    byGroupU[m.g].push(m);
-  }
-  for(const [gk, matches] of Object.entries(byGroupU)){
-    const gname = WC_GROUPS[gk] ? WC_GROUPS[gk].name : 'Groupe '+gk;
-    out += '<div class="wc-section"><div class="wc-poule-title">'+gname+'</div>';
-    for(const m of matches){
-      out += '<div class="wc-matchup"><div class="teams"><span>'+m.t1+'</span><span class="vs">vs</span><span>'+m.t2+'</span></div><span class="wc-time" style="font-weight:600">'+m.d+' &middot; '+m.h+'</span></div>';
+  // Matchs à Venir
+  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Matchs à Venir</h3></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:6px">';
+  var bu={};for(var i=0;i<WC_MATCHES_UPCOMING.length;i++){var m=WC_MATCHES_UPCOMING[i];if(!bu[m.g])bu[m.g]=[];bu[m.g].push(m)}
+  for(var gk in bu){var matches=bu[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:'Groupe '+gk;
+    h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
+    for(var j=0;j<matches.length;j++){var m=matches[j];
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
+      +'<span>'+m.t1+' <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> '+m.t2+'</span>'
+      +'<span style="font-weight:600;font-size:.74rem;color:#0071e3">'+m.d+' · '+m.h+'</span></div>';
     }
-    out += '</div>';
+    h+='</div>';
   }
-  out += '</div>';
+  h+='</div></section>';
 
-  out += '<div class="wc-section" style="text-align:center;color:var(--text3);font-size:.7rem">Derniere mise a jour : 24 juin 2026 &middot; Les qualifications sont mises a jour au fil des matchs</div>';
-
-  fc.innerHTML = out;
+  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 24 juin 2026</div>';
+  fc.innerHTML=h;
 }
-
 function openPanel(id){
   const a=ARTICLES.find(x=>x.id===id);if(!a)return;curId=id;
   const panel=document.getElementById('panel'),layout=document.getElementById('layout');
