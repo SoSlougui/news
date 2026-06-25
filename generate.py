@@ -291,11 +291,12 @@ section{padding:48px 0}
 .sec-head h3{font-size:1.7rem}
 }
 @media(min-width:1024px){
-.layout{display:flex}
-.feed-col{flex:1;min-width:0}
+.layout{display:flex;height:calc(100vh - 48px)}
+.feed-col{flex:1;min-width:0;overflow-y:auto}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s}
 .layout.panel-open .feed-col{display:block}
-.layout.panel-open .panel-col{width:540px;display:block}
+.layout.panel-open .panel-col{width:540px;display:block;overflow-y:auto}
+.panel-body{overflow-y:auto;padding:24px 28px 48px}
 }
 """
 

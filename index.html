@@ -80,11 +80,12 @@ section{padding:48px 0}
 .sec-head h3{font-size:1.7rem}
 }
 @media(min-width:1024px){
-.layout{display:flex}
-.feed-col{flex:1;min-width:0}
+.layout{display:flex;height:calc(100vh - 48px)}
+.feed-col{flex:1;min-width:0;overflow-y:auto}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s}
 .layout.panel-open .feed-col{display:block}
-.layout.panel-open .panel-col{width:540px;display:block}
+.layout.panel-open .panel-col{width:540px;display:block;overflow-y:auto}
+.panel-body{overflow-y:auto;padding:24px 28px 48px}
 }
 </style>
 </head>
@@ -92,7 +93,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">25 June 2026 - 13:24</span>
+    <span class="upd">25 June 2026 - 13:33</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
