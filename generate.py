@@ -326,6 +326,7 @@ section{padding:48px 0}
 /* Panel latéral (défaut) */
 .panel-col{overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);order:-1}
 .layout.panel-open .panel-col{width:540px;overflow-y:auto}
+.layout.panel-open .feed-col{display:block}
 
 /* Panel overlay (optionnel — via .panel-overlay) */
 .layout.panel-overlay .panel-col{position:fixed;top:48px;left:0;right:0;bottom:0;width:90%;max-width:1200px;margin:0 auto;z-index:50;overflow:hidden;border-radius:16px 16px 0 0;box-shadow:0 20px 80px rgba(0,0,0,.25);transform:translateY(24px) scale(.97);opacity:0;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s cubic-bezier(.4,0,.2,1);pointer-events:none}
