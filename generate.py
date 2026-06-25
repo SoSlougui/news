@@ -233,7 +233,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(245,245,247,.95);displa
 /* Layout — simple block flow */
 .layout{width:100%}
 .feed-col{width:100%}
-.panel-col{display:none}
+.panel-col{display:none;background:#fff}
 .layout.panel-open .feed-col{display:none}
 .layout.panel-open .panel-col{display:block;width:100%}
 
@@ -278,7 +278,7 @@ section.light{background:#f5f5f7}
 .backdrop{display:none}
 @media(min-width:1024px){
 .backdrop{display:none;position:fixed;top:48px;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:40;opacity:0;transition:opacity .4s cubic-bezier(.4,0,.2,1);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
-.layout.panel-open .backdrop{display:block;opacity:1}
+.layout.panel-overlay.panel-open .backdrop{display:block;opacity:1}
 }
 
 /* Smooth transitions */
@@ -318,18 +318,22 @@ section{padding:48px 0}
 .sec-head h3{font-size:1.7rem}
 }
 @media(min-width:1024px){
-/* Layout — side by side */
+/* Layout */
 .layout{display:flex;height:calc(100vh - 48px)}
 .feed-col{flex:1;min-width:0;overflow-y:auto;transition:filter .35s cubic-bezier(.4,0,.2,1)}
 .panel-head{top:0}
 
-/* Panel — overlay avec flou */
-.panel-col{position:fixed;top:48px;left:0;right:0;bottom:0;width:100%;max-width:780px;margin:0 auto;background:#fff;z-index:50;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.25);transform:translateY(24px) scale(.97);opacity:0;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s cubic-bezier(.4,0,.2,1),box-shadow .4s ease;pointer-events:none;border-radius:16px 16px 0 0}
-.layout.panel-open .panel-col{transform:translateY(0) scale(1);opacity:1;overflow-y:auto;pointer-events:auto}
-.layout.panel-open .feed-col{filter:blur(5px);pointer-events:none;user-select:none}
+/* Panel latéral (défaut) */
+.panel-col{overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);order:-1}
+.layout.panel-open .panel-col{width:540px;overflow-y:auto}
 
-/* Panel body scroll */
-.panel-body{overflow-y:auto;padding:24px 32px 64px}
+/* Panel overlay (optionnel — via .panel-overlay) */
+.layout.panel-overlay .panel-col{position:fixed;top:48px;left:0;right:0;bottom:0;width:90%;max-width:1200px;margin:0 auto;z-index:50;overflow:hidden;border-radius:16px 16px 0 0;box-shadow:0 20px 80px rgba(0,0,0,.25);transform:translateY(24px) scale(.97);opacity:0;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.layout.panel-overlay.panel-open .panel-col{transform:translateY(0) scale(1);opacity:1;overflow-y:auto;pointer-events:auto}
+.layout.panel-overlay.panel-open .feed-col{filter:blur(5px);pointer-events:none;user-select:none}
+
+/* Panel body */
+.panel-body{overflow-y:auto;padding:24px 28px 48px}
 }
 """
 
@@ -719,7 +723,9 @@ function openPanel(id){
   if(!panel||!layout)return;
   panel.innerHTML='<div class="panel-head">'
     +'<div class="cat" style="margin:0;font-size:.62rem">'+esc(a.catLabel)+'</div>'
-    +'<button class="panel-close" onclick="closePanel()">\u2715</button></div>'
+    +'<div style="display:flex;gap:6px;align-items:center">'
+    +'<button class="panel-close" onclick="toggleOverlay()" title="Plein écran" style="font-size:.85rem">\u26F6</button>'
+    +'<button class="panel-close" onclick="closePanel()">\u2715</button></div></div>'
     +'<div class="panel-body">'
       +'<img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'">'
       +'<h2>'+esc(a.title)+'</h2>'
@@ -746,9 +752,15 @@ function formatContent(text){
 
 function closePanel(){
   curId=null;
-  document.getElementById('layout').classList.remove('panel-open');
+  document.getElementById('layout').classList.remove('panel-open','panel-overlay');
   document.getElementById('panel').innerHTML='';
   document.querySelectorAll('.active-card').forEach(el=>el.classList.remove('active-card'));
+}
+function toggleOverlay(){
+  const lay=document.getElementById('layout');
+  lay.classList.toggle('panel-overlay');
+  const btn=document.querySelector('.panel-head button[onclick*=\"toggleOverlay\"]');
+  if(btn)btn.textContent=lay.classList.contains('panel-overlay')?'\u26F6':'⛶';
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
