@@ -109,7 +109,6 @@ def build_articles_json(articles):
             "catLabel":        a.get("catLabel", CAT_LABELS.get(a["cat"], "")),
             "title":           a["title"],
             "excerpt":         a.get("desc", ""),
-            "body":            a.get("body", ""),
             "image":           a["image"],
             "url":             a["url"],
             "source":          a["source"],
@@ -121,6 +120,19 @@ def build_articles_json(articles):
             "verifiedSources": a.get("verifiedSources", 1),
         })
     raw = json.dumps(items, ensure_ascii=True)
+    raw = raw.replace('</script>', '<\\/script>').replace('<!--', '<\\!--')
+    return raw
+
+
+def build_bodies_json(articles):
+    """Articles bodies, loaded separately to keep main JS light."""
+    bodies = {}
+    for a in articles:
+        bid = a.get("id", slug(a["title"]))
+        body = a.get("body", "")
+        if body:
+            bodies[bid] = body
+    raw = json.dumps(bodies, ensure_ascii=True)
     raw = raw.replace('</script>', '<\\/script>').replace('<!--', '<\\!--')
     return raw
 
@@ -661,7 +673,7 @@ function openPanel(id){
       +'<img src="'+esc(a.image)+'" alt="" onerror="this.style.display=\'none\'">'
       +'<h2>'+esc(a.title)+'</h2>'
       +'<div class="meta">'+esc(a.source)+' \u00b7 '+a.date+' \u00b7 '+a.readTime+' de lecture</div>'
-      +'<div class="body">'+(a.body||'<p>'+esc(a.excerpt)+'</p>')+'</div>'
+      +'<div class="body">'+((BODIES||{})[a.id]||'<p>'+esc(a.excerpt)+'</p>')+'</div>'
       +'<a class="read" href="'+esc(a.url)+'" target="_blank">Lire l\'article complet \u2192</a>'
       +'<div class="src-section"><h3>Source originale</h3>'
         +'<div class="src-item"><span class="src-num">1</span><div><span class="src-name">'+esc(a.source)+'</span><a class="src-url" href="'+esc(a.url)+'">'+esc(a.url)+'</a></div></div>'
@@ -699,7 +711,8 @@ try{render();}catch(e){
 
 def generate_html(articles, last_update):
     articles_json = build_articles_json(articles)
-    js = JS.replace("__ARTICLES__", articles_json)
+    bodies_json = build_bodies_json(articles)
+    js_core = JS.replace("__ARTICLES__", articles_json)
 
     return f"""<!DOCTYPE html>
 <html lang="fr">
@@ -730,7 +743,8 @@ def generate_html(articles, last_update):
   <div class="feed-col" id="feed"></div>
   <div class="panel-col" id="panel"></div>
 </div>
-<script>{js}</script>
+<script>{js_core}</script>
+<script defer>const BODIES = {bodies_json};</script>
 </body>
 </html>"""
 
