@@ -271,7 +271,21 @@ section.light{background:#f5f5f7}
 
 /* Panel — Apple style */
 .panel-head{position:sticky;top:48px;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(0,0,0,.06);min-height:48px}
-.panel-close{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.04);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:#1d1d1f}
+.panel-close{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.04);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:#1d1d1f;transition:background .2s}
+.panel-close:hover{background:rgba(0,0,0,.08)}
+
+/* Backdrop overlay — desktop only */
+.backdrop{display:none}
+@media(min-width:1024px){
+.backdrop{display:none;position:fixed;top:48px;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:40;opacity:0;transition:opacity .4s cubic-bezier(.4,0,.2,1);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.layout.panel-open .backdrop{display:block;opacity:1}
+}
+
+/* Smooth transitions */
+.feed-col{transition:filter .35s cubic-bezier(.4,0,.2,1)}
+.hright a{transition:opacity .2s,color .2s,background .2s}
+.art-row{transition:opacity .2s}
+.art-row:hover{opacity:.7}
 .panel-body{padding:20px}
 .panel-body img{width:100%;border-radius:12px;margin-bottom:20px;display:block}
 .panel-body h2{font-size:1.4rem;font-weight:700;line-height:1.15;color:#1d1d1f;margin-bottom:8px}
@@ -286,7 +300,6 @@ section.light{background:#f5f5f7}
 .src-name{font-weight:600;color:rgba(0,0,0,.55)}
 .src-url{color:#0071e3;text-decoration:none;font-size:.68rem;word-break:break-all;display:block;margin-top:2px}
 
-/* Desktop improvements */
 @media(min-width:768px){
 header{padding:0 22px}
 .hero img{height:380px}
@@ -305,12 +318,18 @@ section{padding:48px 0}
 .sec-head h3{font-size:1.7rem}
 }
 @media(min-width:1024px){
+/* Layout — side by side */
 .layout{display:flex;height:calc(100vh - 48px)}
-.feed-col{flex:1;min-width:0;overflow-y:auto}
-.panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s;order:-1}
+.feed-col{flex:1;min-width:0;overflow-y:auto;transition:filter .35s cubic-bezier(.4,0,.2,1)}
 .panel-head{top:0}
-.layout.panel-open .feed-col{display:block}
-.layout.panel-open .panel-col{width:540px;display:block;overflow-y:auto}
+
+/* Panel — overlay avec flou */
+.panel-col{position:fixed;top:48px;left:0;right:0;bottom:0;width:100%;max-width:780px;margin:0 auto;background:#fff;z-index:50;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.25);transform:translateY(24px) scale(.97);opacity:0;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s cubic-bezier(.4,0,.2,1),box-shadow .4s ease;pointer-events:none;border-radius:16px 16px 0 0}
+.layout.panel-open .panel-col{transform:translateY(0) scale(1);opacity:1;overflow-y:auto;pointer-events:auto}
+.layout.panel-open .feed-col{filter:blur(5px);pointer-events:none;user-select:none}
+
+/* Panel body scroll */
+.panel-body{overflow-y:auto;padding:24px 32px 64px}
 }
 """
 
@@ -770,6 +789,7 @@ def generate_html(articles, last_update):
 <div class="layout" id="layout">
   <div class="feed-col" id="feed">{feed_html}</div>
   <div class="panel-col" id="panel"></div>
+  <div class="backdrop" id="backdrop" onclick="closePanel()"></div>
 </div>
 <script>{js_core}</script>
 <script defer>const BODIES = {bodies_json};</script>
