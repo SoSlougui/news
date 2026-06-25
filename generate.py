@@ -270,7 +270,7 @@ section.light{background:#f5f5f7}
 .art-body .meta{font-size:.7rem;opacity:.36;margin-top:4px}
 
 /* Panel — Apple style */
-.panel-head{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(0,0,0,.06)}
+.panel-head{position:sticky;top:48px;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(0,0,0,.06);min-height:48px}
 .panel-close{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.04);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:#1d1d1f}
 .panel-body{padding:20px}
 .panel-body img{width:100%;border-radius:12px;margin-bottom:20px;display:block}
@@ -308,6 +308,7 @@ section{padding:48px 0}
 .layout{display:flex;height:calc(100vh - 48px)}
 .feed-col{flex:1;min-width:0;overflow-y:auto}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s;order:-1}
+.panel-head{top:0}
 .layout.panel-open .feed-col{display:block}
 .layout.panel-open .panel-col{width:540px;display:block;overflow-y:auto}
 }
