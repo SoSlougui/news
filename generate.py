@@ -218,7 +218,7 @@ def build_feed_html(articles, is_home=True):
 CSS = """/* Apple-inspired */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f5f7;color:#1d1d1f;-webkit-font-smoothing:antialiased;overflow-y:auto;overflow-x:hidden;padding-top:48px}
-header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rgba(245,245,247,.72);backdrop-filter:saturate(180%)blur(20px);-webkit-backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(0,0,0,.08)}
+header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rgba(245,245,247,.92);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(0,0,0,.08)}
 .logo{font-size:.85rem;font-weight:700;color:#1d1d1f;display:flex;align-items:center;gap:6px}
 .logo em{font-style:normal;font-size:.48rem;background:#0071e3;color:#fff;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.5px}
 .hright{display:flex;align-items:center;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;flex-shrink:1;min-width:0}
@@ -232,16 +232,15 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rg
 .search-wrap input::placeholder{color:rgba(0,0,0,.4)}
 .upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px;white-space:nowrap}
 
-.tabs{display:none}
-.layout{display:flex;min-height:0}
-.feed-col{flex:1;min-width:0}
+.layout{display:block;padding-top:48px}
+.feed-col{width:100%}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;order:-1;box-shadow:-20px 0 60px rgba(0,0,0,.15);z-index:200}
 .layout.panel-open .panel-col{width:540px}
 
-/* Hero — dark immersive */
-.hero{background:#000;color:#fff;position:relative;overflow:hidden}
-.hero img{width:100%;height:380px;object-fit:cover;opacity:.72}
-.hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:0 0 56px 0;max-width:800px;margin:0 auto;text-align:center}
+/* Hero */
+.hero{background:#000;color:#fff;padding-bottom:40px}
+.hero img{width:100%;height:380px;object-fit:cover;opacity:.72;display:block}
+.hero-overlay{padding:0 24px 24px;text-align:center}
 .hero-cat{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;opacity:.55;margin-bottom:10px}
 .hero-title{font-size:2.2rem;font-weight:700;line-height:1.07;letter-spacing:-.28px;margin-bottom:10px}
 .hero-desc{font-size:.9rem;line-height:1.47;opacity:.75;max-width:560px;margin:0 auto}
@@ -347,8 +346,9 @@ section{padding:48px 0}.sec-head h3{font-size:1.6rem}
 @media(max-width:600px){
 header{padding:0 10px}.logo{font-size:.78rem}.upd{display:none}.search-wrap input{width:100px;font-size:.7rem}
 .hright{gap:2px}.hright a,.hright button{width:32px;height:32px;font-size:.82rem}
-.hero img{height:220px}.hero-overlay{padding:0 0 24px 0}.hero-title{font-size:1.2rem;padding:0 16px}
+.hero img{height:220px}.hero-title{font-size:1.2rem;padding:0 16px}
 .hero-desc{font-size:.82rem;padding:0 16px}
+.hero-overlay{padding:0 16px 20px}
 .art-img{height:140px}.art-body h4{font-size:1.05rem}
 .container,.articles{padding:0 14px}.sec-head h3{font-size:1.35rem}
 section{padding:36px 0}
@@ -358,7 +358,7 @@ section{padding:36px 0}
 @media(max-width:400px){
 .search-wrap input{width:80px}.logo{font-size:.72rem}.logo em{font-size:.42rem;padding:1px 5px}
 .hright a,.hright button{width:28px;height:28px;font-size:.75rem}
-.hero img{height:180px}.hero-title{font-size:1.05rem}
+.hero img{height:180px}.hero-title{font-size:1.05rem}.hero-overlay{padding:0 12px 16px}
 }
 """
 
