@@ -232,8 +232,9 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rg
 .search-wrap input::placeholder{color:rgba(0,0,0,.4)}
 .upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px;white-space:nowrap}
 
-.layout{display:block}
-.feed-col{width:100%}
+.tabs{display:none}
+.layout{display:flex;min-height:0}
+.feed-col{flex:1;min-width:0}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;order:-1;box-shadow:-20px 0 60px rgba(0,0,0,.15);z-index:200}
 .layout.panel-open .panel-col{width:540px}
 

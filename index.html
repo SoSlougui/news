@@ -21,8 +21,9 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rg
 .search-wrap input::placeholder{color:rgba(0,0,0,.4)}
 .upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px;white-space:nowrap}
 
-.layout{display:block}
-.feed-col{width:100%}
+.tabs{display:none}
+.layout{display:flex;min-height:0}
+.feed-col{flex:1;min-width:0}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;order:-1;box-shadow:-20px 0 60px rgba(0,0,0,.15);z-index:200}
 .layout.panel-open .panel-col{width:540px}
 
@@ -155,7 +156,7 @@ section{padding:36px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">25 June 2026 - 12:37</span>
+    <span class="upd">25 June 2026 - 12:41</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
