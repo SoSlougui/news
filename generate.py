@@ -127,23 +127,24 @@ def build_articles_json(articles):
 
 CSS = """/* Apple-inspired */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f5f7;color:#1d1d1f;-webkit-font-smoothing:antialiased;overflow:hidden}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f5f7;color:#1d1d1f;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-y:auto;min-height:100dvh}
 header{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;background:rgba(245,245,247,.72);backdrop-filter:saturate(180%)blur(20px);-webkit-backdrop-filter:saturate(180%)blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(0,0,0,.08)}
 .logo{font-size:.85rem;font-weight:700;color:#1d1d1f;display:flex;align-items:center;gap:6px}
 .logo em{font-style:normal;font-size:.48rem;background:#0071e3;color:#fff;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.5px}
-.hright{display:flex;align-items:center;gap:4px}
-.hright a,.hright button{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;text-decoration:none;color:#1d1d1f;font-size:.9rem;opacity:.6;transition:all .2s;border:none;background:none;cursor:pointer}
+.hright{display:flex;align-items:center;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;flex-shrink:1;min-width:0}
+.hright::-webkit-scrollbar{display:none}
+.hright a,.hright button{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;text-decoration:none;color:#1d1d1f;font-size:.9rem;opacity:.6;transition:all .2s;border:none;background:none;cursor:pointer;flex-shrink:0}
 .hright a:hover,.hright button:hover{opacity:1;background:rgba(0,0,0,.04)}
 .hright a.active,.hright button.active{opacity:1;color:#0071e3}
-.search-wrap{display:flex;align-items:center;margin:0 8px}
-.search-wrap input{border:none;background:rgba(0,0,0,.04);border-radius:8px;padding:5px 10px;font-size:.75rem;color:#1d1d1f;outline:none;width:180px;font-family:inherit}
+.search-wrap{display:flex;align-items:center;margin:0 4px;flex-shrink:0}
+.search-wrap input{border:none;background:rgba(0,0,0,.04);border-radius:8px;padding:5px 10px;font-size:.75rem;color:#1d1d1f;outline:none;width:150px;font-family:inherit}
 .search-wrap input:focus{background:rgba(0,0,0,.06)}
 .search-wrap input::placeholder{color:rgba(0,0,0,.4)}
-.upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px}
+.upd{font-size:.7rem;color:rgba(0,0,0,.4);margin-right:8px;white-space:nowrap}
 
 .tabs{display:none}
-.layout{display:flex;position:fixed;top:48px;left:0;right:0;bottom:0}
-.feed-col{flex:1;overflow-y:auto;min-width:0}
+.layout{display:flex;margin-top:48px;min-height:calc(100dvh - 48px)}
+.feed-col{flex:1;overflow-y:auto;min-width:0;-webkit-overflow-scrolling:touch}
 .panel-col{width:0;overflow:hidden;background:#fff;transition:width .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;order:-1;box-shadow:-20px 0 60px rgba(0,0,0,.15);z-index:200}
 .layout.panel-open .panel-col{width:540px}
 
@@ -254,11 +255,20 @@ section{padding:48px 0}.sec-head h3{font-size:1.6rem}
 .feat img{height:240px}.feat-body{padding:20px 24px}.feat-body h4{font-size:1.25rem}
 }
 @media(max-width:600px){
-header{padding:0 12px}.upd{display:none}.search-wrap input{width:120px}
-.hero img{height:240px}.hero-overlay{padding:0 0 32px 0}.hero-title{font-size:1.3rem}
-.art-img{height:150px}.art-body h4{font-size:1.1rem}
-.container,.articles{padding:0 16px}
-.panel-body{padding:20px 18px 48px}
+header{padding:0 10px}.logo{font-size:.78rem}.upd{display:none}.search-wrap input{width:100px;font-size:.7rem}
+.hright{gap:2px}.hright a,.hright button{width:32px;height:32px;font-size:.82rem}
+.hero img{height:220px}.hero-overlay{padding:0 0 24px 0}.hero-title{font-size:1.2rem;padding:0 16px}
+.hero-desc{font-size:.82rem;padding:0 16px}
+.art-img{height:140px}.art-body h4{font-size:1.05rem}
+.container,.articles{padding:0 14px}.sec-head h3{font-size:1.35rem}
+section{padding:36px 0}
+.panel-body{padding:18px 14px 48px}.panel-body h2{font-size:1.35rem}
+.feat{margin-bottom:28px;border-radius:14px}.feat img{height:190px}.feat-body{padding:16px 18px}.feat-body h4{font-size:1.15rem}
+}
+@media(max-width:400px){
+.search-wrap input{width:80px}.logo{font-size:.72rem}.logo em{font-size:.42rem;padding:1px 5px}
+.hright a,.hright button{width:28px;height:28px;font-size:.75rem}
+.hero img{height:180px}.hero-title{font-size:1.05rem}
 }
 """
 
