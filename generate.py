@@ -137,6 +137,84 @@ def build_bodies_json(articles):
     return raw
 
 
+def build_feed_html(articles, is_home=True):
+    """Pre-render the all-articles feed HTML so content is visible without JS.
+    Mirrors the JS render() function logic."""
+    if not articles:
+        return '<div class="bm-empty"><h3>Aucun article</h3></div>'
+
+    if not is_home:
+        cat_articles = [a for a in articles if a.get("cat") == is_home]
+    else:
+        cat_articles = articles
+
+    cat_articles.sort(key=lambda a: a.get("pubTs", 0), reverse=True)
+    hero = cat_articles[0]
+    rest = cat_articles[1:]
+
+    from datetime import datetime as dt
+    now = dt.now()
+
+    def date_label(ts):
+        if not ts:
+            return "Plus ancien"
+        d = dt.fromtimestamp(ts)
+        diff = (now - d).days
+        if diff == 0:
+            return "Aujourd'hui"
+        if diff == 1:
+            return "Hier"
+        if diff < 7:
+            return "Cette semaine"
+        return d.strftime("%d %B")
+
+    groups = {}
+    for a in rest:
+        lbl = date_label(a.get("pubTs", 0))
+        groups.setdefault(lbl, []).append(a)
+
+    def esc(s):
+        return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    h = ""
+    h += '<div class="hero">'
+    h += '<img src="' + esc(hero.get("image", "")) + '" alt="" onerror="this.style.display=\'none\'">'
+    h += '<div class="hero-overlay">'
+    h += '<div class="hero-cat">' + esc(hero.get("catLabel", "")) + '</div>'
+    h += '<div class="hero-title">' + esc(hero.get("title", "")) + '</div>'
+    h += '<div class="hero-desc">' + esc(hero.get("excerpt", "")) + '</div>'
+    h += '</div></div>'
+
+    is_dark = False
+    for lbl, items in groups.items():
+        bg = "white" if is_dark else "light"
+        is_dark = not is_dark
+        h += '<section class="' + bg + '"><div class="container"><div class="sec-head"><h3>' + lbl + '</h3><div class="count">' + str(len(items)) + ' article' + ('s' if len(items) > 1 else '') + '</div></div></div><div class="articles">'
+        for i, a in enumerate(items):
+            aid = a.get("id", "")
+            if i == 0 and lbl == "Aujourd'hui":
+                h += '<div class="feat" onclick="openPanel(\'' + aid + '\')">'
+                h += '<img src="' + esc(a.get("image", "")) + '" alt="" onerror="this.style.display=\'none\'">'
+                h += '<div class="feat-body">'
+                h += '<div class="cat">' + esc(a.get("catLabel", "")) + '</div>'
+                h += '<h4>' + esc(a.get("title", "")) + '</h4>'
+                h += '<div class="excerpt">' + esc(a.get("excerpt", "")) + '</div>'
+                h += '<div class="meta">' + esc(a.get("source", "")) + ' · ' + a.get("date", "") + '</div>'
+                h += '</div></div>'
+            else:
+                h += '<div class="art-row" onclick="openPanel(\'' + aid + '\')">'
+                h += '<div class="art-img"><img src="' + esc(a.get("image", "")) + '" alt="" onerror="this.style.display=\'none\'"></div>'
+                h += '<div class="art-body">'
+                h += '<div class="cat">' + esc(a.get("catLabel", "")) + '</div>'
+                h += '<h4>' + esc(a.get("title", "")) + '</h4>'
+                h += '<div class="excerpt">' + esc(a.get("excerpt", "")) + '</div>'
+                h += '<div class="meta">' + esc(a.get("source", "")) + ' · ' + a.get("date", "") + '</div>'
+                h += '</div></div>'
+        h += '</div></section>'
+
+    return h
+
+
 CSS = """/* Apple-inspired */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f5f5f7;color:#1d1d1f;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-y:auto;min-height:100dvh}
@@ -301,12 +379,14 @@ const saveBm=()=>{try{localStorage.setItem('tf_bm',JSON.stringify(bm))}catch(e){
 const isBm=id=>bm.includes(id);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-// Theme
-(function(){
-  if(localStorage.theme==='dark') document.body.classList.add('dark');
-  const tb=document.getElementById('themeBtn');
-  if(tb)tb.textContent=document.body.classList.contains('dark')?'\u263e':'\u2600';
-})();
+// Initialisation sans render() — le HTML est pré-rendu côté serveur
+var tb=document.getElementById('themeBtn');
+if(tb&&localStorage.theme==='dark'){document.body.classList.add('dark');tb.textContent='\\u263e';}
+try{bm=JSON.parse(localStorage.getItem('tf_bm')||'[]')}catch(e){}
+// Appliquer les bookmarks sur les étoiles existantes
+document.querySelectorAll('[data-bmid]').forEach(function(el){
+  if(bm.includes(el.getAttribute('data-bmid')))el.classList.add('on');
+});
 
 function toggleTheme(){
   document.body.classList.toggle('dark');
@@ -701,17 +781,13 @@ function closePanel(){
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
-try{render();}catch(e){
-  console.error(e);
-  const fc=document.getElementById('feed');
-  if(fc)fc.innerHTML='<div style="padding:40px;text-align:center;color:#ef4444">Erreur: '+e.message+'</div>';
-}
 """
 
 
 def generate_html(articles, last_update):
     articles_json = build_articles_json(articles)
     bodies_json = build_bodies_json(articles)
+    feed_html = build_feed_html(articles)
     js_core = JS.replace("__ARTICLES__", articles_json)
 
     return f"""<!DOCTYPE html>
@@ -740,7 +816,7 @@ def generate_html(articles, last_update):
   </div>
 </header>
 <div class="layout" id="layout">
-  <div class="feed-col" id="feed"></div>
+  <div class="feed-col" id="feed">{feed_html}</div>
   <div class="panel-col" id="panel"></div>
 </div>
 <script>{js_core}</script>
