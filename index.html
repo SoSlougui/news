@@ -131,7 +131,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">26 June 2026 - 07:04</span>
+    <span class="upd">26 June 2026 - 07:13</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -321,40 +321,40 @@ function renderBm(fc){
 // ───── Coupe du Monde 2026 ─────
 const WC_GROUPS = {
   A:{name:'Groupe A',teams:[
-    {team:'Mexique',flag:'🇲🇽',p:4,gf:3,ga:0,pl:2},
-    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:2,ga:2,pl:2},
-    {team:'Republique Tcheque',flag:'🇨🇿',p:1,gf:2,ga:3,pl:2},
-    {team:'Afrique du Sud',flag:'🇿🇦',p:1,gf:1,ga:3,pl:2}
+    {team:'Mexique',flag:'🇲🇽',p:7,gf:6,ga:0,pl:3},
+    {team:'Afrique du Sud',flag:'🇿🇦',p:4,gf:2,ga:3,pl:3},
+    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:2,ga:3,pl:3},
+    {team:'Republique Tcheque',flag:'🇨🇿',p:1,gf:2,ga:6,pl:3}
   ]},
   B:{name:'Groupe B',teams:[
-    {team:'Canada',flag:'🇨🇦',p:4,gf:7,ga:1,pl:2},
-    {team:'Suisse',flag:'🇨🇭',p:4,gf:5,ga:2,pl:2},
-    {team:'Bosnie-Herzegovine',flag:'🇧🇦',p:1,gf:2,ga:5,pl:2},
-    {team:'Qatar',flag:'🇶🇦',p:1,gf:1,ga:7,pl:2}
+    {team:'Suisse',flag:'🇨🇭',p:7,gf:7,ga:3,pl:3},
+    {team:'Canada',flag:'🇨🇦',p:4,gf:8,ga:3,pl:3},
+    {team:'Bosnie-Herzegovine',flag:'🇧🇦',p:4,gf:5,ga:6,pl:3},
+    {team:'Qatar',flag:'🇶🇦',p:1,gf:2,ga:10,pl:3}
   ]},
   C:{name:'Groupe C',teams:[
-    {team:'Bresil',flag:'🇧🇷',p:4,gf:4,ga:1,pl:2},
-    {team:'Maroc',flag:'🇲🇦',p:4,gf:2,ga:1,pl:2},
-    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:1,pl:2},
-    {team:'Haiti',flag:'🇭🇹',p:0,gf:0,ga:4,pl:2}
+    {team:'Bresil',flag:'🇧🇷',p:7,gf:7,ga:1,pl:3},
+    {team:'Maroc',flag:'🇲🇦',p:7,gf:6,ga:3,pl:3},
+    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:4,pl:3},
+    {team:'Haiti',flag:'🇭🇹',p:0,gf:2,ga:8,pl:3}
   ]},
   D:{name:'Groupe D',teams:[
-    {team:'Etats-Unis',flag:'🇺🇸',p:6,gf:6,ga:1,pl:2},
-    {team:'Australie',flag:'🇦🇺',p:3,gf:2,ga:2,pl:2},
-    {team:'Paraguay',flag:'🇵🇾',p:3,gf:2,ga:4,pl:2},
-    {team:'Turkiye',flag:'🇹🇷',p:0,gf:0,ga:3,pl:2}
+    {team:'Etats-Unis',flag:'🇺🇸',p:6,gf:8,ga:4,pl:3},
+    {team:'Australie',flag:'🇦🇺',p:4,gf:2,ga:2,pl:3},
+    {team:'Paraguay',flag:'🇵🇾',p:4,gf:2,ga:4,pl:3},
+    {team:'Turkiye',flag:'🇹🇷',p:3,gf:3,ga:5,pl:3}
   ]},
   E:{name:'Groupe E',teams:[
-    {team:'Allemagne',flag:'🇩🇪',p:6,gf:9,ga:2,pl:2},
-    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:3,gf:2,ga:2,pl:2},
-    {team:'Equateur',flag:'🇪🇨',p:1,gf:0,ga:1,pl:2},
-    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:7,pl:2}
+    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:6,gf:4,ga:2,pl:3},
+    {team:'Allemagne',flag:'🇩🇪',p:6,gf:10,ga:4,pl:3},
+    {team:'Equateur',flag:'🇪🇨',p:4,gf:2,ga:2,pl:3},
+    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:9,pl:3}
   ]},
   F:{name:'Groupe F',teams:[
-    {team:'Pays-Bas',flag:'🇳🇱',p:4,gf:7,ga:3,pl:2},
-    {team:'Japon',flag:'🇯🇵',p:4,gf:6,ga:2,pl:2},
-    {team:'Suede',flag:'🇸🇪',p:3,gf:6,ga:6,pl:2},
-    {team:'Tunisie',flag:'🇹🇳',p:0,gf:1,ga:9,pl:2}
+    {team:'Pays-Bas',flag:'🇳🇱',p:7,gf:10,ga:4,pl:3},
+    {team:'Japon',flag:'🇯🇵',p:5,gf:7,ga:3,pl:3},
+    {team:'Suede',flag:'🇸🇪',p:4,gf:7,ga:7,pl:3},
+    {team:'Tunisie',flag:'🇹🇳',p:0,gf:2,ga:12,pl:3}
   ]},
   G:{name:'Groupe G',teams:[
     {team:'Egypte',flag:'🇪🇬',p:4,gf:4,ga:2,pl:2},
@@ -442,22 +442,22 @@ const WC_MATCHES_DONE = [
   {g:'L',d:'17 juin',t1:'Angleterre',t2:'Croatie',s1:4,s2:2},
   {g:'L',d:'17 juin',t1:'Ghana',t2:'Panama',s1:1,s2:0},
   {g:'L',d:'23 juin',t1:'Angleterre',t2:'Ghana',s1:0,s2:0},
-  {g:'L',d:'23 juin',t1:'Panama',t2:'Croatie',s1:0,s2:1}
+  {g:'L',d:'23 juin',t1:'Panama',t2:'Croatie',s1:0,s2:1},
+  {g:'A',d:'24 juin',t1:'Republique Tcheque',t2:'Mexique',s1:0,s2:3},
+  {g:'A',d:'24 juin',t1:'Afrique du Sud',t2:'Coree du Sud',s1:1,s2:0},
+  {g:'B',d:'24 juin',t1:'Suisse',t2:'Canada',s1:2,s2:1},
+  {g:'B',d:'24 juin',t1:'Bosnie-Herzegovine',t2:'Qatar',s1:3,s2:1},
+  {g:'C',d:'24 juin',t1:'Ecosse',t2:'Bresil',s1:0,s2:3},
+  {g:'C',d:'24 juin',t1:'Maroc',t2:'Haiti',s1:4,s2:2},
+  {g:'E',d:'25 juin',t1:'Equateur',t2:'Allemagne',s1:2,s2:1},
+  {g:'E',d:'25 juin',t1:'Curacao',t2:'Cote d\'Ivoire',s1:0,s2:2},
+  {g:'F',d:'25 juin',t1:'Japon',t2:'Suede',s1:1,s2:1},
+  {g:'F',d:'25 juin',t1:'Tunisie',t2:'Pays-Bas',s1:1,s2:3},
+  {g:'D',d:'25 juin',t1:'Turkiye',t2:'Etats-Unis',s1:3,s2:2},
+  {g:'D',d:'25 juin',t1:'Paraguay',t2:'Australie',s1:0,s2:0}
 ];
 
 const WC_MATCHES_UPCOMING = [
-  {g:'A',d:'24 juin',t1:'Republique Tcheque',t2:'Mexique',h:'21:00'},
-  {g:'A',d:'24 juin',t1:'Afrique du Sud',t2:'Coree du Sud',h:'21:00'},
-  {g:'B',d:'24 juin',t1:'Suisse',t2:'Canada',h:'15:00'},
-  {g:'B',d:'24 juin',t1:'Bosnie-Herzegovine',t2:'Qatar',h:'15:00'},
-  {g:'C',d:'24 juin',t1:'Ecosse',t2:'Bresil',h:'18:00'},
-  {g:'C',d:'24 juin',t1:'Maroc',t2:'Haiti',h:'18:00'},
-  {g:'E',d:'25 juin',t1:'Equateur',t2:'Allemagne',h:'16:00'},
-  {g:'E',d:'25 juin',t1:'Curacao',t2:'Cote d\'Ivoire',h:'16:00'},
-  {g:'F',d:'25 juin',t1:'Japon',t2:'Suede',h:'19:00'},
-  {g:'F',d:'25 juin',t1:'Tunisie',t2:'Pays-Bas',h:'19:00'},
-  {g:'D',d:'25 juin',t1:'Turkiye',t2:'Etats-Unis',h:'22:00'},
-  {g:'D',d:'25 juin',t1:'Paraguay',t2:'Australie',h:'22:00'},
   {g:'I',d:'26 juin',t1:'Norvege',t2:'France',h:'15:00'},
   {g:'I',d:'26 juin',t1:'Senegal',t2:'Irak',h:'15:00'},
   {g:'H',d:'26 juin',t1:'Cap-Vert',t2:'Arabie Saoudite',h:'20:00'},
