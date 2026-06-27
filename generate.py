@@ -560,7 +560,7 @@ const WC_GROUPS = {
   I:{name:'Groupe I',teams:[
     {team:'France',flag:'🇫🇷',p:9,gf:10,ga:2,pl:3},
     {team:'Norvege',flag:'🇳🇴',p:6,gf:8,ga:7,pl:3},
-    {team:'Senegal',flag:'🇸🇳',p:3,gf:8,ga:5,pl:3},
+    {team:'Senegal',flag:'🇸🇳',p:3,gf:8,ga:6,pl:3},
     {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:12,pl:3}
   ]},
   J:{name:'Groupe J',teams:[
