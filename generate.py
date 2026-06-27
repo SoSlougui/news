@@ -546,22 +546,22 @@ const WC_GROUPS = {
     {team:'Tunisie',flag:'🇹🇳',p:0,gf:2,ga:12,pl:3}
   ]},
   G:{name:'Groupe G',teams:[
-    {team:'Egypte',flag:'🇪🇬',p:4,gf:4,ga:2,pl:2},
-    {team:'Iran',flag:'🇮🇷',p:2,gf:2,ga:2,pl:2},
-    {team:'Belgique',flag:'🇧🇪',p:2,gf:1,ga:1,pl:2},
-    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:3,ga:5,pl:2}
+    {team:'Belgique',flag:'🇧🇪',p:5,gf:6,ga:2,pl:3},
+    {team:'Egypte',flag:'🇪🇬',p:5,gf:5,ga:3,pl:3},
+    {team:'Iran',flag:'🇮🇷',p:3,gf:3,ga:3,pl:3},
+    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:4,ga:10,pl:3}
   ]},
   H:{name:'Groupe H',teams:[
-    {team:'Espagne',flag:'🇪🇸',p:4,gf:4,ga:0,pl:2},
-    {team:'Uruguay',flag:'🇺🇾',p:2,gf:3,ga:3,pl:2},
-    {team:'Cap-Vert',flag:'🇨🇻',p:2,gf:2,ga:2,pl:2},
-    {team:'Arabie Saoudite',flag:'🇸🇦',p:1,gf:1,ga:5,pl:2}
+    {team:'Espagne',flag:'🇪🇸',p:7,gf:5,ga:0,pl:3},
+    {team:'Cap-Vert',flag:'🇨🇻',p:3,gf:2,ga:2,pl:3},
+    {team:'Uruguay',flag:'🇺🇾',p:2,gf:3,ga:4,pl:3},
+    {team:'Arabie Saoudite',flag:'🇸🇦',p:2,gf:1,ga:5,pl:3}
   ]},
   I:{name:'Groupe I',teams:[
-    {team:'France',flag:'🇫🇷',p:6,gf:6,ga:1,pl:2},
-    {team:'Norvege',flag:'🇳🇴',p:3,gf:6,ga:5,pl:2},
-    {team:'Senegal',flag:'🇸🇳',p:0,gf:3,ga:6,pl:2},
-    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:7,pl:2}
+    {team:'France',flag:'🇫🇷',p:9,gf:10,ga:2,pl:3},
+    {team:'Norvege',flag:'🇳🇴',p:6,gf:8,ga:7,pl:3},
+    {team:'Senegal',flag:'🇸🇳',p:3,gf:8,ga:5,pl:3},
+    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:12,pl:3}
   ]},
   J:{name:'Groupe J',teams:[
     {team:'Argentine',flag:'🇦🇷',p:6,gf:5,ga:1,pl:2},
@@ -643,16 +643,16 @@ const WC_MATCHES_DONE = [
   {g:'F',d:'25 juin',t1:'Japon',t2:'Suede',s1:1,s2:1},
   {g:'F',d:'25 juin',t1:'Tunisie',t2:'Pays-Bas',s1:1,s2:3},
   {g:'D',d:'25 juin',t1:'Turkiye',t2:'Etats-Unis',s1:3,s2:2},
-  {g:'D',d:'25 juin',t1:'Paraguay',t2:'Australie',s1:0,s2:0}
+  {g:'D',d:'25 juin',t1:'Paraguay',t2:'Australie',s1:0,s2:0},
+  {g:'I',d:'26 juin',t1:'Norvege',t2:'France',s1:1,s2:4},
+  {g:'I',d:'26 juin',t1:'Senegal',t2:'Irak',s1:5,s2:0},
+  {g:'H',d:'26 juin',t1:'Cap-Vert',t2:'Arabie Saoudite',s1:0,s2:0},
+  {g:'H',d:'26 juin',t1:'Uruguay',t2:'Espagne',s1:0,s2:1},
+  {g:'G',d:'26 juin',t1:'Egypte',t2:'Iran',s1:1,s2:1},
+  {g:'G',d:'26 juin',t1:'Nouvelle-Zelande',t2:'Belgique',s1:1,s2:5}
 ];
 
 const WC_MATCHES_UPCOMING = [
-  {g:'I',d:'26 juin',t1:'Norvege',t2:'France',h:'15:00'},
-  {g:'I',d:'26 juin',t1:'Senegal',t2:'Irak',h:'15:00'},
-  {g:'H',d:'26 juin',t1:'Cap-Vert',t2:'Arabie Saoudite',h:'20:00'},
-  {g:'H',d:'26 juin',t1:'Uruguay',t2:'Espagne',h:'20:00'},
-  {g:'G',d:'26 juin',t1:'Egypte',t2:'Iran',h:'23:00'},
-  {g:'G',d:'26 juin',t1:'Nouvelle-Zelande',t2:'Belgique',h:'23:00'},
   {g:'L',d:'27 juin',t1:'Panama',t2:'Angleterre',h:'17:00'},
   {g:'L',d:'27 juin',t1:'Croatie',t2:'Ghana',h:'17:00'},
   {g:'K',d:'27 juin',t1:'Colombie',t2:'Portugal',h:'19:30'},
@@ -715,7 +715,7 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 24 juin 2026</div>';
+  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 26 juin 2026</div>';
   fc.innerHTML=h;
 }
 function openPanel(id){
