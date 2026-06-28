@@ -335,6 +335,46 @@ section{padding:48px 0}
 
 /* Panel body */
 .panel-body{overflow-y:auto;padding:24px 28px 48px}
+
+/* Bracket Phase Finale */
+.bwrap{display:flex;gap:16px;justify-content:center;overflow-x:auto;padding:10px 8px;margin:0 auto;max-width:1100px}
+.bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
+.bhlbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0071e3;margin-bottom:12px}
+.brow{display:flex;align-items:center;gap:2px;margin-bottom:8px}
+.bcol{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
+.blbl{text-align:center;font-size:8px;font-weight:600;color:rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.barr{min-width:20px;text-align:center;font-size:14px;color:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.bm{background:#fff;border-radius:6px;padding:4px 7px;border:1px solid rgba(0,0,0,.06);min-height:36px;display:flex;flex-direction:column;justify-content:center;gap:0;box-shadow:0 1px 2px rgba(0,0,0,.03);font-size:10px;min-width:105px}
+.bm .bt{font-weight:500;color:rgba(0,0,0,.55);white-space:nowrap;line-height:1.5}
+.bm .bt:first-child{font-weight:700;color:#1d1d1f}
+.bfinal{background:linear-gradient(135deg,#0a0a0a,#1a1a1a);color:#fff;border-radius:14px;padding:16px 32px;text-align:center;max-width:420px;margin:24px auto 12px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.bfstars{font-size:11px;letter-spacing:3px;color:#f5a623;margin-bottom:4px}
+.bflbl{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:4px}
+.bfteams{font-size:15px;font-weight:700}
+.bfinfo{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px}
+.bthird{background:#fff;border-radius:10px;padding:10px 20px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:350px;margin:0 auto}
+.btlbl{font-size:9px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.btteams{font-size:13px;font-weight:600;margin-top:3px;color:rgba(0,0,0,.45)}
+
+@media(max-width:900px){
+  .bwrap{flex-direction:column;align-items:center}
+  .bhalf{min-width:100%}
+  .bm{font-size:9px;min-width:90px}
+  .bcol{min-width:95px}
+  .bfinal{padding:12px 20px}
+  .bfteams{font-size:13px}
+}
+}
+
+/* Dark mode */
+.dark .bm{background:#232326;border-color:rgba(255,255,255,.06)}
+.dark .bm .bt{color:rgba(255,255,255,.5)}
+.dark .bm .bt:first-child{color:#e8e8ec}
+.dark .barr{color:rgba(255,255,255,.1)}
+.dark .blbl{color:rgba(255,255,255,.25)}
+.dark .bthird{background:#232326;border-color:rgba(255,255,255,.06)}
+.dark .btteams{color:rgba(255,255,255,.45)}
+.dark .bfinal{background:linear-gradient(135deg,#1a1a1a,#2a2a2a)}
 }
 """
 
@@ -682,15 +722,48 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  // Phase Finale
-  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 3 juillet</div></div></div>';
-  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px">';
-  h+='<p style="color:rgba(0,0,0,.45);line-height:1.7;font-size:.88rem;text-align:center;max-width:700px;margin:0 auto 24px">Les phases de groupes sont terminées ! Les 12 premiers, 12 deuxièmes et 8 meilleurs troisièmes sont qualifiés pour les 16<sup>es</sup> de finale.</p>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:.72rem;margin-bottom:24px">';
-  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#059669">1<sup>ers</sup> de groupe</div><div style="line-height:1.7">🇲🇽&nbsp;Mexique · 🇨🇭&nbsp;Suisse · 🇧🇷&nbsp;Brésil · 🇺🇸&nbsp;États-Unis · 🇨🇮&nbsp;Côte&nbsp;d\'Ivoire · 🇳🇱&nbsp;Pays-Bas · 🇧🇪&nbsp;Belgique · 🇪🇸&nbsp;Espagne · 🇫🇷&nbsp;France · 🇦🇷&nbsp;Argentine · 🇨🇴&nbsp;Colombie · 🏴󠁧󠁢󠁥󠁮󠁧󠁿&nbsp;Angleterre</div></div>';
-  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#0071e3">2<sup>es</sup> de groupe</div><div style="line-height:1.7">🇿🇦&nbsp;Afrique&nbsp;du&nbsp;Sud · 🇨🇦&nbsp;Canada · 🇲🇦&nbsp;Maroc · 🇦🇺&nbsp;Australie · 🇩🇪&nbsp;Allemagne · 🇯🇵&nbsp;Japon · 🇪🇬&nbsp;Égypte · 🇨🇻&nbsp;Cap-Vert · 🇳🇴&nbsp;Norvège · 🇦🇹&nbsp;Autriche · 🇵🇹&nbsp;Portugal · 🇭🇷&nbsp;Croatie</div></div>';
-  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#b45309">Meilleurs 3<sup>es</sup></div><div style="line-height:1.7">🇨🇩&nbsp;RD&nbsp;Congo · 🇸🇪&nbsp;Suède · 🇪🇨&nbsp;Équateur · 🇬🇭&nbsp;Ghana · 🇧🇦&nbsp;Bosnie · 🇩🇿&nbsp;Algérie · 🇵🇾&nbsp;Paraguay · 🇸🇳&nbsp;Sénégal</div></div>';
-  h+='</div></div></section>';
+  // Phase Finale — Bracket V4
+  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
+  h+='<p style="color:rgba(0,0,0,.45);font-size:.88rem;text-align:center;max-width:700px;margin:0 auto 24px">Les 12 premiers, 12 deuxièmes et 8 meilleurs troisièmes s\'affrontent en élimination directe.</p>';
+  
+  // Flags mapping
+  var FL={Mexique:'🇲🇽','Coree du Sud':'🇰🇷','Republique Tcheque':'🇨🇿','Afrique du Sud':'🇿🇦',Canada:'🇨🇦',Suisse:'🇨🇭','Bosnie-Herzegovine':'🇧🇦',Qatar:'🇶🇦',Bresil:'🇧🇷',Maroc:'🇲🇦',Ecosse:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',Haiti:'🇭🇹','Etats-Unis':'🇺🇸',Australie:'🇦🇺',Paraguay:'🇵🇾',Turkiye:'🇹🇷',Allemagne:'🇩🇪','Cote d\'Ivoire':'🇨🇮',Equateur:'🇪🇨',Curacao:'🇨🇼','Pays-Bas':'🇳🇱',Japon:'🇯🇵',Suede:'🇸🇪',Tunisie:'🇹🇳',Egypte:'🇪🇬',Iran:'🇮🇷',Belgique:'🇧🇪','Nouvelle-Zelande':'🇳🇿',Espagne:'🇪🇸',Uruguay:'🇺🇾','Cap-Vert':'🇨🇻','Arabie Saoudite':'🇸🇦',Norvege:'🇳🇴',France:'🇫🇷',Senegal:'🇸🇳',Irak:'🇮🇶',Colombie:'🇨🇴',Portugal:'🇵🇹','RD Congo':'🇨🇩',Ouzbekistan:'🇺🇿',Angleterre:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',Croatie:'🇭🇷',Ghana:'🇬🇭',Panama:'🇵🇦',Argentine:'🇦🇷',Jordanie:'🇯🇴',Algerie:'🇩🇿',Autriche:'🇦🇹'};
+  function fg(n){return (FL[n]||'')+' '+n;}
+  
+  function bracketMatch(t1,t2){return '<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}
+  function bracketCol(label,matches){var h='<div class="bcol"><div class="blbl">'+label+'</div>';for(var i=0;i<matches.length;i++)h+=matches[i];return h+'</div>';}
+  function arrow(){return '<div class="barr">→</div>';}
+  
+  h+='<div class="bwrap">';
+  // Moitié Haute
+  h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div><div class="brow">';
+  h+=bracketCol('16es',[bracketMatch(fg('1er A'),fg('2e B')),bracketMatch(fg('1er C'),fg('2e D'))]);
+  h+=arrow()+bracketCol('8es',[bracketMatch('Vainqueur','')]);
+  h+=arrow()+bracketCol('Quart',[bracketMatch('Vainqueur','')]);
+  h+='</div><div class="brow">';
+  h+=bracketCol('',[bracketMatch(fg('1er E'),fg('2e F')),bracketMatch(fg('1er G'),fg('2e H'))]);
+  h+=arrow()+bracketCol('',[bracketMatch('Vainqueur','')]);
+  h+=arrow()+bracketCol('Demi',[bracketMatch('Finaliste','')]);
+  h+='</div></div>';
+  
+  // Moitié Basse
+  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div><div class="brow">';
+  h+=bracketCol('16es',[bracketMatch(fg('1er B'),fg('2e A')),bracketMatch(fg('1er D'),fg('2e C'))]);
+  h+=arrow()+bracketCol('8es',[bracketMatch('Vainqueur','')]);
+  h+=arrow()+bracketCol('Quart',[bracketMatch('Vainqueur','')]);
+  h+='</div><div class="brow">';
+  h+=bracketCol('',[bracketMatch(fg('1er F'),fg('2e E')),bracketMatch(fg('1er H'),fg('2e G'))]);
+  h+=arrow()+bracketCol('',[bracketMatch('Vainqueur','')]);
+  h+=arrow()+bracketCol('Demi',[bracketMatch('Finaliste','')]);
+  h+='</div></div>';
+  h+='</div>';
+  
+  // Finale
+  h+='<div class="bfinal"><div class="bfstars">★ ★ ★ ★ ★</div><div class="bflbl">🏆 FINALE · 19 juillet</div><div class="bfteams">Vainqueur Moitié Haute — Vainqueur Moitié Basse</div><div class="bfinfo">MetLife Stadium · East Rutherford, NJ</div></div>';
+  
+  // 3e place
+  h+='<div class="bthird"><div class="btlbl">🥉 Match pour la 3ᵉ place · 18 juillet</div><div class="btteams">Perdant Demi Haute — Perdant Demi Basse</div></div>';
+  h+='</section>';
 
   // Matchs Joués
   h+='<section class="light"><div class="container"><div class="sec-head"><h3>Matchs Joués</h3></div></div>';
