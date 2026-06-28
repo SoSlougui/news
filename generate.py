@@ -726,51 +726,55 @@ function renderWorldCup(fc){
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet · Heure de Paris</div></div></div>';
   h+='<p style="text-align:center;color:rgba(0,0,0,.45);font-size:.82rem;margin-bottom:20px">32 qualifiés · Défilez horizontalement pour voir la suite →</p>';
   
-  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g||!g.teams||!g.teams[pos])return'?';return(g.teams[pos].flag||'')+' '+g.teams[pos].team;}
-  function mb(t1,t2,date,hour,mid){
-    return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div>'
-    +'<div class="komatch" id="ko-'+mid+'"><div class="koteam kotop">'+t1+'</div>'
-    +'<div class="koteam">'+t2+'</div></div></div>';
-  }
-  function mbf(mid){return'<div class="kobox"><div class="kodate">&nbsp;</div><div class="komatch koidle" id="ko-'+mid+'"><div class="koidletext">Vainqueur<br>match '+mid+'</div></div></div>';}
-  function mbf(mid,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+mid+'</div></div></div>';}
-  
+  // REAL match data from touteleurope.eu (Paris time)
   var k16=[
-    ['A',0,'B',1,'30 juin','03:00',1],['C',0,'D',1,'30 juin','06:00',2],
-    ['E',0,'F',1,'30 juin','09:00',3],['G',0,'H',1,'30 juin','21:00',4],
-    ['B',0,'A',1,'1 juil.','00:00',5],['D',0,'C',1,'1 juil.','03:00',6],
-    ['F',0,'E',1,'1 juil.','06:00',7],['H',0,'G',1,'1 juil.','09:00',8]
+    ['28 juin','21h00','🇿🇦 Afrique du Sud','🇨🇦 Canada'],
+    ['29 juin','19h00','🇧🇷 Brésil','🇯🇵 Japon'],
+    ['29 juin','22h30','🇩🇪 Allemagne','🇵🇾 Paraguay'],
+    ['30 juin','03h00','🇳🇱 Pays-Bas','🇲🇦 Maroc'],
+    ['30 juin','19h00','🇨🇮 Côte d\'Ivoire','🇳🇴 Norvège'],
+    ['30 juin','23h00','🇫🇷 France','🇸🇪 Suède'],
+    ['1 juil.','03h00','🇲🇽 Mexique','🇪🇨 Équateur'],
+    ['1 juil.','18h00','🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre','🇨🇩 RD Congo'],
+    ['1 juil.','22h00','🇧🇪 Belgique','🇸🇳 Sénégal'],
+    ['2 juil.','02h00','🇺🇸 États-Unis','🇧🇦 Bosnie-Herzégovine'],
+    ['2 juil.','21h00','🇪🇸 Espagne','🇦🇹 Autriche'],
+    ['3 juil.','01h00','🇵🇹 Portugal','🇭🇷 Croatie'],
+    ['3 juil.','05h00','🇨🇭 Suisse','🇩🇿 Algérie'],
+    ['3 juil.','20h00','🇦🇺 Australie','🇪🇬 Égypte'],
+    ['4 juil.','00h00','🇦🇷 Argentine','🇨🇻 Cap Vert'],
+    ['4 juil.','03h30','🇨🇴 Colombie','🇬🇭 Ghana']
   ];
-  var k8=[[1,2,'5 juil.','03:00',9],[3,4,'5 juil.','06:00',10],[5,6,'5 juil.','09:00',11],[7,8,'5 juil.','21:00',12]];
-  var k4=[[9,10,'11 juil.','03:00',13],[11,12,'11 juil.','06:00',14]];
-  var k2=[[13,14,'15 juil.','09:00',15]];
+  var k8dates=[['4 juil.','23h00'],['4 juil.','19h00'],['6 juil.','21h00'],['7 juil.','02h00'],['5 juil.','22h00'],['6 juil.','02h00']];
+  var k4dates=[['7 juil.','18h00'],['7 juil.','22h00'],['9 juil.','22h00'],['10 juil.','21h00'],['11 juil.','23h00'],['12 juil.','03h00']];
+  var k2dates=[['14 juil.','21h00'],['15 juil.','21h00']];
   
   h+='<div class="kocontainer">';
   h+='<div class="koround"><div class="koroundtitle">16<sup>es</sup> de finale</div>';
-  for(var i=0;i<k16.length;i++){var m=k16[i];h+=mb(gt(m[0],m[1]),gt(m[2],m[3]),m[4],m[5],m[6]);}
-  h+='<div class="koidle" style="margin-top:4px;padding:10px;text-align:center;font-size:10px;color:rgba(0,0,0,.25)">+ 8 matchs (3<sup>es</sup> de groupe)<br>à déterminer</div></div>';
+  for(var i=0;i<k16.length;i++){var m=k16[i];h+='<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+'</div><div class="komatch"><div class="koteam kotop">'+m[2]+'</div><div class="koteam">'+m[3]+'</div></div></div>';}
+  h+='</div>';
   
   h+='<div class="koconnector">→</div>';
   h+='<div class="koround"><div class="koroundtitle">8<sup>es</sup> de finale</div>';
-  for(var i=0;i<k8.length;i++){var m=k8[i];h+=mbf(m[4],m[0]?m[2]:'','');}
+  for(var i=0;i<6;i++){var d=k8dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(73+i)+'</div></div></div>';}
   h+='</div>';
   
   h+='<div class="koconnector">→</div>';
   h+='<div class="koround"><div class="koroundtitle">Quarts de finale</div>';
-  for(var i=0;i<k4.length;i++){var m=k4[i];h+=mbf(m[4],m[0]?m[2]:'','');}
+  for(var i=0;i<6;i++){var d=k4dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(79+i)+'</div></div></div>';}
   h+='</div>';
   
   h+='<div class="koconnector">→</div>';
   h+='<div class="koround"><div class="koroundtitle">Demi-finales</div>';
-  for(var i=0;i<k2.length;i++){var m=k2[i];h+=mbf(m[4],m[0]?m[2]:'','');}
+  for(var i=0;i<2;i++){var d=k2dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(97+i)+'</div></div></div>';}
   h+='</div></div>';
   
-  // Finale + 3e place
+  // Finale + 3e place — real dates from touteleurope.eu
   h+='<div style="text-align:center;margin-top:28px">';
-  h+='<div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE · 19 juillet</div>';
+  h+='<div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE · 19 juillet · 21h00</div>';
   h+='<div class="kofvs">Vainqueur Demi-finale 1 — Vainqueur Demi-finale 2</div>';
   h+='<div class="kofvenue">MetLife Stadium · East Rutherford, NJ</div></div>';
-  h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet</div>';
+  h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet · 23h00</div>';
   h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div></div>';
   h+='</section>';
 
