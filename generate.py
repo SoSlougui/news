@@ -723,7 +723,7 @@ function renderWorldCup(fc){
   h+='</div></section>';
 
   // Phase Finale — 3 colonnes simple
-  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
+  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet · Heure de Paris</div></div></div>';
   h+='<p style="text-align:center;color:rgba(0,0,0,.45);font-size:.82rem;margin-bottom:20px">32 qualifiés · Défilez horizontalement pour voir la suite →</p>';
   
   function gt(gk,pos){var g=WC_GROUPS[gk];if(!g||!g.teams||!g.teams[pos])return'?';return(g.teams[pos].flag||'')+' '+g.teams[pos].team;}
@@ -736,14 +736,14 @@ function renderWorldCup(fc){
   function mbf(mid,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+mid+'</div></div></div>';}
   
   var k16=[
-    ['A',0,'B',1,'29 juin','21:00',1],['C',0,'D',1,'30 juin','00:00',2],
-    ['E',0,'F',1,'30 juin','03:00',3],['G',0,'H',1,'30 juin','15:00',4],
-    ['B',0,'A',1,'30 juin','18:00',5],['D',0,'C',1,'30 juin','21:00',6],
-    ['F',0,'E',1,'1 juil.','00:00',7],['H',0,'G',1,'1 juil.','03:00',8]
+    ['A',0,'B',1,'30 juin','03:00',1],['C',0,'D',1,'30 juin','06:00',2],
+    ['E',0,'F',1,'30 juin','09:00',3],['G',0,'H',1,'30 juin','21:00',4],
+    ['B',0,'A',1,'1 juil.','00:00',5],['D',0,'C',1,'1 juil.','03:00',6],
+    ['F',0,'E',1,'1 juil.','06:00',7],['H',0,'G',1,'1 juil.','09:00',8]
   ];
-  var k8=[[1,2,'4 juil.','21:00',9],[3,4,'5 juil.','00:00',10],[5,6,'5 juil.','03:00',11],[7,8,'5 juil.','15:00',12]];
-  var k4=[[9,10,'10 juil.','21:00',13],[11,12,'11 juil.','00:00',14]];
-  var k2=[[13,14,'15 juil.','03:00',15]];
+  var k8=[[1,2,'5 juil.','03:00',9],[3,4,'5 juil.','06:00',10],[5,6,'5 juil.','09:00',11],[7,8,'5 juil.','21:00',12]];
+  var k4=[[9,10,'11 juil.','03:00',13],[11,12,'11 juil.','06:00',14]];
+  var k2=[[13,14,'15 juil.','09:00',15]];
   
   h+='<div class="kocontainer">';
   h+='<div class="koround"><div class="koroundtitle">16<sup>es</sup> de finale</div>';
