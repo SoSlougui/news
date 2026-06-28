@@ -335,8 +335,11 @@ section{padding:48px 0}
 
 /* Panel body */
 .panel-body{overflow-y:auto;padding:24px 28px 48px}
+}
 
-/* Bracket Phase Finale — 3 colonnes */
+/* ═══════════════════════════════════════════ */
+/* Bracket Phase Finale — 3 colonnes          */
+/* ═══════════════════════════════════════════ */
 .kocontainer{display:flex;gap:12px;overflow-x:auto;padding:12px 8px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;max-width:1100px;margin:0 auto}
 .koround{min-width:260px;flex-shrink:0}
 .koroundtitle{font-size:13px;font-weight:700;color:#1d1d1f;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #0071e3}
@@ -363,53 +366,49 @@ section{padding:48px 0}
   .koteam{font-size:12px;padding:7px 10px}
   .koroundtitle{font-size:12px}
 }
-}
 
 /* Dark mode */
-.dark .komatch{background:#232326;border-color:rgba(255,255,255,.06)}
-.dark .koteam{color:#e8e8ec}
-.dark .kotop{border-color:rgba(255,255,255,.06)}
-.dark .koidle{background:rgba(255,255,255,.03)}
-.dark .koidletext{color:rgba(255,255,255,.2)}
-.dark .koroundtitle{color:#e8e8ec}
-.dark .kofvs{color:#e8e8ec}
-.dark .koftitle{color:#e8e8ec}
-.dark .kothird{background:#232326;border-color:rgba(255,255,255,.06)}
-.dark .kothirdvs{color:rgba(255,255,255,.45)}
-}
+body.dark{background:#1c1c1e;color:#e8e8ec}
+body.dark header{background:rgba(28,28,30,.95);border-color:rgba(255,255,255,.06)}
+body.dark .hright a,body.dark .hright button{color:#e8e8ec}
+body.dark section.white,body.dark .feat,body.dark .art-row,body.dark .panel-col,body.dark .panel-head{background:#1c1c1e}
+body.dark section.light{background:#232326}
+body.dark .art-row{border-color:rgba(255,255,255,.04)}
+body.dark .art-body h4,body.dark .art-body .excerpt,body.dark .art-body .meta,body.dark .sec-head h3{color:rgba(255,255,255,.8)}
+body.dark .sec-head .count{color:rgba(255,255,255,.35)}
+body.dark .hero{background:#0a0a0a}
+body.dark .panel-head{background:rgba(28,28,30,.92);border-color:rgba(255,255,255,.06)}
+body.dark .panel-body h2{color:#e8e8ec}
+body.dark .panel-body .body{color:rgba(255,255,255,.78)}
+body.dark .src-section{border-color:rgba(255,255,255,.06)}
+body.dark .src-section h3{color:rgba(255,255,255,.35)}
+body.dark .src-name{color:rgba(255,255,255,.55)}
+/* Bracket dark */
+body.dark .komatch{background:#232326;border-color:rgba(255,255,255,.06)}
+body.dark .koteam{color:#e8e8ec}
+body.dark .kotop{border-color:rgba(255,255,255,.06)}
+body.dark .koidle{background:rgba(255,255,255,.03)}
+body.dark .koidletext{color:rgba(255,255,255,.2)}
+body.dark .koroundtitle{color:#e8e8ec}
+body.dark .kofvs{color:#e8e8ec}
+body.dark .koftitle{color:#e8e8ec}
+body.dark .kothird{background:#232326;border-color:rgba(255,255,255,.06)}
+body.dark .kothirdvs{color:rgba(255,255,255,.45)}
+/* WC tables dark */
+body.dark table,body.dark td,body.dark th{border-color:rgba(255,255,255,.04)}
+body.dark td{color:#e8e8ec}
+body.dark .cat{color:rgba(255,255,255,.5)}
 """
 
 JS = r"""const ARTICLES = __ARTICLES__;
 const CAT_LABELS = {all:'Toutes les actualites',ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Video',markets:'Marches',general:'General',science:'Science',dev:'Developpement',startups:'Startups',bookmarks:'Sauvegardes',search:'Recherche',worldcup:'Coupe du Monde 2026'};
 // Theme
-(function(){if(localStorage.theme==='dark'){document.body.classList.add('dark');setTimeout(function(){var t=document.getElementById('themeBtn');if(t)t.textContent='☾'},50)}})();
+(function(){if(localStorage.theme==='dark'){document.body.classList.add('dark');var t=document.getElementById('themeBtn');if(t)t.textContent='☾'}})();
 function toggleTheme(){
   document.body.classList.toggle('dark');
   localStorage.theme=document.body.classList.contains('dark')?'dark':'light';
   var t=document.getElementById('themeBtn');
   if(t)t.textContent=document.body.classList.contains('dark')?'☾':'☀';
-}
-let cat='all', curId=null, searchTerm='';
-let bm=[];
-try{bm=JSON.parse(localStorage.getItem('tf_bm')||'[]')}catch(e){}
-const saveBm=()=>{try{localStorage.setItem('tf_bm',JSON.stringify(bm))}catch(e){}};
-const isBm=id=>bm.includes(id);
-const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-// Initialisation sans render() — le HTML est pré-rendu côté serveur
-var tb=document.getElementById('themeBtn');
-if(tb&&localStorage.theme==='dark'){document.body.classList.add('dark');tb.textContent='\\u263e';}
-try{bm=JSON.parse(localStorage.getItem('tf_bm')||'[]')}catch(e){}
-// Appliquer les bookmarks sur les étoiles existantes
-document.querySelectorAll('[data-bmid]').forEach(function(el){
-  if(bm.includes(el.getAttribute('data-bmid')))el.classList.add('on');
-});
-
-function toggleTheme(){
-  document.body.classList.toggle('dark');
-  localStorage.theme=document.body.classList.contains('dark')?'dark':'light';
-  const tb=document.getElementById('themeBtn');
-  if(tb)tb.textContent=document.body.classList.contains('dark')?'\u263e':'\u2600';
 }
 
 function toggleBm(id,e){
