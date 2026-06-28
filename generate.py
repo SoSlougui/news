@@ -344,38 +344,38 @@ section{padding:48px 0}
 .bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
 .bhlbl{font-size:11px;font-weight:700;color:#0071e3;margin-bottom:12px;text-align:center}
 .brow{display:flex;align-items:center;gap:4px;margin-bottom:8px}
-.bcol16{display:flex;flex-direction:column;gap:4px;min-width:158px}
-.bcol8{display:flex;flex-direction:column;gap:4px;min-width:130px}
-.bcolQ{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
-.bcolD{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
-.barr{min-width:20px;text-align:center;font-size:16px;color:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
-.bcenter{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:140px}
-.bcolQ .kobox{margin:10px 0}
-.bcolD .kobox{margin:12px 0}
-.kobox{margin-bottom:4px}
-.kodate{font-size:9px;color:#86868b;margin-bottom:1px}
-.komatch{background:#fff;border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.koteam{padding:5px 8px;font-size:11px;font-weight:500;color:#1d1d1f;white-space:nowrap}
+.bcol16{display:flex;flex-direction:column;gap:3px;min-width:130px}
+.bcol8{display:flex;flex-direction:column;gap:3px;min-width:105px}
+.bcolQ{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:95px}
+.bcolD{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:95px}
+.barr{min-width:16px;text-align:center;font-size:14px;color:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+.bcenter{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:120px}
+.bcolQ .kobox{margin:8px 0}
+.bcolD .kobox{margin:10px 0}
+.kobox{margin-bottom:3px}
+.kodate{font-size:8px;color:#86868b;margin-bottom:1px}
+.komatch{background:#fff;border-radius:5px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.koteam{padding:4px 6px;font-size:10px;font-weight:500;color:#1d1d1f;white-space:nowrap}
 .kotop{border-bottom:1px solid rgba(0,0,0,.06);font-weight:700}
-.koidle{background:rgba(0,0,0,.015);padding:10px 8px;text-align:center}
-.koidletext{font-size:9px;color:rgba(0,0,0,.25);font-style:italic}
-.kofinal{max-width:320px;margin:0 auto;text-align:center;padding:12px}
-.kofstars{font-size:10px;letter-spacing:2px;color:#f5a623;margin-bottom:2px}
-.koftitle{font-size:13px;font-weight:700;color:#1d1d1f}
-.kofvs{font-size:13px;font-weight:700;color:#1d1d1f;margin:4px 0}
-.kofvenue{font-size:10px;color:#86868b}
-.kothird{background:#fff;border-radius:10px;padding:10px 20px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:340px;margin:16px auto 0}
-.kothirdlbl{font-size:9px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.kothirdvs{font-size:12px;font-weight:600;margin-top:2px;color:rgba(0,0,0,.5)}
+.koidle{background:rgba(0,0,0,.015);padding:7px 6px;text-align:center}
+.koidletext{font-size:8px;color:rgba(0,0,0,.25);font-style:italic}
+.kofinal{max-width:260px;margin:0 auto;text-align:center;padding:8px}
+.kofstars{font-size:8px;letter-spacing:2px;color:#f5a623;margin-bottom:1px}
+.koftitle{font-size:11px;font-weight:700;color:#1d1d1f}
+.kofvs{font-size:11px;font-weight:700;color:#1d1d1f;margin:2px 0}
+.kofvenue{font-size:8px;color:#86868b}
+.kothird{background:#fff;border-radius:8px;padding:8px 16px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:280px;margin:12px auto 0}
+.kothirdlbl{font-size:8px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.kothirdvs{font-size:10px;font-weight:600;margin-top:2px;color:rgba(0,0,0,.5)}
 
 @media(max-width:700px){
-  .bhalf{min-width:280px}
-  .bcol16{min-width:120px}
-  .bcol8{min-width:100px}
-  .bcolQ,.bcolD{min-width:90px}
-  .bcenter{min-width:100px}
-  .koteam{font-size:10px;padding:4px 6px}
-  .kobox{margin-bottom:2px}
+  .bhalf{min-width:260px}
+  .bcol16{min-width:100px}
+  .bcol8{min-width:80px}
+  .bcolQ,.bcolD{min-width:72px}
+  .bcenter{min-width:80px}
+  .koteam{font-size:8px;padding:3px 4px}
+  .kobox{margin-bottom:1px}
 }
 
 /* Dark mode */
