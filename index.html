@@ -171,7 +171,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 09:46</span>
+    <span class="upd">28 June 2026 - 09:49</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -538,7 +538,7 @@ function renderWorldCup(fc){
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
   
   // Helper: get team from group at position (0=1st, 1=2nd)
-  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g)return '?';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?(s[pos].flag||'')+' '+s[pos].team:'?';}
+  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g||!g.teams||!g.teams[pos])return'?';return(g.teams[pos].flag||'')+' '+g.teams[pos].team;}
   function gtFlag(gk,pos){var g=WC_GROUPS[gk];if(!g)return'';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?s[pos].flag||'':'';}
   
   function bm(t1,t2){return'<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}

@@ -727,7 +727,7 @@ function renderWorldCup(fc){
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
   
   // Helper: get team from group at position (0=1st, 1=2nd)
-  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g)return '?';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?(s[pos].flag||'')+' '+s[pos].team:'?';}
+  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g||!g.teams||!g.teams[pos])return'?';return(g.teams[pos].flag||'')+' '+g.teams[pos].team;}
   function gtFlag(gk,pos){var g=WC_GROUPS[gk];if(!g)return'';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?s[pos].flag||'':'';}
   
   function bm(t1,t2){return'<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}
