@@ -126,24 +126,24 @@ section{padding:48px 0}
 .panel-body{overflow-y:auto;padding:24px 28px 48px}
 
 /* Bracket Phase Finale */
-.bwrap{display:flex;gap:16px;justify-content:center;overflow-x:auto;padding:10px 8px;margin:0 auto;max-width:1100px}
-.bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
-.bhlbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0071e3;margin-bottom:12px}
-.brow{display:flex;align-items:center;gap:2px;margin-bottom:8px}
-.bcol{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
-.blbl{text-align:center;font-size:8px;font-weight:600;color:rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
-.barr{min-width:20px;text-align:center;font-size:14px;color:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
-.bm{background:#fff;border-radius:6px;padding:4px 7px;border:1px solid rgba(0,0,0,.06);min-height:36px;display:flex;flex-direction:column;justify-content:center;gap:0;box-shadow:0 1px 2px rgba(0,0,0,.03);font-size:10px;min-width:105px}
-.bm .bt{font-weight:500;color:rgba(0,0,0,.55);white-space:nowrap;line-height:1.5}
-.bm .bt:first-child{font-weight:700;color:#1d1d1f}
-.bfinal{background:linear-gradient(135deg,#0a0a0a,#1a1a1a);color:#fff;border-radius:14px;padding:16px 32px;text-align:center;max-width:420px;margin:24px auto 12px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
-.bfstars{font-size:11px;letter-spacing:3px;color:#f5a623;margin-bottom:4px}
-.bflbl{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:4px}
-.bfteams{font-size:15px;font-weight:700}
-.bfinfo{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px}
-.bthird{background:#fff;border-radius:10px;padding:10px 20px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:350px;margin:0 auto}
-.btlbl{font-size:9px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.btteams{font-size:13px;font-weight:600;margin-top:3px;color:rgba(0,0,0,.45)}
+.bwrap{display:flex;gap:24px;justify-content:center;overflow-x:auto;padding:16px 8px;margin:0 auto;max-width:1200px}
+.bhalf{display:flex;flex-direction:column;align-items:center;min-width:420px;flex:1}
+.bhlbl{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#0071e3;margin-bottom:14px}
+.brow{display:flex;align-items:center;gap:4px;margin-bottom:6px}
+.bcol{display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:145px}
+.blbl{text-align:center;font-size:9px;font-weight:600;color:rgba(0,0,0,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.barr{min-width:24px;text-align:center;font-size:18px;color:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center}
+.bm{background:#fff;border-radius:8px;padding:8px 10px;border:1px solid rgba(0,0,0,.06);min-height:46px;display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:0 1px 3px rgba(0,0,0,.04);font-size:12px;min-width:130px}
+.bm .bt{font-weight:500;color:#1d1d1f;white-space:nowrap;line-height:1.6}
+.bm .bt:first-child{font-weight:700}
+.bfinal{background:linear-gradient(135deg,#0a0a0a,#1a1a1a);color:#fff;border-radius:16px;padding:22px 40px;text-align:center;max-width:480px;margin:28px auto 14px;box-shadow:0 10px 40px rgba(0,0,0,.18)}
+.bfstars{font-size:12px;letter-spacing:4px;color:#f5a623;margin-bottom:6px}
+.bflbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:6px}
+.bfteams{font-size:17px;font-weight:700}
+.bfinfo{font-size:11px;color:rgba(255,255,255,.4);margin-top:6px}
+.bthird{background:#fff;border-radius:12px;padding:14px 28px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:400px;margin:0 auto}
+.btlbl{font-size:10px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.btteams{font-size:14px;font-weight:600;margin-top:4px;color:rgba(0,0,0,.55)}
 
 @media(max-width:900px){
   .bwrap{flex-direction:column;align-items:center}
@@ -171,7 +171,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 09:39</span>
+    <span class="upd">28 June 2026 - 09:46</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -534,39 +534,31 @@ function renderWorldCup(fc){
   h+='</div></section>';
 
   // Phase Finale — Bracket V4
+  // Phase Finale — Bracket avec drapeaux
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
-  h+='<p style="color:rgba(0,0,0,.45);font-size:.88rem;text-align:center;max-width:700px;margin:0 auto 24px">Les 12 premiers, 12 deuxièmes et 8 meilleurs troisièmes s\'affrontent en élimination directe.</p>';
   
-  // Flags mapping
-  var FL={Mexique:'🇲🇽','Coree du Sud':'🇰🇷','Republique Tcheque':'🇨🇿','Afrique du Sud':'🇿🇦',Canada:'🇨🇦',Suisse:'🇨🇭','Bosnie-Herzegovine':'🇧🇦',Qatar:'🇶🇦',Bresil:'🇧🇷',Maroc:'🇲🇦',Ecosse:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',Haiti:'🇭🇹','Etats-Unis':'🇺🇸',Australie:'🇦🇺',Paraguay:'🇵🇾',Turkiye:'🇹🇷',Allemagne:'🇩🇪','Cote d\'Ivoire':'🇨🇮',Equateur:'🇪🇨',Curacao:'🇨🇼','Pays-Bas':'🇳🇱',Japon:'🇯🇵',Suede:'🇸🇪',Tunisie:'🇹🇳',Egypte:'🇪🇬',Iran:'🇮🇷',Belgique:'🇧🇪','Nouvelle-Zelande':'🇳🇿',Espagne:'🇪🇸',Uruguay:'🇺🇾','Cap-Vert':'🇨🇻','Arabie Saoudite':'🇸🇦',Norvege:'🇳🇴',France:'🇫🇷',Senegal:'🇸🇳',Irak:'🇮🇶',Colombie:'🇨🇴',Portugal:'🇵🇹','RD Congo':'🇨🇩',Ouzbekistan:'🇺🇿',Angleterre:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',Croatie:'🇭🇷',Ghana:'🇬🇭',Panama:'🇵🇦',Argentine:'🇦🇷',Jordanie:'🇯🇴',Algerie:'🇩🇿',Autriche:'🇦🇹'};
-  function fg(n){return (FL[n]||'')+' '+n;}
+  // Helper: get team from group at position (0=1st, 1=2nd)
+  function gt(gk,pos){var g=WC_GROUPS[gk];if(!g)return '?';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?(s[pos].flag||'')+' '+s[pos].team:'?';}
+  function gtFlag(gk,pos){var g=WC_GROUPS[gk];if(!g)return'';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?s[pos].flag||'':'';}
   
-  function bracketMatch(t1,t2){return '<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}
-  function bracketCol(label,matches){var h='<div class="bcol"><div class="blbl">'+label+'</div>';for(var i=0;i<matches.length;i++)h+=matches[i];return h+'</div>';}
-  function arrow(){return '<div class="barr">→</div>';}
+  function bm(t1,t2){return'<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}
+  function bcol(l,ms){var h='<div class="bcol">';if(l)h+='<div class="blbl">'+l+'</div>';for(var i=0;i<ms.length;i++)h+=ms[i];return h+'</div>';}
+  function barr(){return'<div class="barr">→</div>';}
+  function vct(){return'<div class="bm"><div class="bt" style="color:rgba(0,0,0,.25);font-style:italic">Vainqueur</div></div>';}
+  function flt(){return'<div class="bm"><div class="bt" style="color:#0071e3;font-weight:700">Finaliste</div></div>';}
   
   h+='<div class="bwrap">';
   // Moitié Haute
-  h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div><div class="brow">';
-  h+=bracketCol('16es',[bracketMatch(fg('1er A'),fg('2e B')),bracketMatch(fg('1er C'),fg('2e D'))]);
-  h+=arrow()+bracketCol('8es',[bracketMatch('Vainqueur','')]);
-  h+=arrow()+bracketCol('Quart',[bracketMatch('Vainqueur','')]);
-  h+='</div><div class="brow">';
-  h+=bracketCol('',[bracketMatch(fg('1er E'),fg('2e F')),bracketMatch(fg('1er G'),fg('2e H'))]);
-  h+=arrow()+bracketCol('',[bracketMatch('Vainqueur','')]);
-  h+=arrow()+bracketCol('Demi',[bracketMatch('Finaliste','')]);
-  h+='</div></div>';
+  h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div>';
+  h+='<div class="brow">'+bcol('16es',[bm(gt('A',0),gt('B',1)),bm(gt('C',0),gt('D',1))])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
+  h+='<div class="brow" style="margin-top:2px">'+bcol('',[bm(gt('E',0),gt('F',1)),bm(gt('G',0),gt('H',1))])+barr()+bcol('',[vct()])+'</div>';
+  h+='</div>';
   
   // Moitié Basse
-  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div><div class="brow">';
-  h+=bracketCol('16es',[bracketMatch(fg('1er B'),fg('2e A')),bracketMatch(fg('1er D'),fg('2e C'))]);
-  h+=arrow()+bracketCol('8es',[bracketMatch('Vainqueur','')]);
-  h+=arrow()+bracketCol('Quart',[bracketMatch('Vainqueur','')]);
-  h+='</div><div class="brow">';
-  h+=bracketCol('',[bracketMatch(fg('1er F'),fg('2e E')),bracketMatch(fg('1er H'),fg('2e G'))]);
-  h+=arrow()+bracketCol('',[bracketMatch('Vainqueur','')]);
-  h+=arrow()+bracketCol('Demi',[bracketMatch('Finaliste','')]);
-  h+='</div></div>';
+  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
+  h+='<div class="brow">'+bcol('16es',[bm(gt('B',0),gt('A',1)),bm(gt('D',0),gt('C',1))])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
+  h+='<div class="brow" style="margin-top:2px">'+bcol('',[bm(gt('F',0),gt('E',1)),bm(gt('H',0),gt('G',1))])+barr()+bcol('',[vct()])+'</div>';
+  h+='</div>';
   h+='</div>';
   
   // Finale
