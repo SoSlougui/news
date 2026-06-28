@@ -344,11 +344,14 @@ section{padding:48px 0}
 .bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
 .bhlbl{font-size:11px;font-weight:700;color:#0071e3;margin-bottom:12px;text-align:center}
 .brow{display:flex;align-items:center;gap:4px;margin-bottom:8px}
-.bcol{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:145px}
-.blbl{text-align:center;font-size:9px;font-weight:600;color:rgba(0,0,0,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.bcol16{display:flex;flex-direction:column;gap:4px;min-width:158px}
+.bcol8{display:flex;flex-direction:column;gap:4px;min-width:130px}
+.bcolQ{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
+.bcolD{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:115px}
 .barr{min-width:20px;text-align:center;font-size:16px;color:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+.bcenter{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:140px}
 .bcolQ .kobox{margin:10px 0}
-.breverse .brow{flex-direction:row-reverse}
+.bcolD .kobox{margin:12px 0}
 .kobox{margin-bottom:4px}
 .kodate{font-size:9px;color:#86868b;margin-bottom:1px}
 .komatch{background:#fff;border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
@@ -367,7 +370,10 @@ section{padding:48px 0}
 
 @media(max-width:700px){
   .bhalf{min-width:280px}
-  .bcol{min-width:120px}
+  .bcol16{min-width:120px}
+  .bcol8{min-width:100px}
+  .bcolQ,.bcolD{min-width:90px}
+  .bcenter{min-width:100px}
   .koteam{font-size:10px;padding:4px 6px}
   .kobox{margin-bottom:2px}
 }
@@ -396,7 +402,7 @@ body.dark .koidle{background:rgba(255,255,255,.03)}
 body.dark .koidletext{color:rgba(255,255,255,.2)}
 body.dark .bhlbl{color:#5e9eff}
 body.dark .barr{color:rgba(255,255,255,.1)}
-body.dark .blbl{color:rgba(255,255,255,.2)}
+body.dark .bcenter .kofinal{}
 body.dark .kofvs{color:#e8e8ec}
 body.dark .koftitle{color:#e8e8ec}
 body.dark .kothird{background:#232326;border-color:rgba(255,255,255,.06)}
@@ -744,51 +750,40 @@ function renderWorldCup(fc){
   ]];
   
   function mbx(m){return'<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+'</div><div class="komatch"><div class="koteam kotop">'+m[2]+'</div><div class="koteam">'+m[3]+'</div></div></div>';}
-  function mwid(matchNum,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+matchNum+'</div></div></div>';}
+  function mw(matchNum,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+matchNum+'</div></div></div>';}
   
   h+='<div class="bwrap">';
   
-  // ── Moitié Haute (gauche → centre) ──
+  // ═══ MOITIÉ HAUTE (16es à gauche → Demi au centre) ═══
   h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div>';
   h+='<div class="brow">';
-  h+='<div class="bcol"><div class="blbl">16es</div>'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
-  h+='<div class="barr">→</div>';
-  h+='<div class="bcol bcol8"><div class="blbl">8es</div>'+mwid(89,'4 juil.','23h00')+mwid(90,'4 juil.','19h00')+'</div>';
-  h+='<div class="barr">→</div>';
-  h+='<div class="bcol bcolQ"><div class="blbl">Quart</div>'+mwid(95,'7 juil.','18h00')+'</div>';
-  h+='<div class="barr">→</div>';
-  h+='<div class="bcol bcolQ"><div class="blbl">Demi</div>'+mwid(99,'14 juil.','21h00')+'</div>';
+  h+='<div class="bcol16">'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mw(89,'4 juil.','23h00')+mw(90,'4 juil.','19h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(95,'7 juil.','18h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolD">'+mw(99,'14 juil.','21h00')+'</div>';
   h+='</div>';
   h+='<div class="brow">';
-  h+='<div class="bcol">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
-  h+='<div class="barr">→</div>';
-  h+='<div class="bcol bcol8">'+mwid(91,'6 juil.','21h00')+mwid(92,'7 juil.','02h00')+'</div>';
-  h+='<div class="barr">→</div>';
-  h+='<div class="bcol bcolQ"><div class="blbl">Quart</div>'+mwid(96,'7 juil.','22h00')+'</div>';
+  h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mw(91,'6 juil.','21h00')+mw(92,'7 juil.','02h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(96,'7 juil.','22h00')+'</div>';
   h+='</div></div>';
   
-  // ── Centre → Finale ──
-  h+='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:160px">';
-  h+='<div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE</div><div class="kofvs">19 juillet · 21h00</div><div class="kofvenue">MetLife Stadium</div></div>';
-  h+='</div>';
+  // ═══ CENTRE → FINALE ═══
+  h+='<div class="bcenter"><div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE</div><div class="kofvs">19 juillet · 21h00</div><div class="kofvenue">MetLife Stadium</div></div></div>';
   
-  // ── Moitié Basse (centre ← droite, inversée) ──
-  h+='<div class="bhalf breverse"><div class="bhlbl">🔽 Moitié Basse</div>';
+  // ═══ MOITIÉ BASSE (16es à droite ← Demi au centre) ═══
+  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
   h+='<div class="brow">';
-  h+='<div class="bcol bcolQ"><div class="blbl">Demi</div>'+mwid(100,'15 juil.','21h00')+'</div>';
-  h+='<div class="barr">←</div>';
-  h+='<div class="bcol bcolQ"><div class="blbl">Quart</div>'+mwid(97,'9 juil.','22h00')+'</div>';
-  h+='<div class="barr">←</div>';
-  h+='<div class="bcol bcol8"><div class="blbl">8es</div>'+mwid(93,'5 juil.','22h00')+mwid(94,'6 juil.','02h00')+'</div>';
-  h+='<div class="barr">←</div>';
-  h+='<div class="bcol"><div class="blbl">16es</div>'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
+  h+='<div class="bcolD">'+mw(100,'15 juil.','21h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcolQ">'+mw(97,'9 juil.','22h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'5 juil.','22h00')+mw(94,'6 juil.','02h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
   h+='<div class="brow">';
-  h+='<div class="bcol bcolQ"><div class="blbl">Quart</div>'+mwid(98,'12 juil.','03h00')+'</div>';
-  h+='<div class="barr">←</div>';
-  h+='<div class="bcol bcol8">'+mwid(95,'10 juil.','21h00')+mwid(96,'11 juil.','23h00')+'</div>';
-  h+='<div class="barr">←</div>';
-  h+='<div class="bcol">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
+  h+='<div class="bcolD" style="visibility:hidden">'+mw(100,'','')+'</div>';
+  h+='<div class="barr">←</div><div class="bcolQ">'+mw(98,'12 juil.','03h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mw(95,'10 juil.','21h00')+mw(96,'11 juil.','23h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
   h+='</div></div>';
   
   h+='</div>';
