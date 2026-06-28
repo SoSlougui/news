@@ -756,24 +756,22 @@ function renderWorldCup(fc){
   
   // ═══ MOITIÉ HAUTE (16es à gauche → Demi au centre) ═══
   h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div>';
-  // Row 1
+  // Row 0: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
   h+='<div class="barr">→</div><div class="bcol8">'+mw(89,'4 juil.','23h00')+mw(90,'4 juil.','19h00')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(95,'7 juil.','18h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(97,'7 juil.','18h00')+'</div>';
   h+='</div>';
   // Demi — alignée avec les Quarts via colonnes invisibles
   h+='<div class="brow">';
-  h+='<div class="bcol16" style="visibility:hidden">·</div>';
-  h+='<div class="barr" style="visibility:hidden">→</div>';
-  h+='<div class="bcol8" style="visibility:hidden">·</div>';
-  h+='<div class="barr" style="visibility:hidden">→</div>';
-  h+='<div class="bcolD">'+mw(99,'14 juil.','21h00')+'</div></div>';
-  // Row 2
+  h+='<div class="bcol16" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">→</div>';
+  h+='<div class="bcol8" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">→</div>';
+  h+='<div class="bcolD">'+mw(101,'14 juil.','21h00')+'</div></div>';
+  // Row 2: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
   h+='<div class="barr">→</div><div class="bcol8">'+mw(91,'6 juil.','21h00')+mw(92,'7 juil.','02h00')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(96,'7 juil.','22h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(98,'7 juil.','22h00')+'</div>';
   h+='</div></div>';
   
   // ═══ CENTRE → FINALE ═══
@@ -781,17 +779,24 @@ function renderWorldCup(fc){
   
   // ═══ MOITIÉ BASSE (16es à droite ← Demi au centre) ═══
   h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
-  // Row 1 — Demi en premier (proche du centre)
+  // Row 0: Quart ← 8es ← 16es (sans Demi)
   h+='<div class="brow">';
-  h+='<div class="bcolD">'+mw(100,'15 juil.','21h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcolQ">'+mw(97,'9 juil.','22h00')+'</div>';
+  h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
+  h+='<div class="bcolQ">'+mw(99,'9 juil.','22h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'5 juil.','22h00')+mw(94,'6 juil.','02h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
-  // Row 2 — Quart seulement (pas de Demi)
+  // Demi — centrée entre les deux rows (comme Haute)
   h+='<div class="brow">';
-  h+='<div class="bcolD" style="visibility:hidden">·</div>';
-  h+='<div class="barr">←</div><div class="bcolQ">'+mw(98,'12 juil.','03h00')+'</div>';
+  h+='<div class="bcolD">'+mw(102,'15 juil.','21h00')+'</div>';
+  h+='<div class="barr" style="visibility:hidden">←</div><div class="bcolQ" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">←</div><div class="bcol8" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">←</div><div class="bcol16" style="visibility:hidden">·</div>';
+  h+='</div>';
+  // Row 2: Quart ← 8es ← 16es (sans Demi)
+  h+='<div class="brow">';
+  h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
+  h+='<div class="bcolQ">'+mw(100,'12 juil.','03h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol8">'+mw(95,'10 juil.','21h00')+mw(96,'11 juil.','23h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
   h+='</div></div>';
