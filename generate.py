@@ -340,7 +340,7 @@ section{padding:48px 0}
 /* ═══════════════════════════════════════════ */
 /* Bracket Phase Finale — 2 moitiés           */
 /* ═══════════════════════════════════════════ */
-.bwrap{display:flex;gap:8px;justify-content:center;overflow-x:auto;padding:12px 4px;margin:0 auto;max-width:1200px}
+.bwrap{display:flex;gap:8px;justify-content:center;overflow-x:auto;padding:12px 4px;margin:0 auto;max-width:1200px;-webkit-overflow-scrolling:touch}
 .bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
 .bhlbl{font-size:11px;font-weight:700;color:#0071e3;margin-bottom:12px;text-align:center}
 .brow{display:flex;align-items:center;gap:4px;margin-bottom:8px}
