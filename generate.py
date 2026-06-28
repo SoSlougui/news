@@ -338,33 +338,36 @@ section{padding:48px 0}
 }
 
 /* ═══════════════════════════════════════════ */
-/* Bracket Phase Finale — 3 colonnes          */
+/* Bracket Phase Finale — 2 moitiés           */
 /* ═══════════════════════════════════════════ */
-.kocontainer{display:flex;gap:12px;overflow-x:auto;padding:12px 8px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;max-width:1100px;margin:0 auto}
-.koround{min-width:260px;flex-shrink:0}
-.koroundtitle{font-size:13px;font-weight:700;color:#1d1d1f;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #0071e3}
-.koconnector{display:flex;align-items:center;font-size:24px;color:rgba(0,0,0,.15);padding:0 4px;flex-shrink:0;margin-top:20px}
-.kobox{margin-bottom:8px}
-.kodate{font-size:10px;color:#86868b;margin-bottom:2px}
-.komatch{background:#fff;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.03)}
-.koteam{padding:8px 12px;font-size:13px;font-weight:500;color:#1d1d1f;white-space:nowrap}
+.bwrap{display:flex;gap:8px;justify-content:center;overflow-x:auto;padding:12px 4px;margin:0 auto;max-width:1200px}
+.bhalf{display:flex;flex-direction:column;align-items:center;min-width:380px;flex:1}
+.bhlbl{font-size:11px;font-weight:700;color:#0071e3;margin-bottom:12px;text-align:center}
+.brow{display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.bcol{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:145px}
+.blbl{text-align:center;font-size:9px;font-weight:600;color:rgba(0,0,0,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.barr{min-width:20px;text-align:center;font-size:16px;color:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+.kobox{margin-bottom:4px}
+.kodate{font-size:9px;color:#86868b;margin-bottom:1px}
+.komatch{background:#fff;border-radius:6px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.koteam{padding:5px 8px;font-size:11px;font-weight:500;color:#1d1d1f;white-space:nowrap}
 .kotop{border-bottom:1px solid rgba(0,0,0,.06);font-weight:700}
-.koidle{background:rgba(0,0,0,.02);padding:14px 12px;text-align:center}
-.koidletext{font-size:11px;color:rgba(0,0,0,.3);font-style:italic}
-.kofinal{max-width:480px;margin:0 auto}
-.kofstars{font-size:11px;letter-spacing:3px;color:#f5a623;margin-bottom:4px}
-.koftitle{font-size:15px;font-weight:700;color:#1d1d1f;margin-bottom:12px}
-.kofmatch .kobox{max-width:260px;margin:0 auto}
-.kofvs{font-size:16px;font-weight:700;color:#1d1d1f;margin:8px 0}
-.kofvenue{font-size:11px;color:#86868b}
-.kothird{background:#fff;border-radius:12px;padding:12px 24px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:380px;margin:20px auto 0}
-.kothirdlbl{font-size:10px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.kothirdvs{font-size:14px;font-weight:600;margin-top:4px;color:rgba(0,0,0,.55)}
+.koidle{background:rgba(0,0,0,.015);padding:10px 8px;text-align:center}
+.koidletext{font-size:9px;color:rgba(0,0,0,.25);font-style:italic}
+.kofinal{max-width:320px;margin:0 auto;text-align:center;padding:12px}
+.kofstars{font-size:10px;letter-spacing:2px;color:#f5a623;margin-bottom:2px}
+.koftitle{font-size:13px;font-weight:700;color:#1d1d1f}
+.kofvs{font-size:13px;font-weight:700;color:#1d1d1f;margin:4px 0}
+.kofvenue{font-size:10px;color:#86868b}
+.kothird{background:#fff;border-radius:10px;padding:10px 20px;border:1px solid rgba(0,0,0,.06);text-align:center;max-width:340px;margin:16px auto 0}
+.kothirdlbl{font-size:9px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.kothirdvs{font-size:12px;font-weight:600;margin-top:2px;color:rgba(0,0,0,.5)}
 
-@media(max-width:600px){
-  .koround{min-width:220px}
-  .koteam{font-size:12px;padding:7px 10px}
-  .koroundtitle{font-size:12px}
+@media(max-width:700px){
+  .bhalf{min-width:280px}
+  .bcol{min-width:120px}
+  .koteam{font-size:10px;padding:4px 6px}
+  .kobox{margin-bottom:2px}
 }
 
 /* Dark mode */
@@ -389,7 +392,9 @@ body.dark .koteam{color:#e8e8ec}
 body.dark .kotop{border-color:rgba(255,255,255,.06)}
 body.dark .koidle{background:rgba(255,255,255,.03)}
 body.dark .koidletext{color:rgba(255,255,255,.2)}
-body.dark .koroundtitle{color:#e8e8ec}
+body.dark .bhlbl{color:#5e9eff}
+body.dark .barr{color:rgba(255,255,255,.1)}
+body.dark .blbl{color:rgba(255,255,255,.2)}
 body.dark .kofvs{color:#e8e8ec}
 body.dark .koftitle{color:#e8e8ec}
 body.dark .kothird{background:#232326;border-color:rgba(255,255,255,.06)}
@@ -711,55 +716,92 @@ function renderWorldCup(fc){
   h+='<p style="text-align:center;color:rgba(0,0,0,.45);font-size:.82rem;margin-bottom:20px">32 qualifiés · Défilez horizontalement pour voir la suite →</p>';
   
   // REAL match data from touteleurope.eu (Paris time)
-  var k16=[
+  // Moitié Haute
+  var mh=[[
     ['28 juin','21h00','🇿🇦 Afrique du Sud','🇨🇦 Canada'],
     ['29 juin','19h00','🇧🇷 Brésil','🇯🇵 Japon'],
     ['29 juin','22h30','🇩🇪 Allemagne','🇵🇾 Paraguay'],
-    ['30 juin','03h00','🇳🇱 Pays-Bas','🇲🇦 Maroc'],
+    ['30 juin','03h00','🇳🇱 Pays-Bas','🇲🇦 Maroc']
+  ],[
     ['30 juin','19h00','🇨🇮 Côte d\'Ivoire','🇳🇴 Norvège'],
     ['30 juin','23h00','🇫🇷 France','🇸🇪 Suède'],
     ['1 juil.','03h00','🇲🇽 Mexique','🇪🇨 Équateur'],
-    ['1 juil.','18h00','🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre','🇨🇩 RD Congo'],
+    ['1 juil.','18h00','🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre','🇨🇩 RD Congo']
+  ]];
+  // Moitié Basse
+  var mb2=[[
     ['1 juil.','22h00','🇧🇪 Belgique','🇸🇳 Sénégal'],
     ['2 juil.','02h00','🇺🇸 États-Unis','🇧🇦 Bosnie-Herzégovine'],
     ['2 juil.','21h00','🇪🇸 Espagne','🇦🇹 Autriche'],
-    ['3 juil.','01h00','🇵🇹 Portugal','🇭🇷 Croatie'],
+    ['3 juil.','01h00','🇵🇹 Portugal','🇭🇷 Croatie']
+  ],[
     ['3 juil.','05h00','🇨🇭 Suisse','🇩🇿 Algérie'],
     ['3 juil.','20h00','🇦🇺 Australie','🇪🇬 Égypte'],
     ['4 juil.','00h00','🇦🇷 Argentine','🇨🇻 Cap Vert'],
     ['4 juil.','03h30','🇨🇴 Colombie','🇬🇭 Ghana']
-  ];
-  var k8dates=[['4 juil.','23h00'],['4 juil.','19h00'],['6 juil.','21h00'],['7 juil.','02h00'],['5 juil.','22h00'],['6 juil.','02h00']];
-  var k4dates=[['7 juil.','18h00'],['7 juil.','22h00'],['9 juil.','22h00'],['10 juil.','21h00'],['11 juil.','23h00'],['12 juil.','03h00']];
-  var k2dates=[['14 juil.','21h00'],['15 juil.','21h00']];
+  ]];
   
-  h+='<div class="kocontainer">';
-  h+='<div class="koround"><div class="koroundtitle">16<sup>es</sup> de finale</div>';
-  for(var i=0;i<k16.length;i++){var m=k16[i];h+='<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+'</div><div class="komatch"><div class="koteam kotop">'+m[2]+'</div><div class="koteam">'+m[3]+'</div></div></div>';}
+  function mbx(m){return'<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+'</div><div class="komatch"><div class="koteam kotop">'+m[2]+'</div><div class="koteam">'+m[3]+'</div></div></div>';}
+  function mwid(matchNum,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+matchNum+'</div></div></div>';}
+  
+  h+='<div class="bwrap">';
+  
+  // ── Moitié Haute ──
+  h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div>';
+  // Row 1: first 4 matches → 2 8es
+  h+='<div class="brow">';
+  h+='<div class="bcol"><div class="blbl">16es</div>'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">8es</div>'+mwid(89,'4 juil.','23h00')+mwid(90,'4 juil.','19h00')+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">Quart</div>'+mwid(95,'7 juil.','18h00')+'</div>';
+  h+='</div>';
+  // Row 2: next 4 matches → 2 8es → join to same Quart
+  h+='<div class="brow">';
+  h+='<div class="bcol">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol">'+mwid(91,'6 juil.','21h00')+mwid(92,'7 juil.','02h00')+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">Quart</div>'+mwid(96,'7 juil.','22h00')+'</div>';
+  h+='</div>';
+  // Demi
+  h+='<div class="brow" style="justify-content:center"><div class="barr">→</div><div class="bcol"><div class="blbl">Demi</div>'+mwid(99,'14 juil.','21h00')+'</div></div>';
   h+='</div>';
   
-  h+='<div class="koconnector">→</div>';
-  h+='<div class="koround"><div class="koroundtitle">8<sup>es</sup> de finale</div>';
-  for(var i=0;i<6;i++){var d=k8dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(73+i)+'</div></div></div>';}
+  // ── Centre → Finale ──
+  h+='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 8px;flex-shrink:0">';
+  h+='<div style="font-size:11px;color:rgba(0,0,0,.2);text-align:center;line-height:1">│<br>│<br>│<br>▼</div>';
+  h+='<div class="kofinal" style="margin:0"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE</div><div class="kofvs">19 juillet · 21h00</div><div class="kofvenue">MetLife Stadium</div></div>';
+  h+='<div style="font-size:11px;color:rgba(0,0,0,.2);text-align:center;line-height:1">▲<br>│<br>│<br>│</div>';
   h+='</div>';
   
-  h+='<div class="koconnector">→</div>';
-  h+='<div class="koround"><div class="koroundtitle">Quarts de finale</div>';
-  for(var i=0;i<6;i++){var d=k4dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(79+i)+'</div></div></div>';}
+  // ── Moitié Basse ──
+  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
+  // Row 1
+  h+='<div class="brow">';
+  h+='<div class="bcol"><div class="blbl">16es</div>'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">8es</div>'+mwid(93,'5 juil.','22h00')+mwid(94,'6 juil.','02h00')+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">Quart</div>'+mwid(97,'9 juil.','22h00')+'</div>';
+  h+='</div>';
+  // Row 2
+  h+='<div class="brow">';
+  h+='<div class="bcol">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol">'+mwid(95,'10 juil.','21h00')+mwid(96,'11 juil.','23h00')+'</div>';
+  h+='<div class="barr">→</div>';
+  h+='<div class="bcol"><div class="blbl">Quart</div>'+mwid(98,'12 juil.','03h00')+'</div>';
+  h+='</div>';
+  // Demi
+  h+='<div class="brow" style="justify-content:center"><div class="barr">→</div><div class="bcol"><div class="blbl">Demi</div>'+mwid(100,'15 juil.','21h00')+'</div></div>';
   h+='</div>';
   
-  h+='<div class="koconnector">→</div>';
-  h+='<div class="koround"><div class="koroundtitle">Demi-finales</div>';
-  for(var i=0;i<2;i++){var d=k2dates[i];h+='<div class="kobox"><div class="kodate">'+d[0]+' · '+d[1]+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+(97+i)+'</div></div></div>';}
-  h+='</div></div>';
+  h+='</div>';
   
-  // Finale + 3e place — real dates from touteleurope.eu
-  h+='<div style="text-align:center;margin-top:28px">';
-  h+='<div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE · 19 juillet · 21h00</div>';
-  h+='<div class="kofvs">Vainqueur Demi-finale 1 — Vainqueur Demi-finale 2</div>';
-  h+='<div class="kofvenue">MetLife Stadium · East Rutherford, NJ</div></div>';
+  // 3e place
   h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet · 23h00</div>';
-  h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div></div>';
+  h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div>';
   h+='</section>';
 
   // Groupes — affichés après la Phase Finale
