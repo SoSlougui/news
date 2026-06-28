@@ -136,6 +136,8 @@ section{padding:48px 0}
 .bm{background:#fff;border-radius:8px;padding:8px 10px;border:1px solid rgba(0,0,0,.06);min-height:46px;display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:0 1px 3px rgba(0,0,0,.04);font-size:12px;min-width:130px}
 .bm .bt{font-weight:500;color:#1d1d1f;white-space:nowrap;line-height:1.6}
 .bm .bt:first-child{font-weight:700}
+.bmv .bt{color:rgba(0,0,0,.25)!important;font-style:italic;font-weight:400!important}
+.bmf .bt{color:#0071e3!important;font-weight:700!important}
 .bfinal{background:linear-gradient(135deg,#0a0a0a,#1a1a1a);color:#fff;border-radius:16px;padding:22px 40px;text-align:center;max-width:480px;margin:28px auto 14px;box-shadow:0 10px 40px rgba(0,0,0,.18)}
 .bfstars{font-size:12px;letter-spacing:4px;color:#f5a623;margin-bottom:6px}
 .bflbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:6px}
@@ -145,13 +147,25 @@ section{padding:48px 0}
 .btlbl{font-size:10px;color:#0071e3;font-weight:600;text-transform:uppercase;letter-spacing:1px}
 .btteams{font-size:14px;font-weight:600;margin-top:4px;color:rgba(0,0,0,.55)}
 
+/* Mobile bracket: show simple list, hide tree */
+.bmob{display:none}
+.bmob-half{margin-bottom:16px}
+.bmob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bmob .bm{font-size:13px;min-width:0}
+
 @media(max-width:900px){
-  .bwrap{flex-direction:column;align-items:center}
-  .bhalf{min-width:100%}
-  .bm{font-size:9px;min-width:90px}
-  .bcol{min-width:95px}
-  .bfinal{padding:12px 20px}
+  .bwrap{display:none}
+  .bmob{display:block;padding:0 16px}
+  .bmob-grid{grid-template-columns:1fr 1fr}
+  .bfinal{padding:18px 24px}
+  .bfteams{font-size:15px}
+}
+@media(max-width:500px){
+  .bmob-grid{grid-template-columns:1fr}
+  .bmob .bm{font-size:14px;padding:10px 14px}
+  .bfinal{padding:14px 18px}
   .bfteams{font-size:13px}
+  .bhlbl{font-size:14px}
 }
 }
 
@@ -171,7 +185,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 09:49</span>
+    <span class="upd">28 June 2026 - 11:25</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -533,33 +547,38 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  // Phase Finale — Bracket V4
-  // Phase Finale — Bracket avec drapeaux
+  // Phase Finale — Bracket
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet</div></div></div>';
   
-  // Helper: get team from group at position (0=1st, 1=2nd)
   function gt(gk,pos){var g=WC_GROUPS[gk];if(!g||!g.teams||!g.teams[pos])return'?';return(g.teams[pos].flag||'')+' '+g.teams[pos].team;}
-  function gtFlag(gk,pos){var g=WC_GROUPS[gk];if(!g)return'';var s=[].concat(g.teams).sort(function(a,b){return b.p-a.p||(b.gf-b.ga)-(a.gf-a.ga)});return s[pos]?s[pos].flag||'':'';}
   
   function bm(t1,t2){return'<div class="bm"><div class="bt">'+t1+'</div><div class="bt">'+t2+'</div></div>';}
   function bcol(l,ms){var h='<div class="bcol">';if(l)h+='<div class="blbl">'+l+'</div>';for(var i=0;i<ms.length;i++)h+=ms[i];return h+'</div>';}
   function barr(){return'<div class="barr">→</div>';}
-  function vct(){return'<div class="bm"><div class="bt" style="color:rgba(0,0,0,.25);font-style:italic">Vainqueur</div></div>';}
-  function flt(){return'<div class="bm"><div class="bt" style="color:#0071e3;font-weight:700">Finaliste</div></div>';}
+  function vct(){return'<div class="bm bmv"><div class="bt">Vainqueur</div></div>';}
+  function flt(){return'<div class="bm bmf"><div class="bt">Finaliste</div></div>';}
   
+  var ha=[bm(gt('A',0),gt('B',1)),bm(gt('C',0),gt('D',1)),bm(gt('E',0),gt('F',1)),bm(gt('G',0),gt('H',1))];
+  var ba=[bm(gt('B',0),gt('A',1)),bm(gt('D',0),gt('C',1)),bm(gt('F',0),gt('E',1)),bm(gt('H',0),gt('G',1))];
+  
+  // Desktop bracket
   h+='<div class="bwrap">';
-  // Moitié Haute
   h+='<div class="bhalf"><div class="bhlbl">🔼 Moitié Haute</div>';
-  h+='<div class="brow">'+bcol('16es',[bm(gt('A',0),gt('B',1)),bm(gt('C',0),gt('D',1))])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
-  h+='<div class="brow" style="margin-top:2px">'+bcol('',[bm(gt('E',0),gt('F',1)),bm(gt('G',0),gt('H',1))])+barr()+bcol('',[vct()])+'</div>';
+  h+='<div class="brow">'+bcol('16es',[ha[0],ha[1]])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
+  h+='<div class="brow">'+bcol('',[ha[2],ha[3]])+barr()+bcol('',[vct()])+'</div></div>';
+  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
+  h+='<div class="brow">'+bcol('16es',[ba[0],ba[1]])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
+  h+='<div class="brow">'+bcol('',[ba[2],ba[3]])+barr()+bcol('',[vct()])+'</div></div>';
   h+='</div>';
   
-  // Moitié Basse
-  h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
-  h+='<div class="brow">'+bcol('16es',[bm(gt('B',0),gt('A',1)),bm(gt('D',0),gt('C',1))])+barr()+bcol('8es',[vct()])+barr()+bcol('Quart',[vct()])+barr()+bcol('Demi',[flt()])+'</div>';
-  h+='<div class="brow" style="margin-top:2px">'+bcol('',[bm(gt('F',0),gt('E',1)),bm(gt('H',0),gt('G',1))])+barr()+bcol('',[vct()])+'</div>';
-  h+='</div>';
-  h+='</div>';
+  // Mobile bracket (simple matchup list)
+  h+='<div class="bmob">';
+  h+='<div class="bmob-half"><div class="bhlbl">🔼 Moitié Haute</div><div class="bmob-grid">';
+  for(var i=0;i<4;i++)h+=ha[i];
+  h+='</div></div>';
+  h+='<div class="bmob-half"><div class="bhlbl">🔽 Moitié Basse</div><div class="bmob-grid">';
+  for(var i=0;i<4;i++)h+=ba[i];
+  h+='</div></div></div>';
   
   // Finale
   h+='<div class="bfinal"><div class="bfstars">★ ★ ★ ★ ★</div><div class="bflbl">🏆 FINALE · 19 juillet</div><div class="bfteams">Vainqueur Moitié Haute — Vainqueur Moitié Basse</div><div class="bfinfo">MetLife Stadium · East Rutherford, NJ</div></div>';
