@@ -206,7 +206,7 @@ body.dark .cat{color:rgba(255,255,255,.5)}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 14:14</span>
+    <span class="upd">28 June 2026 - 14:16</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -573,8 +573,12 @@ function renderWorldCup(fc){
   h+='<div class="barr">→</div><div class="bcol8">'+mw(89,'4 juil.','23h00')+mw(90,'4 juil.','19h00')+'</div>';
   h+='<div class="barr">→</div><div class="bcolQ">'+mw(95,'7 juil.','18h00')+'</div>';
   h+='</div>';
-  // Demi — centrée entre les deux rows
-  h+='<div class="brow" style="justify-content:flex-end;padding-right:8px">';
+  // Demi — alignée avec les Quarts via colonnes invisibles
+  h+='<div class="brow">';
+  h+='<div class="bcol16" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">→</div>';
+  h+='<div class="bcol8" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">→</div>';
   h+='<div class="bcolD">'+mw(99,'14 juil.','21h00')+'</div></div>';
   // Row 2
   h+='<div class="brow">';

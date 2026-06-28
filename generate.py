@@ -762,8 +762,12 @@ function renderWorldCup(fc){
   h+='<div class="barr">→</div><div class="bcol8">'+mw(89,'4 juil.','23h00')+mw(90,'4 juil.','19h00')+'</div>';
   h+='<div class="barr">→</div><div class="bcolQ">'+mw(95,'7 juil.','18h00')+'</div>';
   h+='</div>';
-  // Demi — centrée entre les deux rows
-  h+='<div class="brow" style="justify-content:flex-end;padding-right:8px">';
+  // Demi — alignée avec les Quarts via colonnes invisibles
+  h+='<div class="brow">';
+  h+='<div class="bcol16" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">→</div>';
+  h+='<div class="bcol8" style="visibility:hidden">·</div>';
+  h+='<div class="barr" style="visibility:hidden">→</div>';
   h+='<div class="bcolD">'+mw(99,'14 juil.','21h00')+'</div></div>';
   // Row 2
   h+='<div class="brow">';
