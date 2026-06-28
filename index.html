@@ -131,7 +131,7 @@ section{padding:48px 0}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 03:08</span>
+    <span class="upd">28 June 2026 - 04:35</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -321,76 +321,76 @@ function renderBm(fc){
 // ───── Coupe du Monde 2026 ─────
 const WC_GROUPS = {
   A:{name:'Groupe A',teams:[
-    {team:'Mexique',flag:'🇲🇽',p:7,gf:6,ga:0,pl:3},
-    {team:'Afrique du Sud',flag:'🇿🇦',p:4,gf:2,ga:3,pl:3},
-    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:2,ga:3,pl:3},
-    {team:'Republique Tcheque',flag:'🇨🇿',p:1,gf:2,ga:6,pl:3}
+    {team:'Mexique',flag:'🇲🇽',p:7,gf:6,ga:0,pl:3,q:true},
+    {team:'Afrique du Sud',flag:'🇿🇦',p:4,gf:2,ga:3,pl:3,q:true},
+    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:2,ga:3,pl:3,e:true},
+    {team:'Republique Tcheque',flag:'🇨🇿',p:1,gf:2,ga:6,pl:3,e:true}
   ]},
   B:{name:'Groupe B',teams:[
-    {team:'Suisse',flag:'🇨🇭',p:7,gf:7,ga:3,pl:3},
-    {team:'Canada',flag:'🇨🇦',p:4,gf:8,ga:3,pl:3},
+    {team:'Suisse',flag:'🇨🇭',p:7,gf:7,ga:3,pl:3,q:true},
+    {team:'Canada',flag:'🇨🇦',p:4,gf:8,ga:3,pl:3,q:true},
     {team:'Bosnie-Herzegovine',flag:'🇧🇦',p:4,gf:5,ga:6,pl:3},
-    {team:'Qatar',flag:'🇶🇦',p:1,gf:2,ga:10,pl:3}
+    {team:'Qatar',flag:'🇶🇦',p:1,gf:2,ga:10,pl:3,e:true}
   ]},
   C:{name:'Groupe C',teams:[
-    {team:'Bresil',flag:'🇧🇷',p:7,gf:7,ga:1,pl:3},
-    {team:'Maroc',flag:'🇲🇦',p:7,gf:6,ga:3,pl:3},
-    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:4,pl:3},
-    {team:'Haiti',flag:'🇭🇹',p:0,gf:2,ga:8,pl:3}
+    {team:'Bresil',flag:'🇧🇷',p:7,gf:7,ga:1,pl:3,q:true},
+    {team:'Maroc',flag:'🇲🇦',p:7,gf:6,ga:3,pl:3,q:true},
+    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:4,pl:3,e:true},
+    {team:'Haiti',flag:'🇭🇹',p:0,gf:2,ga:8,pl:3,e:true}
   ]},
   D:{name:'Groupe D',teams:[
-    {team:'Etats-Unis',flag:'🇺🇸',p:6,gf:8,ga:4,pl:3},
-    {team:'Australie',flag:'🇦🇺',p:4,gf:2,ga:2,pl:3},
+    {team:'Etats-Unis',flag:'🇺🇸',p:6,gf:8,ga:4,pl:3,q:true},
+    {team:'Australie',flag:'🇦🇺',p:4,gf:2,ga:2,pl:3,q:true},
     {team:'Paraguay',flag:'🇵🇾',p:4,gf:2,ga:4,pl:3},
-    {team:'Turkiye',flag:'🇹🇷',p:3,gf:3,ga:5,pl:3}
+    {team:'Turkiye',flag:'🇹🇷',p:3,gf:3,ga:5,pl:3,e:true}
   ]},
   E:{name:'Groupe E',teams:[
-    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:6,gf:4,ga:2,pl:3},
-    {team:'Allemagne',flag:'🇩🇪',p:6,gf:10,ga:4,pl:3},
+    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:6,gf:4,ga:2,pl:3,q:true},
+    {team:'Allemagne',flag:'🇩🇪',p:6,gf:10,ga:4,pl:3,q:true},
     {team:'Equateur',flag:'🇪🇨',p:4,gf:2,ga:2,pl:3},
-    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:9,pl:3}
+    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:9,pl:3,e:true}
   ]},
   F:{name:'Groupe F',teams:[
-    {team:'Pays-Bas',flag:'🇳🇱',p:7,gf:10,ga:4,pl:3},
-    {team:'Japon',flag:'🇯🇵',p:5,gf:7,ga:3,pl:3},
+    {team:'Pays-Bas',flag:'🇳🇱',p:7,gf:10,ga:4,pl:3,q:true},
+    {team:'Japon',flag:'🇯🇵',p:5,gf:7,ga:3,pl:3,q:true},
     {team:'Suede',flag:'🇸🇪',p:4,gf:7,ga:7,pl:3},
-    {team:'Tunisie',flag:'🇹🇳',p:0,gf:2,ga:12,pl:3}
+    {team:'Tunisie',flag:'🇹🇳',p:0,gf:2,ga:12,pl:3,e:true}
   ]},
   G:{name:'Groupe G',teams:[
-    {team:'Belgique',flag:'🇧🇪',p:5,gf:6,ga:2,pl:3},
-    {team:'Egypte',flag:'🇪🇬',p:5,gf:5,ga:3,pl:3},
-    {team:'Iran',flag:'🇮🇷',p:3,gf:3,ga:3,pl:3},
-    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:4,ga:10,pl:3}
+    {team:'Belgique',flag:'🇧🇪',p:5,gf:6,ga:2,pl:3,q:true},
+    {team:'Egypte',flag:'🇪🇬',p:5,gf:5,ga:3,pl:3,q:true},
+    {team:'Iran',flag:'🇮🇷',p:3,gf:3,ga:3,pl:3,e:true},
+    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:4,ga:10,pl:3,e:true}
   ]},
   H:{name:'Groupe H',teams:[
-    {team:'Espagne',flag:'🇪🇸',p:7,gf:5,ga:0,pl:3},
-    {team:'Cap-Vert',flag:'🇨🇻',p:3,gf:2,ga:2,pl:3},
-    {team:'Uruguay',flag:'🇺🇾',p:2,gf:3,ga:4,pl:3},
-    {team:'Arabie Saoudite',flag:'🇸🇦',p:2,gf:1,ga:5,pl:3}
+    {team:'Espagne',flag:'🇪🇸',p:7,gf:5,ga:0,pl:3,q:true},
+    {team:'Cap-Vert',flag:'🇨🇻',p:3,gf:2,ga:2,pl:3,q:true},
+    {team:'Uruguay',flag:'🇺🇾',p:2,gf:3,ga:4,pl:3,e:true},
+    {team:'Arabie Saoudite',flag:'🇸🇦',p:2,gf:1,ga:5,pl:3,e:true}
   ]},
   I:{name:'Groupe I',teams:[
-    {team:'France',flag:'🇫🇷',p:9,gf:10,ga:2,pl:3},
-    {team:'Norvege',flag:'🇳🇴',p:6,gf:8,ga:7,pl:3},
+    {team:'France',flag:'🇫🇷',p:9,gf:10,ga:2,pl:3,q:true},
+    {team:'Norvege',flag:'🇳🇴',p:6,gf:8,ga:7,pl:3,q:true},
     {team:'Senegal',flag:'🇸🇳',p:3,gf:8,ga:6,pl:3},
-    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:12,pl:3}
+    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:12,pl:3,e:true}
   ]},
   J:{name:'Groupe J',teams:[
-    {team:'Argentine',flag:'🇦🇷',p:6,gf:5,ga:1,pl:2},
-    {team:'Autriche',flag:'🇦🇹',p:3,gf:4,ga:5,pl:2},
-    {team:'Algerie',flag:'🇩🇿',p:3,gf:2,ga:4,pl:2},
-    {team:'Jordanie',flag:'🇯🇴',p:0,gf:2,ga:5,pl:2}
+    {team:'Argentine',flag:'🇦🇷',p:9,gf:8,ga:1,pl:3,q:true},
+    {team:'Autriche',flag:'🇦🇹',p:4,gf:6,ga:6,pl:3,q:true},
+    {team:'Algerie',flag:'🇩��',p:4,gf:5,ga:7,pl:3},
+    {team:'Jordanie',flag:'🇯🇴',p:0,gf:3,ga:8,pl:3,e:true}
   ]},
   K:{name:'Groupe K',teams:[
-    {team:'Colombie',flag:'🇨🇴',p:6,gf:4,ga:1,pl:2},
-    {team:'Portugal',flag:'🇵🇹',p:4,gf:6,ga:1,pl:2},
-    {team:'RD Congo',flag:'🇨🇩',p:1,gf:1,ga:2,pl:2},
-    {team:'Ouzbekistan',flag:'🇺🇿',p:0,gf:1,ga:8,pl:2}
+    {team:'Colombie',flag:'🇨🇴',p:7,gf:4,ga:1,pl:3,q:true},
+    {team:'Portugal',flag:'🇵🇹',p:5,gf:6,ga:1,pl:3,q:true},
+    {team:'RD Congo',flag:'🇨🇩',p:4,gf:4,ga:3,pl:3},
+    {team:'Ouzbekistan',flag:'🇺🇿',p:0,gf:2,ga:11,pl:3,e:true}
   ]},
   L:{name:'Groupe L',teams:[
-    {team:'Angleterre',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',p:4,gf:4,ga:2,pl:2},
-    {team:'Ghana',flag:'🇬🇭',p:4,gf:1,ga:0,pl:2},
-    {team:'Croatie',flag:'🇭🇷',p:3,gf:3,ga:4,pl:2},
-    {team:'Panama',flag:'🇵🇦',p:0,gf:0,ga:2,pl:2}
+    {team:'Angleterre',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',p:7,gf:6,ga:2,pl:3,q:true},
+    {team:'Croatie',flag:'🇭🇷',p:6,gf:5,ga:5,pl:3,q:true},
+    {team:'Ghana',flag:'🇬🇭',p:4,gf:2,ga:2,pl:3},
+    {team:'Panama',flag:'🇵🇦',p:0,gf:0,ga:4,pl:3,e:true}
   ]}
 };
 
@@ -460,16 +460,17 @@ const WC_MATCHES_DONE = [
   {g:'H',d:'26 juin',t1:'Cap-Vert',t2:'Arabie Saoudite',s1:0,s2:0},
   {g:'H',d:'26 juin',t1:'Uruguay',t2:'Espagne',s1:0,s2:1},
   {g:'G',d:'26 juin',t1:'Egypte',t2:'Iran',s1:1,s2:1},
-  {g:'G',d:'26 juin',t1:'Nouvelle-Zelande',t2:'Belgique',s1:1,s2:5}
+  {g:'G',d:'26 juin',t1:'Nouvelle-Zelande',t2:'Belgique',s1:1,s2:5},
+  {g:'L',d:'27 juin',t1:'Panama',t2:'Angleterre',s1:0,s2:2},
+  {g:'L',d:'27 juin',t1:'Croatie',t2:'Ghana',s1:2,s2:1},
+  {g:'K',d:'27 juin',t1:'Colombie',t2:'Portugal',s1:0,s2:0},
+  {g:'K',d:'27 juin',t1:'RD Congo',t2:'Ouzbekistan',s1:3,s2:1},
+  {g:'J',d:'27 juin',t1:'Algerie',t2:'Autriche',s1:3,s2:3},
+  {g:'J',d:'27 juin',t1:'Jordanie',t2:'Argentine',s1:1,s2:3}
 ];
 
 const WC_MATCHES_UPCOMING = [
-  {g:'L',d:'27 juin',t1:'Panama',t2:'Angleterre',h:'17:00'},
-  {g:'L',d:'27 juin',t1:'Croatie',t2:'Ghana',h:'17:00'},
-  {g:'K',d:'27 juin',t1:'Colombie',t2:'Portugal',h:'19:30'},
-  {g:'K',d:'27 juin',t1:'RD Congo',t2:'Ouzbekistan',h:'19:30'},
-  {g:'J',d:'27 juin',t1:'Algerie',t2:'Autriche',h:'22:00'},
-  {g:'J',d:'27 juin',t1:'Jordanie',t2:'Argentine',h:'22:00'}
+  // Fin des phases de groupes — les 16es de finale débutent le 29 juin
 ];
 
 function renderWorldCup(fc){
@@ -493,8 +494,14 @@ function renderWorldCup(fc){
   h+='</div></section>';
 
   // Phase Finale
-  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin</div></div></div>';
-  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px"><p style="color:rgba(0,0,0,.45);line-height:1.7;font-size:.88rem;text-align:center;max-width:600px;margin:0 auto">Les 12 premiers de groupe, les 12 deuxièmes et les 8 meilleurs troisièmes composeront le tableau des 16es de finale.</p></div></section>';
+  h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 3 juillet</div></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px">';
+  h+='<p style="color:rgba(0,0,0,.45);line-height:1.7;font-size:.88rem;text-align:center;max-width:700px;margin:0 auto 24px">Les phases de groupes sont terminées ! Les 12 premiers, 12 deuxièmes et 8 meilleurs troisièmes sont qualifiés pour les 16<sup>es</sup> de finale.</p>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:.72rem;margin-bottom:24px">';
+  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#059669">1<sup>ers</sup> de groupe</div><div style="line-height:1.7">🇲🇽&nbsp;Mexique · 🇨🇭&nbsp;Suisse · 🇧🇷&nbsp;Brésil · 🇺🇸&nbsp;États-Unis · 🇨🇮&nbsp;Côte&nbsp;d\'Ivoire · 🇳🇱&nbsp;Pays-Bas · 🇧🇪&nbsp;Belgique · 🇪🇸&nbsp;Espagne · 🇫🇷&nbsp;France · 🇦🇷&nbsp;Argentine · 🇨🇴&nbsp;Colombie · 🏴󠁧󠁢󠁥󠁮󠁧󠁿&nbsp;Angleterre</div></div>';
+  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#0071e3">2<sup>es</sup> de groupe</div><div style="line-height:1.7">🇿🇦&nbsp;Afrique&nbsp;du&nbsp;Sud · 🇨🇦&nbsp;Canada · 🇲🇦&nbsp;Maroc · 🇦🇺&nbsp;Australie · 🇩🇪&nbsp;Allemagne · 🇯🇵&nbsp;Japon · 🇪🇬&nbsp;Égypte · 🇨🇻&nbsp;Cap-Vert · 🇳🇴&nbsp;Norvège · 🇦🇹&nbsp;Autriche · 🇵🇹&nbsp;Portugal · 🇭🇷&nbsp;Croatie</div></div>';
+  h+='<div style="background:#fff;border-radius:12px;padding:14px"><div style="font-weight:700;margin-bottom:6px;color:#b45309">Meilleurs 3<sup>es</sup></div><div style="line-height:1.7">🇨🇩&nbsp;RD&nbsp;Congo · 🇸🇪&nbsp;Suède · 🇪🇨&nbsp;Équateur · 🇬🇭&nbsp;Ghana · 🇧🇦&nbsp;Bosnie · 🇩🇿&nbsp;Algérie · 🇵🇾&nbsp;Paraguay · 🇸🇳&nbsp;Sénégal</div></div>';
+  h+='</div></div></section>';
 
   // Matchs Joués
   h+='<section class="light"><div class="container"><div class="sec-head"><h3>Matchs Joués</h3></div></div>';
@@ -526,7 +533,7 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 26 juin 2026</div>';
+  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 27 juin 2026</div>';
   fc.innerHTML=h;
 }
 function openPanel(id){
