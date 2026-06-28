@@ -193,7 +193,7 @@ body.dark .cat{color:rgba(255,255,255,.5)}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">28 June 2026 - 12:52</span>
+    <span class="upd">28 June 2026 - 12:56</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -517,23 +517,7 @@ function renderWorldCup(fc){
   var n=new Date();if(n>=new Date('2026-07-23T00:00:00')){fc.innerHTML='<div class="bm-empty"><h3>⚽</h3><p>Section archivée.</p></div>';return}
   var h='',dk=false;
 
-  // Groupes
-  h+='<section class="light"><div class="container"><div class="sec-head"><h3>Phases de Groupes</h3><div class="count">12 groupes · 3e journée</div></div></div>';
-  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px">';
-  for(var gk in WC_GROUPS){var g=WC_GROUPS[gk];
-    h+='<div style="background:#fff;border-radius:16px;padding:24px 26px;box-shadow:rgba(0,0,0,.05)0 1px 4px">';
-    h+='<div class="cat">'+g.name+'</div>';
-    h+='<table style="width:100%;border-collapse:collapse;font-size:.76rem;margin-top:12px">';
-    h+='<tr style="color:rgba(0,0,0,.3);font-size:.6rem;text-transform:uppercase;letter-spacing:1px"><th style="text-align:left;padding:6px 6px;font-weight:500">Équipe</th><th style="text-align:center;padding:6px 3px;font-weight:500">J</th><th style="text-align:center;padding:6px 3px;font-weight:500">V</th><th style="text-align:center;padding:6px 3px;font-weight:500">N</th><th style="text-align:center;padding:6px 3px;font-weight:500">D</th><th style="text-align:center;padding:6px 3px;font-weight:500">+/-</th><th style="text-align:center;padding:6px 3px;font-weight:500;color:#0071e3">Pts</th></tr>';
-    var s=g.teams;
-    for(var i=0;i<s.length;i++){var t=s[i],gp=t.pl||2,gd=t.gf-t.ga,st=t.q?'<span style="font-size:.55rem;color:#059669;margin-left:3px">Q</span>':t.e?'<span style="font-size:.55rem;color:#dc2626;margin-left:3px">E</span>':'';
-      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 6px;font-weight:600;font-size:.74rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+gp+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:7px 3px;font-weight:700;color:#0071e3;font-size:.76rem">'+t.p+'</td></tr>';
-    }
-    h+='</table></div>';
-  }
-  h+='</div></section>';
-
-  // Phase Finale — 3 colonnes simple
+  // Phase Finale — affichée en premier
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet · Heure de Paris</div></div></div>';
   h+='<p style="text-align:center;color:rgba(0,0,0,.45);font-size:.82rem;margin-bottom:20px">32 qualifiés · Défilez horizontalement pour voir la suite →</p>';
   
@@ -588,6 +572,22 @@ function renderWorldCup(fc){
   h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet · 23h00</div>';
   h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div></div>';
   h+='</section>';
+
+  // Groupes — affichés après la Phase Finale
+  h+='<section class="light"><div class="container"><div class="sec-head"><h3>Phases de Groupes</h3><div class="count">12 groupes · 3e journée</div></div></div>';
+  h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px">';
+  for(var gk in WC_GROUPS){var g=WC_GROUPS[gk];
+    h+='<div style="background:#fff;border-radius:16px;padding:24px 26px;box-shadow:rgba(0,0,0,.05)0 1px 4px">';
+    h+='<div class="cat">'+g.name+'</div>';
+    h+='<table style="width:100%;border-collapse:collapse;font-size:.76rem;margin-top:12px">';
+    h+='<tr style="color:rgba(0,0,0,.3);font-size:.6rem;text-transform:uppercase;letter-spacing:1px"><th style="text-align:left;padding:6px 6px;font-weight:500">Équipe</th><th style="text-align:center;padding:6px 3px;font-weight:500">J</th><th style="text-align:center;padding:6px 3px;font-weight:500">V</th><th style="text-align:center;padding:6px 3px;font-weight:500">N</th><th style="text-align:center;padding:6px 3px;font-weight:500">D</th><th style="text-align:center;padding:6px 3px;font-weight:500">+/-</th><th style="text-align:center;padding:6px 3px;font-weight:500;color:#0071e3">Pts</th></tr>';
+    var s=g.teams;
+    for(var i=0;i<s.length;i++){var t=s[i],gp=t.pl||2,gd=t.gf-t.ga,st=t.q?'<span style="font-size:.55rem;color:#059669;margin-left:3px">Q</span>':t.e?'<span style="font-size:.55rem;color:#dc2626;margin-left:3px">E</span>':'';
+      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 6px;font-weight:600;font-size:.74rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+gp+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:7px 3px;font-weight:700;color:#0071e3;font-size:.76rem">'+t.p+'</td></tr>';
+    }
+    h+='</table></div>';
+  }
+  h+='</div></section>';
 
   // Matchs Joués
   h+='<section class="light"><div class="container"><div class="sec-head"><h3>Matchs Joués</h3></div></div>';
