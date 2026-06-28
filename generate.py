@@ -566,7 +566,7 @@ const WC_GROUPS = {
   J:{name:'Groupe J',teams:[
     {team:'Argentine',flag:'🇦🇷',p:9,gf:8,ga:1,pl:3,q:true},
     {team:'Autriche',flag:'🇦🇹',p:4,gf:6,ga:6,pl:3,q:true},
-    {team:'Algerie',flag:'🇩��',p:4,gf:5,ga:7,pl:3},
+    {team:'Algerie',flag:'🇩🇿',p:4,gf:5,ga:7,pl:3},
     {team:'Jordanie',flag:'🇯🇴',p:0,gf:3,ga:8,pl:3,e:true}
   ]},
   K:{name:'Groupe K',teams:[
