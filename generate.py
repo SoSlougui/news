@@ -734,8 +734,8 @@ function renderWorldCup(fc){
     +'<div class="koteam">'+t2+'</div></div></div>';
   }
   function mbf(mid){return'<div class="kobox"><div class="kodate">&nbsp;</div><div class="komatch koidle" id="ko-'+mid+'"><div class="koidletext">Vainqueur<br>match '+mid+'</div></div></div>';}
+  function mbf(mid,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+mid+'</div></div></div>';}
   
-  // Match data: [t1 group, t2 group, date, hour, match id]
   var k16=[
     ['A',0,'B',1,'29 juin','21:00',1],['C',0,'D',1,'30 juin','00:00',2],
     ['E',0,'F',1,'30 juin','03:00',3],['G',0,'H',1,'30 juin','15:00',4],
@@ -746,32 +746,33 @@ function renderWorldCup(fc){
   var k4=[[9,10,'10 juil.','21:00',13],[11,12,'11 juil.','00:00',14]];
   var k2=[[13,14,'15 juil.','03:00',15]];
   
-  h+='<div class="kocontainer"><div class="koround"><div class="koroundtitle">16<sup>es</sup> de finale</div>';
+  h+='<div class="kocontainer">';
+  h+='<div class="koround"><div class="koroundtitle">16<sup>es</sup> de finale</div>';
   for(var i=0;i<k16.length;i++){var m=k16[i];h+=mb(gt(m[0],m[1]),gt(m[2],m[3]),m[4],m[5],m[6]);}
-  h+='</div>';
+  h+='<div class="koidle" style="margin-top:4px;padding:10px;text-align:center;font-size:10px;color:rgba(0,0,0,.25)">+ 8 matchs (3<sup>es</sup> de groupe)<br>à déterminer</div></div>';
   
   h+='<div class="koconnector">→</div>';
   h+='<div class="koround"><div class="koroundtitle">8<sup>es</sup> de finale</div>';
-  for(var i=0;i<k8.length;i++){var m=k8[i];h+=mbf(m[4]);}
+  for(var i=0;i<k8.length;i++){var m=k8[i];h+=mbf(m[4],m[0]?m[2]:'','');}
   h+='</div>';
   
   h+='<div class="koconnector">→</div>';
   h+='<div class="koround"><div class="koroundtitle">Quarts de finale</div>';
-  for(var i=0;i<k4.length;i++){var m=k4[i];h+=mbf(m[4]);}
+  for(var i=0;i<k4.length;i++){var m=k4[i];h+=mbf(m[4],m[0]?m[2]:'','');}
+  h+='</div>';
+  
+  h+='<div class="koconnector">→</div>';
+  h+='<div class="koround"><div class="koroundtitle">Demi-finales</div>';
+  for(var i=0;i<k2.length;i++){var m=k2[i];h+=mbf(m[4],m[0]?m[2]:'','');}
   h+='</div></div>';
   
-  // Demies + Finale
-  h+='<div style="text-align:center;margin-top:32px">';
-  h+='<div class="kofinal"><div class="kofstars">★ ★ ★</div><div class="koftitle">Demi-finales</div>';
-  h+='<div class="kofmatch">'+mbf(15)+'</div>';
-  h+='<div style="margin:16px 0 0;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)">';
-  h+='<div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE · 19 juillet</div>';
-  h+='<div class="kofvs">Vainqueur Demi 1 — Vainqueur Demi 2</div>';
-  h+='<div class="kofvenue">MetLife Stadium · East Rutherford, NJ</div></div></div>';
-  
-  // 3e place
+  // Finale + 3e place
+  h+='<div style="text-align:center;margin-top:28px">';
+  h+='<div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE · 19 juillet</div>';
+  h+='<div class="kofvs">Vainqueur Demi-finale 1 — Vainqueur Demi-finale 2</div>';
+  h+='<div class="kofvenue">MetLife Stadium · East Rutherford, NJ</div></div>';
   h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet</div>';
-  h+='<div class="kothirdvs">Perdant Demi 1 — Perdant Demi 2</div></div></div>';
+  h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div></div>';
   h+='</section>';
 
   // Matchs Joués
