@@ -415,6 +415,7 @@ body.dark .cat{color:rgba(255,255,255,.5)}
 
 JS = r"""const ARTICLES = __ARTICLES__;
 const CAT_LABELS = {all:'Toutes les actualites',ia:'IA & Tech',crypto:'Crypto',gaming:'Jeux Video',markets:'Marches',general:'General',science:'Science',dev:'Developpement',startups:'Startups',bookmarks:'Sauvegardes',search:'Recherche',worldcup:'Coupe du Monde 2026'};
+function esc(s){var t=String(s||'');return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 // Theme
 (function(){if(localStorage.theme==='dark'){document.body.classList.add('dark');var t=document.getElementById('themeBtn');if(t)t.textContent='☾'}})();
 function toggleTheme(){
