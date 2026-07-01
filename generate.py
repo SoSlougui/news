@@ -356,9 +356,12 @@ section{padding:48px 0}
 .kodate{font-size:8px;color:#86868b;margin-bottom:1px}
 .komatch{background:#fff;border-radius:5px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .koteam{padding:4px 6px;font-size:10px;font-weight:500;color:#1d1d1f;white-space:nowrap}
+.wcflag{width:16px;height:12px;border-radius:2px;object-fit:cover;vertical-align:-1px;margin-right:3px;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
 .kotop{border-bottom:1px solid rgba(0,0,0,.06);font-weight:700}
 .koidle{background:rgba(0,0,0,.015);padding:7px 6px;text-align:center}
 .koidletext{font-size:8px;color:rgba(0,0,0,.25);font-style:italic}
+.koscore{padding:3px 6px 5px;text-align:center;font-size:11px;font-weight:700;color:#0071e3;background:rgba(0,113,227,.06)}
+.koidle-inline{font-style:italic;color:rgba(0,0,0,.3);font-weight:400}
 .kofinal{max-width:260px;margin:0 auto;text-align:center;padding:8px}
 .kofstars{font-size:8px;letter-spacing:2px;color:#f5a623;margin-bottom:1px}
 .koftitle{font-size:11px;font-weight:700;color:#1d1d1f}
@@ -400,6 +403,8 @@ body.dark .koteam{color:#e8e8ec}
 body.dark .kotop{border-color:rgba(255,255,255,.06)}
 body.dark .koidle{background:rgba(255,255,255,.03)}
 body.dark .koidletext{color:rgba(255,255,255,.2)}
+body.dark .koscore{background:rgba(94,158,255,.1);color:#5e9eff}
+body.dark .koidle-inline{color:rgba(255,255,255,.25)}
 body.dark .bhlbl{color:#5e9eff}
 body.dark .barr{color:rgba(255,255,255,.1)}
 body.dark .bcenter .kofinal{}
@@ -564,78 +569,87 @@ function renderBm(fc){
 // ───── Coupe du Monde 2026 ─────
 const WC_GROUPS = {
   A:{name:'Groupe A',teams:[
-    {team:'Mexique',flag:'🇲🇽',p:7,gf:6,ga:0,pl:3,q:true},
-    {team:'Afrique du Sud',flag:'🇿🇦',p:4,gf:2,ga:3,pl:3,q:true},
-    {team:'Coree du Sud',flag:'🇰🇷',p:3,gf:2,ga:3,pl:3,e:true},
-    {team:'Republique Tcheque',flag:'🇨🇿',p:1,gf:2,ga:6,pl:3,e:true}
+    {team:'Mexique',flag:'mx',p:7,gf:6,ga:0,pl:3,q:true},
+    {team:'Afrique du Sud',flag:'za',p:4,gf:2,ga:3,pl:3,q:true},
+    {team:'Coree du Sud',flag:'kr',p:3,gf:2,ga:3,pl:3,e:true},
+    {team:'Republique Tcheque',flag:'cz',p:1,gf:2,ga:6,pl:3,e:true}
   ]},
   B:{name:'Groupe B',teams:[
-    {team:'Suisse',flag:'🇨🇭',p:7,gf:7,ga:3,pl:3,q:true},
-    {team:'Canada',flag:'🇨🇦',p:4,gf:8,ga:3,pl:3,q:true},
-    {team:'Bosnie-Herzegovine',flag:'🇧🇦',p:4,gf:5,ga:6,pl:3},
-    {team:'Qatar',flag:'🇶🇦',p:1,gf:2,ga:10,pl:3,e:true}
+    {team:'Suisse',flag:'ch',p:7,gf:7,ga:3,pl:3,q:true},
+    {team:'Canada',flag:'ca',p:4,gf:8,ga:3,pl:3,q:true},
+    {team:'Bosnie-Herzegovine',flag:'ba',p:4,gf:5,ga:6,pl:3},
+    {team:'Qatar',flag:'qa',p:1,gf:2,ga:10,pl:3,e:true}
   ]},
   C:{name:'Groupe C',teams:[
-    {team:'Bresil',flag:'🇧🇷',p:7,gf:7,ga:1,pl:3,q:true},
-    {team:'Maroc',flag:'🇲🇦',p:7,gf:6,ga:3,pl:3,q:true},
-    {team:'Ecosse',flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',p:3,gf:1,ga:4,pl:3,e:true},
-    {team:'Haiti',flag:'🇭🇹',p:0,gf:2,ga:8,pl:3,e:true}
+    {team:'Bresil',flag:'br',p:7,gf:7,ga:1,pl:3,q:true},
+    {team:'Maroc',flag:'ma',p:7,gf:6,ga:3,pl:3,q:true},
+    {team:'Ecosse',flag:'gb-sct',p:3,gf:1,ga:4,pl:3,e:true},
+    {team:'Haiti',flag:'ht',p:0,gf:2,ga:8,pl:3,e:true}
   ]},
   D:{name:'Groupe D',teams:[
-    {team:'Etats-Unis',flag:'🇺🇸',p:6,gf:8,ga:4,pl:3,q:true},
-    {team:'Australie',flag:'🇦🇺',p:4,gf:2,ga:2,pl:3,q:true},
-    {team:'Paraguay',flag:'🇵🇾',p:4,gf:2,ga:4,pl:3},
-    {team:'Turkiye',flag:'🇹🇷',p:3,gf:3,ga:5,pl:3,e:true}
+    {team:'Etats-Unis',flag:'us',p:6,gf:8,ga:4,pl:3,q:true},
+    {team:'Australie',flag:'au',p:4,gf:2,ga:2,pl:3,q:true},
+    {team:'Paraguay',flag:'py',p:4,gf:2,ga:4,pl:3},
+    {team:'Turkiye',flag:'tr',p:3,gf:3,ga:5,pl:3,e:true}
   ]},
   E:{name:'Groupe E',teams:[
-    {team:'Cote d\'Ivoire',flag:'🇨🇮',p:6,gf:4,ga:2,pl:3,q:true},
-    {team:'Allemagne',flag:'🇩🇪',p:6,gf:10,ga:4,pl:3,q:true},
-    {team:'Equateur',flag:'🇪🇨',p:4,gf:2,ga:2,pl:3},
-    {team:'Curacao',flag:'🇨🇼',p:1,gf:1,ga:9,pl:3,e:true}
+    {team:'Cote d\'Ivoire',flag:'ci',p:6,gf:4,ga:2,pl:3,q:true},
+    {team:'Allemagne',flag:'de',p:6,gf:10,ga:4,pl:3,q:true},
+    {team:'Equateur',flag:'ec',p:4,gf:2,ga:2,pl:3},
+    {team:'Curacao',flag:'cw',p:1,gf:1,ga:9,pl:3,e:true}
   ]},
   F:{name:'Groupe F',teams:[
-    {team:'Pays-Bas',flag:'🇳🇱',p:7,gf:10,ga:4,pl:3,q:true},
-    {team:'Japon',flag:'🇯🇵',p:5,gf:7,ga:3,pl:3,q:true},
-    {team:'Suede',flag:'🇸🇪',p:4,gf:7,ga:7,pl:3},
-    {team:'Tunisie',flag:'🇹🇳',p:0,gf:2,ga:12,pl:3,e:true}
+    {team:'Pays-Bas',flag:'nl',p:7,gf:10,ga:4,pl:3,q:true},
+    {team:'Japon',flag:'jp',p:5,gf:7,ga:3,pl:3,q:true},
+    {team:'Suede',flag:'se',p:4,gf:7,ga:7,pl:3},
+    {team:'Tunisie',flag:'tn',p:0,gf:2,ga:12,pl:3,e:true}
   ]},
   G:{name:'Groupe G',teams:[
-    {team:'Belgique',flag:'🇧🇪',p:5,gf:6,ga:2,pl:3,q:true},
-    {team:'Egypte',flag:'🇪🇬',p:5,gf:5,ga:3,pl:3,q:true},
-    {team:'Iran',flag:'🇮🇷',p:3,gf:3,ga:3,pl:3,e:true},
-    {team:'Nouvelle-Zelande',flag:'🇳🇿',p:1,gf:4,ga:10,pl:3,e:true}
+    {team:'Belgique',flag:'be',p:5,gf:6,ga:2,pl:3,q:true},
+    {team:'Egypte',flag:'eg',p:5,gf:5,ga:3,pl:3,q:true},
+    {team:'Iran',flag:'ir',p:3,gf:3,ga:3,pl:3,e:true},
+    {team:'Nouvelle-Zelande',flag:'nz',p:1,gf:4,ga:10,pl:3,e:true}
   ]},
   H:{name:'Groupe H',teams:[
-    {team:'Espagne',flag:'🇪🇸',p:7,gf:5,ga:0,pl:3,q:true},
-    {team:'Cap-Vert',flag:'🇨🇻',p:3,gf:2,ga:2,pl:3,q:true},
-    {team:'Uruguay',flag:'🇺🇾',p:2,gf:3,ga:4,pl:3,e:true},
-    {team:'Arabie Saoudite',flag:'🇸🇦',p:2,gf:1,ga:5,pl:3,e:true}
+    {team:'Espagne',flag:'es',p:7,gf:5,ga:0,pl:3,q:true},
+    {team:'Cap-Vert',flag:'cv',p:3,gf:2,ga:2,pl:3,q:true},
+    {team:'Uruguay',flag:'uy',p:2,gf:3,ga:4,pl:3,e:true},
+    {team:'Arabie Saoudite',flag:'sa',p:2,gf:1,ga:5,pl:3,e:true}
   ]},
   I:{name:'Groupe I',teams:[
-    {team:'France',flag:'🇫🇷',p:9,gf:10,ga:2,pl:3,q:true},
-    {team:'Norvege',flag:'🇳🇴',p:6,gf:8,ga:7,pl:3,q:true},
-    {team:'Senegal',flag:'🇸🇳',p:3,gf:8,ga:6,pl:3},
-    {team:'Irak',flag:'🇮🇶',p:0,gf:1,ga:12,pl:3,e:true}
+    {team:'France',flag:'fr',p:9,gf:10,ga:2,pl:3,q:true},
+    {team:'Norvege',flag:'no',p:6,gf:8,ga:7,pl:3,q:true},
+    {team:'Senegal',flag:'sn',p:3,gf:8,ga:6,pl:3},
+    {team:'Irak',flag:'iq',p:0,gf:1,ga:12,pl:3,e:true}
   ]},
   J:{name:'Groupe J',teams:[
-    {team:'Argentine',flag:'🇦🇷',p:9,gf:8,ga:1,pl:3,q:true},
-    {team:'Autriche',flag:'🇦🇹',p:4,gf:6,ga:6,pl:3,q:true},
-    {team:'Algerie',flag:'🇩🇿',p:4,gf:5,ga:7,pl:3},
-    {team:'Jordanie',flag:'🇯🇴',p:0,gf:3,ga:8,pl:3,e:true}
+    {team:'Argentine',flag:'ar',p:9,gf:8,ga:1,pl:3,q:true},
+    {team:'Autriche',flag:'at',p:4,gf:6,ga:6,pl:3,q:true},
+    {team:'Algerie',flag:'dz',p:4,gf:5,ga:7,pl:3},
+    {team:'Jordanie',flag:'jo',p:0,gf:3,ga:8,pl:3,e:true}
   ]},
   K:{name:'Groupe K',teams:[
-    {team:'Colombie',flag:'🇨🇴',p:7,gf:4,ga:1,pl:3,q:true},
-    {team:'Portugal',flag:'🇵🇹',p:5,gf:6,ga:1,pl:3,q:true},
-    {team:'RD Congo',flag:'🇨🇩',p:4,gf:4,ga:3,pl:3},
-    {team:'Ouzbekistan',flag:'🇺🇿',p:0,gf:2,ga:11,pl:3,e:true}
+    {team:'Colombie',flag:'co',p:7,gf:4,ga:1,pl:3,q:true},
+    {team:'Portugal',flag:'pt',p:5,gf:6,ga:1,pl:3,q:true},
+    {team:'RD Congo',flag:'cd',p:4,gf:4,ga:3,pl:3},
+    {team:'Ouzbekistan',flag:'uz',p:0,gf:2,ga:11,pl:3,e:true}
   ]},
   L:{name:'Groupe L',teams:[
-    {team:'Angleterre',flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',p:7,gf:6,ga:2,pl:3,q:true},
-    {team:'Croatie',flag:'🇭🇷',p:6,gf:5,ga:5,pl:3,q:true},
-    {team:'Ghana',flag:'🇬🇭',p:4,gf:2,ga:2,pl:3},
-    {team:'Panama',flag:'🇵🇦',p:0,gf:0,ga:4,pl:3,e:true}
+    {team:'Angleterre',flag:'gb-eng',p:7,gf:6,ga:2,pl:3,q:true},
+    {team:'Croatie',flag:'hr',p:6,gf:5,ga:5,pl:3,q:true},
+    {team:'Ghana',flag:'gh',p:4,gf:2,ga:2,pl:3},
+    {team:'Panama',flag:'pa',p:0,gf:0,ga:4,pl:3,e:true}
   ]}
 };
+
+// Rendu d'un drapeau (image réelle via flagcdn.com — plus fiable que les emojis Unicode qui ne s'affichent pas partout).
+function flagImg(code){return code?'<img class="wcflag" src="https://flagcdn.com/24x18/'+code+'.png" srcset="https://flagcdn.com/48x36/'+code+'.png 2x" width="24" height="18" alt="" loading="lazy">':'';}
+function wcNorm(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+
+// Table de correspondance équipe → code pays (construite depuis WC_GROUPS, indexée sans accents pour matcher les variantes orthographiques utilisées ailleurs — ex. bracket avec accents), réutilisée pour tous les tableaux de matchs.
+const WC_FLAGS = {};
+for(var gk0 in WC_GROUPS){ WC_GROUPS[gk0].teams.forEach(function(t){WC_FLAGS[wcNorm(t.team)]=t.flag;}); }
+function wcFlag(team){return flagImg(WC_FLAGS[wcNorm(team)]);}
 
 const WC_MATCHES_DONE = [
   {g:'A',d:'11 juin',t1:'Mexique',t2:'Afrique du Sud',s1:2,s2:0},
@@ -724,34 +738,40 @@ function renderWorldCup(fc){
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Phase Finale</h3><div class="count">16es de finale · 29 juin – 19 juillet · Heure de Paris</div></div></div>';
   h+='<p style="text-align:center;color:rgba(0,0,0,.45);font-size:.82rem;margin-bottom:20px">32 qualifiés · Défilez horizontalement pour voir la suite →</p>';
   
-  // REAL match data from touteleurope.eu (Paris time)
-  // Moitié Haute
+  // Données réelles — sources : Wikipédia (Coupe du monde de football 2026 / Phase à élimination directe), FIFA. Heures converties en fuseau Paris (UTC+2, heure d'été).
+  // Moitié Haute — 16es de finale (score = résultat final si le match est joué, sinon null)
   var mh=[[
-    ['28 juin','21h00','🇿🇦 Afrique du Sud','🇨🇦 Canada'],
-    ['29 juin','19h00','🇧🇷 Brésil','🇯🇵 Japon'],
-    ['29 juin','22h30','🇩🇪 Allemagne','🇵🇾 Paraguay'],
-    ['30 juin','03h00','🇳🇱 Pays-Bas','🇲🇦 Maroc']
+    ['28 juin','21h00','Afrique du Sud','Canada','0-1'],
+    ['29 juin','19h00','Brésil','Japon','2-1'],
+    ['29 juin','22h30','Allemagne','Paraguay','1-1 (tab 3-4)'],
+    ['30 juin','03h00','Pays-Bas','Maroc','1-1 (tab 2-3)']
   ],[
-    ['30 juin','19h00','🇨🇮 Côte d\'Ivoire','🇳🇴 Norvège'],
-    ['30 juin','23h00','🇫🇷 France','🇸🇪 Suède'],
-    ['1 juil.','03h00','🇲🇽 Mexique','🇪🇨 Équateur'],
-    ['1 juil.','18h00','🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angleterre','🇨🇩 RD Congo']
+    ['30 juin','19h00','Côte d\'Ivoire','Norvège','1-2'],
+    ['30 juin','23h00','France','Suède','3-0'],
+    ['1 juil.','03h00','Mexique','Équateur','2-0'],
+    ['1 juil.','18h00','Angleterre','RD Congo',null]
   ]];
-  // Moitié Basse
+  // Moitié Basse — 16es de finale
   var mb2=[[
-    ['1 juil.','22h00','🇧🇪 Belgique','🇸🇳 Sénégal'],
-    ['2 juil.','02h00','🇺🇸 États-Unis','🇧🇦 Bosnie-Herzégovine'],
-    ['2 juil.','21h00','🇪🇸 Espagne','🇦🇹 Autriche'],
-    ['3 juil.','01h00','🇵🇹 Portugal','🇭🇷 Croatie']
+    ['1 juil.','22h00','Belgique','Sénégal',null],
+    ['2 juil.','02h00','États-Unis','Bosnie-Herzégovine',null],
+    ['2 juil.','21h00','Espagne','Autriche',null],
+    ['3 juil.','01h00','Portugal','Croatie',null]
   ],[
-    ['3 juil.','05h00','🇨🇭 Suisse','🇩🇿 Algérie'],
-    ['3 juil.','20h00','🇦🇺 Australie','🇪🇬 Égypte'],
-    ['4 juil.','00h00','🇦🇷 Argentine','🇨🇻 Cap Vert'],
-    ['4 juil.','03h30','🇨🇴 Colombie','🇬🇭 Ghana']
+    ['3 juil.','05h00','Suisse','Algérie',null],
+    ['3 juil.','20h00','Australie','Égypte',null],
+    ['4 juil.','00h00','Argentine','Cap-Vert',null],
+    ['4 juil.','03h30','Colombie','Ghana',null]
   ]];
   
-  function mbx(m){return'<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+'</div><div class="komatch"><div class="koteam kotop">'+m[2]+'</div><div class="koteam">'+m[3]+'</div></div></div>';}
+  function mbx(m){
+    var played=m[4];
+    var scoreHtml=played?'<div class="koscore">'+played+'</div>':'';
+    return'<div class="kobox"><div class="kodate">'+m[0]+' · '+m[1]+(played?' · <span style="color:#059669;font-weight:600">Terminé</span>':'')+'</div><div class="komatch"><div class="koteam kotop">'+wcFlag(m[2])+' '+m[2]+'</div><div class="koteam">'+wcFlag(m[3])+' '+m[3]+'</div>'+scoreHtml+'</div></div>';
+  }
   function mw(matchNum,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+matchNum+'</div></div></div>';}
+  function mwr(date,hour,t1,t2){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch"><div class="koteam kotop">'+wcFlag(t1)+' '+t1+'</div><div class="koteam">'+wcFlag(t2)+' '+t2+'</div></div></div>';}
+  function mwp(date,hour,t1,matchNum){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch"><div class="koteam kotop">'+wcFlag(t1)+' '+t1+'</div><div class="koteam koidle-inline">Vainqueur match '+matchNum+'</div></div></div>';}
   
   h+='<div class="bwrap">';
   
@@ -760,8 +780,8 @@ function renderWorldCup(fc){
   // Row 0: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
-  h+='<div class="barr">→</div><div class="bcol8">'+mw(89,'4 juil.','23h00')+mw(90,'4 juil.','19h00')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(97,'7 juil.','18h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mwr('4 juil.','23h00','Paraguay','France')+mwr('4 juil.','19h00','Canada','Maroc')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(97,'9 juil.','22h00')+'</div>';
   h+='</div>';
   // Demi — alignée avec les Quarts via colonnes invisibles
   h+='<div class="brow">';
@@ -771,8 +791,8 @@ function renderWorldCup(fc){
   // Row 2: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
-  h+='<div class="barr">→</div><div class="bcol8">'+mw(91,'6 juil.','21h00')+mw(92,'7 juil.','02h00')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(98,'7 juil.','22h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mwr('5 juil.','22h00','Brésil','Norvège')+mwp('6 juil.','02h00','Mexique',80)+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mw(98,'10 juil.','21h00')+'</div>';
   h+='</div></div>';
   
   // ═══ CENTRE → FINALE ═══
@@ -783,8 +803,8 @@ function renderWorldCup(fc){
   // Row 0: Quart ← 8es ← 16es (sans Demi)
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
-  h+='<div class="bcolQ">'+mw(99,'9 juil.','22h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'5 juil.','22h00')+mw(94,'6 juil.','02h00')+'</div>';
+  h+='<div class="bcolQ">'+mw(99,'11 juil.','23h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'6 juil.','21h00')+mw(94,'7 juil.','02h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
   // Demi — centrée entre les deux rows (comme Haute)
@@ -798,7 +818,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
   h+='<div class="bcolQ">'+mw(100,'12 juil.','03h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcol8">'+mw(95,'10 juil.','21h00')+mw(96,'11 juil.','23h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mw(95,'7 juil.','18h00')+mw(96,'7 juil.','22h00')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
   h+='</div></div>';
   
@@ -819,7 +839,7 @@ function renderWorldCup(fc){
     h+='<tr style="color:rgba(0,0,0,.3);font-size:.6rem;text-transform:uppercase;letter-spacing:1px"><th style="text-align:left;padding:6px 6px;font-weight:500">Équipe</th><th style="text-align:center;padding:6px 3px;font-weight:500">J</th><th style="text-align:center;padding:6px 3px;font-weight:500">V</th><th style="text-align:center;padding:6px 3px;font-weight:500">N</th><th style="text-align:center;padding:6px 3px;font-weight:500">D</th><th style="text-align:center;padding:6px 3px;font-weight:500">+/-</th><th style="text-align:center;padding:6px 3px;font-weight:500;color:#0071e3">Pts</th></tr>';
     var s=g.teams;
     for(var i=0;i<s.length;i++){var t=s[i],gp=t.pl||2,gd=t.gf-t.ga,st=t.q?'<span style="font-size:.55rem;color:#059669;margin-left:3px">Q</span>':t.e?'<span style="font-size:.55rem;color:#dc2626;margin-left:3px">E</span>':'';
-      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 6px;font-weight:600;font-size:.74rem">'+t.flag+' '+t.team+st+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+gp+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:7px 3px;font-weight:700;color:#0071e3;font-size:.76rem">'+t.p+'</td></tr>';
+      h+='<tr style="border-bottom:1px solid rgba(0,0,0,.04)"><td style="padding:7px 6px;font-weight:600;font-size:.74rem">'+flagImg(t.flag)+' '+t.team+st+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+gp+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+Math.floor(t.p/3)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(t.p%3!==0?1:0)+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gp-Math.floor(t.p/3)-(t.p%3!==0?1:0))+'</td><td style="text-align:center;padding:7px 3px;font-size:.72rem">'+(gd>0?'+':'')+gd+'</td><td style="text-align:center;padding:7px 3px;font-weight:700;color:#0071e3;font-size:.76rem">'+t.p+'</td></tr>';
     }
     h+='</table></div>';
   }
@@ -833,7 +853,7 @@ function renderWorldCup(fc){
     h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
     for(var j=0;j<matches.length;j++){var m=matches[j],c1=m.s1>m.s2?'#059669':m.s1===m.s2?'rgba(0,0,0,.4)':'',c2=m.s2>m.s1?'#059669':m.s2===m.s1?'rgba(0,0,0,.4)':'';
     h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
-      +'<span><span style="font-weight:'+(m.s1>m.s2?'700':'400')+';color:'+c1+'">'+m.t1+'</span> <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> <span style="font-weight:'+(m.s2>m.s1?'700':'400')+';color:'+c2+'">'+m.t2+'</span></span>'
+      +'<span><span style="font-weight:'+(m.s1>m.s2?'700':'400')+';color:'+c1+'">'+wcFlag(m.t1)+' '+m.t1+'</span> <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> <span style="font-weight:'+(m.s2>m.s1?'700':'400')+';color:'+c2+'">'+wcFlag(m.t2)+' '+m.t2+'</span></span>'
       +'<span style="font-size:.78rem;display:flex;align-items:center;gap:4px"><b style="color:'+c1+'">'+m.s1+'</b><span style="color:rgba(0,0,0,.2)">-</span><b style="color:'+c2+'">'+m.s2+'</b><span style="color:rgba(0,0,0,.25);font-size:.66rem;margin-left:6px">'+m.d+'</span></span></div>';
     }
     h+='</div>';
@@ -848,7 +868,7 @@ function renderWorldCup(fc){
     h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
     for(var j=0;j<matches.length;j++){var m=matches[j];
     h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
-      +'<span>'+m.t1+' <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> '+m.t2+'</span>'
+      +'<span>'+wcFlag(m.t1)+' '+m.t1+' <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> '+wcFlag(m.t2)+' '+m.t2+'</span>'
       +'<span style="font-weight:600;font-size:.74rem;color:#0071e3">'+m.d+' · '+m.h+'</span></div>';
     }
     h+='</div>';
