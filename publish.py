@@ -44,6 +44,9 @@ def main():
     if len(sys.argv)<2:
         print("usage: publish.py new_articles.json",file=sys.stderr); sys.exit(1)
     new_raw = json.load(open(sys.argv[1],encoding="utf-8"))
+    # Support both {"articles": [...]} and [...] formats
+    if isinstance(new_raw, dict) and "articles" in new_raw:
+        new_raw = new_raw["articles"]
     existing = load_existing()
     seen_ids = {a.get("id") for a in existing}
     seen_urls = {a.get("url") for a in existing}
