@@ -749,12 +749,12 @@ function renderWorldCup(fc){
     ['30 juin','19h00','Côte d\'Ivoire','Norvège','1-2'],
     ['30 juin','23h00','France','Suède','3-0'],
     ['1 juil.','03h00','Mexique','Équateur','2-0'],
-    ['1 juil.','18h00','Angleterre','RD Congo',null]
+    ['1 juil.','18h00','Angleterre','RD Congo','2-1']
   ]];
   // Moitié Basse — 16es de finale
   var mb2=[[
-    ['1 juil.','22h00','Belgique','Sénégal',null],
-    ['2 juil.','02h00','États-Unis','Bosnie-Herzégovine',null],
+    ['1 juil.','22h00','Belgique','Sénégal','3-2 (a.p.)'],
+    ['2 juil.','02h00','États-Unis','Bosnie-Herzégovine','2-0'],
     ['2 juil.','21h00','Espagne','Autriche',null],
     ['3 juil.','01h00','Portugal','Croatie',null]
   ],[
@@ -791,7 +791,7 @@ function renderWorldCup(fc){
   // Row 2: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
-  h+='<div class="barr">→</div><div class="bcol8">'+mwr('5 juil.','22h00','Brésil','Norvège')+mwp('6 juil.','02h00','Mexique',80)+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mwr('5 juil.','22h00','Brésil','Norvège')+mwr('6 juil.','02h00','Mexique','Angleterre')+'</div>';
   h+='<div class="barr">→</div><div class="bcolQ">'+mw(98,'10 juil.','21h00')+'</div>';
   h+='</div></div>';
   
@@ -804,7 +804,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
   h+='<div class="bcolQ">'+mw(99,'11 juil.','23h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'6 juil.','21h00')+mw(94,'7 juil.','02h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'6 juil.','21h00')+mwr('7 juil.','02h00','États-Unis','Belgique')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
   // Demi — centrée entre les deux rows (comme Haute)
