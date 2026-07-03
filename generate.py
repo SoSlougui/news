@@ -755,10 +755,10 @@ function renderWorldCup(fc){
   var mb2=[[
     ['1 juil.','22h00','Belgique','Sénégal','3-2 (a.p.)'],
     ['2 juil.','02h00','États-Unis','Bosnie-Herzégovine','2-0'],
-    ['2 juil.','21h00','Espagne','Autriche',null],
-    ['3 juil.','01h00','Portugal','Croatie',null]
+    ['2 juil.','21h00','Espagne','Autriche','3-0'],
+    ['3 juil.','01h00','Portugal','Croatie','2-1']
   ],[
-    ['3 juil.','05h00','Suisse','Algérie',null],
+    ['3 juil.','05h00','Suisse','Algérie','2-0'],
     ['3 juil.','20h00','Australie','Égypte',null],
     ['4 juil.','00h00','Argentine','Cap-Vert',null],
     ['4 juil.','03h30','Colombie','Ghana',null]
@@ -804,7 +804,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
   h+='<div class="bcolQ">'+mw(99,'11 juil.','23h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcol8">'+mw(93,'6 juil.','21h00')+mwr('7 juil.','02h00','États-Unis','Belgique')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mwr('6 juil.','21h00','Portugal','Espagne')+mwr('7 juil.','02h00','États-Unis','Belgique')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
   // Demi — centrée entre les deux rows (comme Haute)
