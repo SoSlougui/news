@@ -356,7 +356,7 @@ section{padding:48px 0}
 .kodate{font-size:8px;color:#86868b;margin-bottom:1px}
 .komatch{background:#fff;border-radius:5px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .koteam{padding:4px 6px;font-size:10px;font-weight:500;color:#1d1d1f;white-space:nowrap}
-.wcflag{width:16px;height:12px;border-radius:2px;object-fit:cover;vertical-align:-1px;margin-right:3px;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+.wcflag{width:24px;height:18px;border-radius:2px;object-fit:contain;vertical-align:-2px;margin-right:4px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .kotop{border-bottom:1px solid rgba(0,0,0,.06);font-weight:700}
 .koidle{background:rgba(0,0,0,.015);padding:7px 6px;text-align:center}
 .koidletext{font-size:8px;color:rgba(0,0,0,.25);font-style:italic}
