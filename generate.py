@@ -759,9 +759,9 @@ function renderWorldCup(fc){
     ['3 juil.','01h00','Portugal','Croatie','2-1']
   ],[
     ['3 juil.','05h00','Suisse','Algérie','2-0'],
-    ['3 juil.','20h00','Australie','Égypte',null],
-    ['4 juil.','00h00','Argentine','Cap-Vert',null],
-    ['4 juil.','03h30','Colombie','Ghana',null]
+    ['3 juil.','20h00','Australie','Égypte','1-1 (tab 4-2)'],
+    ['4 juil.','00h00','Argentine','Cap-Vert','3-2 (a.p.)'],
+    ['4 juil.','03h30','Colombie','Ghana','1-0']
   ]];
   
   function mbx(m){
@@ -772,6 +772,7 @@ function renderWorldCup(fc){
   function mw(matchNum,date,hour){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch koidle"><div class="koidletext">Vainqueur<br>match '+matchNum+'</div></div></div>';}
   function mwr(date,hour,t1,t2){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch"><div class="koteam kotop">'+wcFlag(t1)+' '+t1+'</div><div class="koteam">'+wcFlag(t2)+' '+t2+'</div></div></div>';}
   function mwp(date,hour,t1,matchNum){return'<div class="kobox"><div class="kodate">'+date+' · '+hour+'</div><div class="komatch"><div class="koteam kotop">'+wcFlag(t1)+' '+t1+'</div><div class="koteam koidle-inline">Vainqueur match '+matchNum+'</div></div></div>';}
+  function mbr(date,hour,t1,t2,score){var w1=parseInt(score.split('-')[0])>parseInt(score.split('-')[1].split(' ')[0]),w2=!w1&&score.indexOf('-')>0;return'<div class="kobox"><div class="kodate">'+date+' · '+hour+' · <span style="color:#059669;font-weight:600">Terminé</span></div><div class="komatch"><div class="koteam kotop" style="font-weight:'+(w1?'700':'400')+'">'+wcFlag(t1)+' '+t1+'</div><div class="koteam" style="font-weight:'+(w2?'700':'400')+'">'+wcFlag(t2)+' '+t2+'</div><div class="koscore">'+score+'</div></div></div>';}
   
   h+='<div class="bwrap">';
   
@@ -780,7 +781,7 @@ function renderWorldCup(fc){
   // Row 0: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
-  h+='<div class="barr">→</div><div class="bcol8">'+mwr('4 juil.','23h00','Paraguay','France')+mwr('4 juil.','19h00','Canada','Maroc')+'</div>';
+  h+='<div class="barr">→</div><div class="bcol8">'+mbr('4 juil.','23h00','Paraguay','France','0-1')+mbr('4 juil.','19h00','Canada','Maroc','0-3')+'</div>';
   h+='<div class="barr">→</div><div class="bcolQ">'+mw(97,'9 juil.','22h00')+'</div>';
   h+='</div>';
   // Demi — alignée avec les Quarts via colonnes invisibles
@@ -875,7 +876,7 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 27 juin 2026</div>';
+  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 5 juillet 2026</div>';
   fc.innerHTML=h;
 }
 function openPanel(id){
