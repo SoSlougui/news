@@ -819,7 +819,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
   h+='<div class="bcolQ">'+mw(100,'12 juil.','03h00')+'</div>';
-  h+='<div class="barr">←</div><div class="bcol8">'+mw(95,'7 juil.','18h00')+mw(96,'7 juil.','22h00')+'</div>';
+  h+='<div class="barr">←</div><div class="bcol8">'+mwr('7 juil.','18h00','Suisse','Égypte')+mwr('7 juil.','22h00','Argentine','Colombie')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[1][0])+mbx(mb2[1][1])+mbx(mb2[1][2])+mbx(mb2[1][3])+'</div>';
   h+='</div></div>';
   
