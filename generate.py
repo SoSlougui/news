@@ -782,7 +782,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[0][0])+mbx(mh[0][1])+mbx(mh[0][2])+mbx(mh[0][3])+'</div>';
   h+='<div class="barr">→</div><div class="bcol8">'+mbr('4 juil.','23h00','Paraguay','France','0-1')+mbr('4 juil.','19h00','Canada','Maroc','0-3')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(97,'9 juil.','22h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mwr('9 juil.','22h00','Maroc','France')+'</div>';
   h+='</div>';
   // Demi — alignée avec les Quarts via colonnes invisibles
   h+='<div class="brow">';
@@ -793,7 +793,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
   h+='<div class="barr">→</div><div class="bcol8">'+mbr('5 juil.','22h00','Brésil','Norvège','1-2')+mbr('6 juil.','02h00','Mexique','Angleterre','2-3')+'</div>';
-  h+='<div class="barr">→</div><div class="bcolQ">'+mw(98,'10 juil.','21h00')+'</div>';
+  h+='<div class="barr">→</div><div class="bcolQ">'+mwr('10 juil.','21h00','Norvège','Angleterre')+'</div>';
   h+='</div></div>';
   
   // ═══ CENTRE → FINALE ═══
@@ -804,7 +804,7 @@ function renderWorldCup(fc){
   // Row 0: Quart ← 8es ← 16es (sans Demi)
   h+='<div class="brow">';
   h+='<div class="bcolD" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">←</div>';
-  h+='<div class="bcolQ">'+mw(99,'11 juil.','23h00')+'</div>';
+  h+='<div class="bcolQ">'+mwr('11 juil.','23h00','Espagne','Belgique')+'</div>';
   h+='<div class="barr">←</div><div class="bcol8">'+mbr('6 juil.','21h00','Portugal','Espagne','0-1')+mbr('7 juil.','02h00','États-Unis','Belgique','1-4')+'</div>';
   h+='<div class="barr">←</div><div class="bcol16">'+mbx(mb2[0][0])+mbx(mb2[0][1])+mbx(mb2[0][2])+mbx(mb2[0][3])+'</div>';
   h+='</div>';
