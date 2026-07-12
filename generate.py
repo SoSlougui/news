@@ -723,11 +723,48 @@ const WC_MATCHES_DONE = [
   {g:'K',d:'27 juin',t1:'Colombie',t2:'Portugal',s1:0,s2:0},
   {g:'K',d:'27 juin',t1:'RD Congo',t2:'Ouzbekistan',s1:3,s2:1},
   {g:'J',d:'27 juin',t1:'Algerie',t2:'Autriche',s1:3,s2:3},
-  {g:'J',d:'27 juin',t1:'Jordanie',t2:'Argentine',s1:1,s2:3}
+  {g:'J',d:'27 juin',t1:'Jordanie',t2:'Argentine',s1:1,s2:3},
+  // 16es de finale
+  {g:'KO',d:'28 juin',t1:'Afrique du Sud',t2:'Canada',s1:0,s2:1},
+  {g:'KO',d:'29 juin',t1:'Brésil',t2:'Japon',s1:2,s2:1},
+  {g:'KO',d:'29 juin',t1:'Allemagne',t2:'Paraguay',s1:1,s2:1,pen:'3-4'},
+  {g:'KO',d:'30 juin',t1:'Pays-Bas',t2:'Maroc',s1:1,s2:1,pen:'2-3'},
+  {g:'KO',d:'30 juin',t1:'Côte d\'Ivoire',t2:'Norvège',s1:1,s2:2},
+  {g:'KO',d:'30 juin',t1:'France',t2:'Suède',s1:3,s2:0},
+  {g:'KO',d:'1 juil.',t1:'Mexique',t2:'Équateur',s1:2,s2:0},
+  {g:'KO',d:'1 juil.',t1:'Angleterre',t2:'RD Congo',s1:2,s2:1},
+  {g:'KO',d:'1 juil.',t1:'Belgique',t2:'Sénégal',s1:3,s2:2,pen:'a.p.'},
+  {g:'KO',d:'2 juil.',t1:'États-Unis',t2:'Bosnie-Herzégovine',s1:2,s2:0},
+  {g:'KO',d:'2 juil.',t1:'Espagne',t2:'Autriche',s1:3,s2:0},
+  {g:'KO',d:'3 juil.',t1:'Portugal',t2:'Croatie',s1:2,s2:1},
+  {g:'KO',d:'3 juil.',t1:'Suisse',t2:'Algérie',s1:2,s2:0},
+  {g:'KO',d:'3 juil.',t1:'Australie',t2:'Égypte',s1:1,s2:1,pen:'4-2'},
+  {g:'KO',d:'4 juil.',t1:'Argentine',t2:'Cap-Vert',s1:3,s2:2,pen:'a.p.'},
+  {g:'KO',d:'4 juil.',t1:'Colombie',t2:'Ghana',s1:1,s2:0},
+  // 8es de finale
+  {g:'KO8',d:'4 juil.',t1:'Canada',t2:'Maroc',s1:0,s2:3},
+  {g:'KO8',d:'4 juil.',t1:'Paraguay',t2:'France',s1:0,s2:1},
+  {g:'KO8',d:'5 juil.',t1:'Brésil',t2:'Norvège',s1:1,s2:2},
+  {g:'KO8',d:'5 juil.',t1:'Mexique',t2:'Angleterre',s1:2,s2:3},
+  {g:'KO8',d:'6 juil.',t1:'Portugal',t2:'Espagne',s1:0,s2:1},
+  {g:'KO8',d:'6 juil.',t1:'États-Unis',t2:'Belgique',s1:1,s2:4}
 ];
 
 const WC_MATCHES_UPCOMING = [
-  // Fin des phases de groupes — les 16es de finale débutent le 29 juin
+  // 8es de finale
+  {g:'KO8',d:'7 juil.',h:'18h00',t1:'Argentine',t2:'Égypte'},
+  {g:'KO8',d:'7 juil.',h:'22h00',t1:'Suisse',t2:'Colombie'},
+  // Quarts de finale
+  {g:'KOQ',d:'9 juil.',h:'22h00',t1:'Maroc',t2:'France'},
+  {g:'KOQ',d:'10 juil.',h:'21h00',t1:'Norvège',t2:'Angleterre'},
+  {g:'KOQ',d:'11 juil.',h:'23h00',t1:'Espagne',t2:'Belgique'},
+  {g:'KOQ',d:'12 juil.',h:'03h00',t1:'Vainqueur Arg/Égy',t2:'Vainqueur Sui/Col'},
+  // Demi-finales
+  {g:'KOD',d:'14 juil.',h:'21h00',t1:'Vainqueur Quart 97',t2:'Vainqueur Quart 98'},
+  {g:'KOD',d:'15 juil.',h:'21h00',t1:'Vainqueur Quart 99',t2:'Vainqueur Quart 100'},
+  // Finale & 3e place
+  {g:'KOF',d:'19 juil.',h:'21h00',t1:'Vainqueur Demi 1',t2:'Vainqueur Demi 2'},
+  {g:'KOF',d:'18 juil.',h:'23h00',t1:'Perdant Demi 1',t2:'Perdant Demi 2'}
 ];
 
 function renderWorldCup(fc){
@@ -850,12 +887,13 @@ function renderWorldCup(fc){
   h+='<section class="light"><div class="container"><div class="sec-head"><h3>Matchs Joués</h3></div></div>';
   h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:6px">';
   var bd={};for(var i=0;i<WC_MATCHES_DONE.length;i++){var m=WC_MATCHES_DONE[i];if(!bd[m.g])bd[m.g]=[];bd[m.g].push(m)}
-  for(var gk in bd){var matches=bd[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:'Groupe '+gk;
+  var koLabels={KO:'16es de finale',KO8:'8es de finale',KOQ:'Quarts de finale',KOD:'Demi-finales',KOF:'Finale & 3e place'};
+  for(var gk in bd){var matches=bd[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:(koLabels[gk]||'Groupe '+gk);
     h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
     for(var j=0;j<matches.length;j++){var m=matches[j],c1=m.s1>m.s2?'#059669':m.s1===m.s2?'rgba(0,0,0,.4)':'',c2=m.s2>m.s1?'#059669':m.s2===m.s1?'rgba(0,0,0,.4)':'';
     h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
       +'<span><span style="font-weight:'+(m.s1>m.s2?'700':'400')+';color:'+c1+'">'+wcFlag(m.t1)+' '+m.t1+'</span> <span style="color:rgba(0,0,0,.2);font-size:.68rem">vs</span> <span style="font-weight:'+(m.s2>m.s1?'700':'400')+';color:'+c2+'">'+wcFlag(m.t2)+' '+m.t2+'</span></span>'
-      +'<span style="font-size:.78rem;display:flex;align-items:center;gap:4px"><b style="color:'+c1+'">'+m.s1+'</b><span style="color:rgba(0,0,0,.2)">-</span><b style="color:'+c2+'">'+m.s2+'</b><span style="color:rgba(0,0,0,.25);font-size:.66rem;margin-left:6px">'+m.d+'</span></span></div>';
+      +'<span style="font-size:.78rem;display:flex;align-items:center;gap:4px"><b style="color:'+c1+'">'+m.s1+'</b><span style="color:rgba(0,0,0,.2)">-</span><b style="color:'+c2+'">'+m.s2+'</b>'+(m.pen?' <span style="font-size:.6rem;color:rgba(0,0,0,.35)">('+m.pen+')</span>':'')+'<span style="color:rgba(0,0,0,.25);font-size:.66rem;margin-left:6px">'+m.d+'</span></span></div>';
     }
     h+='</div>';
   }
@@ -865,7 +903,8 @@ function renderWorldCup(fc){
   h+='<section class="white"><div class="container"><div class="sec-head"><h3>Matchs à Venir</h3></div></div>';
   h+='<div style="max-width:960px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:6px">';
   var bu={};for(var i=0;i<WC_MATCHES_UPCOMING.length;i++){var m=WC_MATCHES_UPCOMING[i];if(!bu[m.g])bu[m.g]=[];bu[m.g].push(m)}
-  for(var gk in bu){var matches=bu[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:'Groupe '+gk;
+  var koLabels={KO:'16es de finale',KO8:'8es de finale',KOQ:'Quarts de finale',KOD:'Demi-finales',KOF:'Finale & 3e place'};
+  for(var gk in bu){var matches=bu[gk],gn=WC_GROUPS[gk]?WC_GROUPS[gk].name:(koLabels[gk]||'Groupe '+gk);
     h+='<div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)"><div class="cat" style="margin-bottom:10px">'+gn+'</div>';
     for(var j=0;j<matches.length;j++){var m=matches[j];
     h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:.8rem">'
