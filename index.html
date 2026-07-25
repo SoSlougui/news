@@ -211,7 +211,7 @@ body.dark .cat{color:rgba(255,255,255,.5)}
 <header>
   <div class="logo">&#128240; TechFeed <em>NEWS</em></div>
   <div class="hright">
-    <span class="upd">12 July 2026 - 19:37</span>
+    <span class="upd">25 July 2026 - 10:26</span>
     <button id="themeBtn" onclick="toggleTheme()" style="font-size:.85rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#1d1d1f;opacity:.6;border-radius:50%" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,.04)'" onmouseout="this.style.opacity='.6';this.style.background='none'">☀</button>
     <div class="search-wrap"><input id="searchInput" type="text" placeholder="Rechercher..." oninput="onSearch(this.value)"></div>
     <a href="#" onclick="showTab('all');return false" title="Accueil">&#127968;</a>
@@ -565,16 +565,18 @@ const WC_MATCHES_DONE = [
   {g:'KOQ',d:'9 juil.',t1:'France',t2:'Maroc',s1:2,s2:0},
   {g:'KOQ',d:'10 juil.',t1:'Espagne',t2:'Belgique',s1:2,s2:1},
   {g:'KOQ',d:'11 juil.',t1:'Norvège',t2:'Angleterre',s1:1,s2:2,pen:'a.p.'},
-  {g:'KOQ',d:'11 juil.',t1:'Argentine',t2:'Suisse',s1:3,s2:1,pen:'a.p.'}
+  {g:'KOQ',d:'11 juil.',t1:'Argentine',t2:'Suisse',s1:3,s2:1,pen:'a.p.'},
+  // Demi-finales
+  {g:'KOD',d:'14 juil.',t1:'France',t2:'Espagne',s1:0,s2:2},
+  {g:'KOD',d:'15 juil.',t1:'Angleterre',t2:'Argentine',s1:1,s2:2},
+  // 3e place
+  {g:'KOF',d:'18 juil.',t1:'France',t2:'Angleterre',s1:4,s2:6},
+  // Finale
+  {g:'KOF',d:'19 juil.',t1:'Espagne',t2:'Argentine',s1:1,s2:0,pen:'a.p.'}
 ];
 
 const WC_MATCHES_UPCOMING = [
-  // Demi-finales
-  {g:'KOD',d:'14 juil.',h:'21h00',t1:'France',t2:'Espagne'},
-  {g:'KOD',d:'15 juil.',h:'21h00',t1:'Angleterre',t2:'Argentine'},
-  // Finale & 3e place
-  {g:'KOF',d:'19 juil.',h:'21h00',t1:'Vainqueur Demi 1',t2:'Vainqueur Demi 2'},
-  {g:'KOF',d:'18 juil.',h:'23h00',t1:'Perdant Demi 1',t2:'Perdant Demi 2'}
+  // Compétition terminée — 19 juillet 2026
 ];
 
 function renderWorldCup(fc){
@@ -635,7 +637,7 @@ function renderWorldCup(fc){
   h+='<div class="brow">';
   h+='<div class="bcol16" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">→</div>';
   h+='<div class="bcol8" style="visibility:hidden">·</div><div class="barr" style="visibility:hidden">→</div>';
-  h+='<div class="bcolD">'+mwr('14 juil.','21h00','France','Espagne')+'</div></div>';
+  h+='<div class="bcolD">'+mbr('14 juil.','21h00','France','Espagne','0-2')+'</div></div>';
   // Row 2: 16es → 8es → Quart
   h+='<div class="brow">';
   h+='<div class="bcol16">'+mbx(mh[1][0])+mbx(mh[1][1])+mbx(mh[1][2])+mbx(mh[1][3])+'</div>';
@@ -644,7 +646,7 @@ function renderWorldCup(fc){
   h+='</div></div>';
   
   // ═══ CENTRE → FINALE ═══
-  h+='<div class="bcenter"><div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 FINALE</div><div class="kofvs">19 juillet · 21h00</div><div class="kofvenue">MetLife Stadium</div></div></div>';
+  h+='<div class="bcenter"><div class="kofinal"><div class="kofstars">★ ★ ★ ★ ★</div><div class="koftitle">🏆 ESPAGNE</div><div class="kofvs">1-0 (a.p.) · Argentine</div><div class="kofvenue">MetLife Stadium · 19 juillet</div></div></div>';
   
   // ═══ MOITIÉ BASSE (16es à droite ← Demi au centre) ═══
   h+='<div class="bhalf"><div class="bhlbl">🔽 Moitié Basse</div>';
@@ -657,7 +659,7 @@ function renderWorldCup(fc){
   h+='</div>';
   // Demi — centrée entre les deux rows (comme Haute)
   h+='<div class="brow">';
-  h+='<div class="bcolD">'+mwr('15 juil.','21h00','Angleterre','Argentine')+'</div>';
+  h+='<div class="bcolD">'+mbr('15 juil.','21h00','Angleterre','Argentine','1-2')+'</div>';
   h+='<div class="barr" style="visibility:hidden">←</div><div class="bcolQ" style="visibility:hidden">·</div>';
   h+='<div class="barr" style="visibility:hidden">←</div><div class="bcol8" style="visibility:hidden">·</div>';
   h+='<div class="barr" style="visibility:hidden">←</div><div class="bcol16" style="visibility:hidden">·</div>';
@@ -673,8 +675,8 @@ function renderWorldCup(fc){
   h+='</div>';
   
   // 3e place
-  h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet · 23h00</div>';
-  h+='<div class="kothirdvs">Perdant Demi-finale 1 — Perdant Demi-finale 2</div></div>';
+  h+='<div class="kothird"><div class="kothirdlbl">🥉 Match pour la 3<sup>e</sup> place · 18 juillet</div>';
+  h+='<div class="kothirdvs">France 4-6 Angleterre</div></div>';
   h+='</section>';
 
   // Groupes — affichés après la Phase Finale
@@ -725,7 +727,7 @@ function renderWorldCup(fc){
   }
   h+='</div></section>';
 
-  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 12 juillet 2026</div>';
+  h+='<div style="text-align:center;padding:40px;color:rgba(0,0,0,.3);font-size:.68rem">Dernière mise à jour : 25 juillet 2026</div>';
   fc.innerHTML=h;
 }
 function openPanel(id){
